@@ -46,9 +46,6 @@ export default function SpellsPage() {
     setCurrentPage(1);
   };
 
-  if (isLoading) return <FullPageLoader />;
-  if (error) return <ErrorMessage message="Failed to load spells" />;
-
   const spells = data?.data || [];
   const totalPages = data?.meta?.pagination?.last || 1;
 
@@ -117,48 +114,58 @@ export default function SpellsPage() {
         </div>
       </div>
 
-      {/* Results Count */}
-      <div className="mb-6 text-gray-400">
-        Found{" "}
-        <span className="text-purple-400 font-semibold">
-          {data?.meta?.pagination?.records || 0}
-        </span>{" "}
-        spells
-      </div>
-
-      {/* Spells Grid */}
-      {spells.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="text-6xl mb-4">🔮</div>
-          <h3 className="text-2xl font-magic font-bold mb-2">
-            No Spells Found
-          </h3>
-          <p className="text-gray-400">Try adjusting your search or filters</p>
-        </div>
+      {isLoading ? (
+        <FullPageLoader />
+      ) : error ? (
+        <ErrorMessage message="Failed to load spells" />
       ) : (
         <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-          >
-            {spells.map((spell, idx) => (
-              <motion.div
-                key={spell.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05 }}
-              >
-                <SpellCard spell={spell} />
-              </motion.div>
-            ))}
-          </motion.div>
+          {/* Results Count */}
+          <div className="mb-6 text-gray-400">
+            Found{" "}
+            <span className="text-purple-400 font-semibold">
+              {data?.meta?.pagination?.records || 0}
+            </span>{" "}
+            spells
+          </div>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          {/* Spells Grid */}
+          {spells.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="text-6xl mb-4">🔮</div>
+              <h3 className="text-2xl font-magic font-bold mb-2">
+                No Spells Found
+              </h3>
+              <p className="text-gray-400">
+                Try adjusting your search or filters
+              </p>
+            </div>
+          ) : (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+              >
+                {spells.map((spell, idx) => (
+                  <motion.div
+                    key={spell.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.05 }}
+                  >
+                    <SpellCard spell={spell} />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            </>
+          )}
         </>
       )}
     </div>

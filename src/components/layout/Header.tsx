@@ -31,7 +31,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-1">
             {NAVIGATION.map((item) => {
               const isActive = pathname === item.href;
               return (
@@ -53,7 +53,7 @@ export default function Header() {
 
           {/* Theme Toggle & Mobile Menu */}
           <div className="flex items-center gap-3">
-            {mounted && (
+            {/* {mounted && (
               <button
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors"
@@ -65,12 +65,12 @@ export default function Header() {
                   <Moon className="w-5 h-5 text-slate-700" />
                 )}
               </button>
-            )}
+            )} */}
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+              className="xl:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -84,7 +84,7 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 space-y-2 animate-slide-up">
+          <div className="xl:hidden mt-4 pb-4 space-y-2 animate-slide-up">
             {NAVIGATION.map((item) => {
               const isActive = pathname === item.href;
               return (
