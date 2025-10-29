@@ -1,26 +1,216 @@
 @import "tailwindcss";
+/* @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"); */
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ------------------------------------------------------ */
+/* 🪄 Theme & Custom Config (v4 방식) */
+/* ------------------------------------------------------ */
+@theme {
+  --font-magic: "Cinzel", serif;
+  --font-body: "Inter", sans-serif;
+
+  --color-gryffindor-primary: #740001;
+  --color-gryffindor-secondary: #d3a625;
+  --color-slytherin-primary: #1a472a;
+  --color-slytherin-secondary: #5d5d5d;
+  --color-ravenclaw-primary: #0e1a40;
+  --color-ravenclaw-secondary: #946b2d;
+  --color-hufflepuff-primary: #ecb939;
+  --color-hufflepuff-secondary: #000000;
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-shimmer: shimmer 2.5s linear infinite;
+  --animate-fade-in: fadeIn 0.5s ease-in;
+  --animate-slide-up: slideUp 0.5s ease-out;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* ------------------------------------------------------ */
+/* 🌈 Base Styles */
+/* ------------------------------------------------------ */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --foreground-rgb: 255, 255, 255;
+      --background-start-rgb: 0, 0, 0;
+      --background-end-rgb: 0, 0, 0;
+    }
+  }
+
+  body {
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgb(var(--background-end-rgb))
+      )
+      rgb(var(--background-start-rgb));
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-magic);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ------------------------------------------------------ */
+/* ✨ Custom Utilities & Effects */
+/* ------------------------------------------------------ */
+@layer utilities {
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #d3a625 0%, #740001 100%);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ffd700 0%, #8b0000 100%);
+  }
+
+  /* Glassmorphism */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-dark {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Magic glow & text */
+  .magic-glow {
+    box-shadow: 0 0 20px rgba(211, 166, 37, 0.5),
+      0 0 40px rgba(211, 166, 37, 0.3), 0 0 60px rgba(211, 166, 37, 0.1);
+  }
+
+  .magic-text {
+    background: linear-gradient(45deg, #d3a625, #ffd700, #d3a625, #ffd700);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* Hover lift */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Spin slow */
+  .spin-slow {
+    animation: spin-slow 3s linear infinite;
+  }
+
+  /* Card shine */
+  .card-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-shine::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: left 0.5s;
+  }
+
+  .card-shine:hover::before {
+    left: 100%;
+  }
+}
+
+/* ------------------------------------------------------ */
+/* ⚡ Animations */
+/* ------------------------------------------------------ */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5), 0 0 10px rgba(255, 215, 0, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

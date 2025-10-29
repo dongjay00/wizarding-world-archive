@@ -1,0 +1,75 @@
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { BookOpen, Calendar, FileText } from "lucide-react";
+import type { PotterBook } from "@/types/potter";
+
+interface BookCardProps {
+  book: PotterBook;
+}
+
+export default function BookCard({ book }: BookCardProps) {
+  const { attributes } = book;
+
+  return (
+    <Link href={`/books/${book.id}`}>
+      <div className="group relative overflow-hidden rounded-2xl glass hover-lift card-shine h-full">
+        {/* Cover */}
+        <div className="relative h-[450px] bg-gradient-to-b from-amber-900/50 to-gray-900 overflow-hidden">
+          {attributes.cover ? (
+            <Image
+              src={attributes.cover}
+              alt={attributes.title}
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center">
+              <BookOpen className="w-20 h-20 text-amber-500/30" />
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent" />
+
+          {/* Pages Badge */}
+          {attributes.pages && (
+            <div className="absolute top-4 right-4 px-3 py-1 glass rounded-full text-xs font-semibold flex items-center gap-1">
+              <FileText className="w-3 h-3" />
+              {attributes.pages} pages
+            </div>
+          )}
+
+          {/* Title Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <h3 className="text-2xl font-magic font-bold mb-2 group-hover:text-amber-400 transition-colors">
+              {attributes.title}
+            </h3>
+
+            <div className="text-sm text-gray-300 mb-2">
+              by {attributes.author}
+            </div>
+
+            {attributes.release_date && (
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <Calendar className="w-4 h-4" />
+                <span>
+                  {new Date(attributes.release_date).toLocaleDateString()}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Summary */}
+        {attributes.summary && (
+          <div className="p-5">
+            <p className="text-sm text-gray-400 line-clamp-3">
+              {attributes.summary}
+            </p>
+          </div>
+        )}
+      </div>
+    </Link>
+  );
+}
