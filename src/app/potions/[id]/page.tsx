@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { usePotion } from "@/lib/hooks/usePotions";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromPotion } from "@/lib/utils/favorites";
 
 const difficultyColors: Record<string, string> = {
   Beginner: "from-green-600 to-emerald-600",
@@ -114,6 +116,12 @@ export default function PotionDetailPage({
                   />
                 </div>
               )}
+
+              <FavoriteToggleButton
+                item={favoriteFromPotion(potion)}
+                showLabel
+                className="w-full px-4 py-3 font-semibold"
+              />
 
               <div className="space-y-4">
                 {attributes.time && (

@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Film, Calendar, Clock, Star } from "lucide-react";
 import type { PotterMovie } from "@/types/potter";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromMovie } from "@/lib/utils/favorites";
 
 interface MovieCardProps {
   movie: PotterMovie;
@@ -13,8 +15,12 @@ export default function MovieCard({ movie }: MovieCardProps) {
   const { attributes } = movie;
 
   return (
-    <Link href={`/movies/${movie.id}`}>
-      <div className="group relative overflow-hidden rounded-2xl glass hover-lift card-shine h-full">
+    <div className="group relative overflow-hidden rounded-2xl glass hover-lift card-shine h-full">
+      <FavoriteToggleButton
+        item={favoriteFromMovie(movie)}
+        className="absolute right-3 top-3 z-20 h-10 w-10"
+      />
+      <Link href={`/movies/${movie.id}`} className="block h-full">
         {/* Poster */}
         <div className="relative h-[500px] bg-gradient-to-b from-blue-900/50 to-gray-900 overflow-hidden">
           {attributes.poster ? (
@@ -71,7 +77,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
             </p>
           </div>
         )}
-      </div>
     </Link>
+    </div>
   );
 }

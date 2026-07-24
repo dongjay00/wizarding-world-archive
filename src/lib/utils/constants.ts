@@ -30,6 +30,7 @@ export const NAVIGATION = [
   { name: "Potions", href: "/potions", icon: "⚗️" },
   { name: "Movies", href: "/movies", icon: "🎬" },
   { name: "Books", href: "/books", icon: "📚" },
+  { name: "Favorites", href: "/favorites", icon: "♡" },
 ];
 
 // 주문 카테고리

@@ -8,10 +8,10 @@
 
 ## 현재 세션
 
-- **feature**: (없음 — 세션 종료·휘발)
-- **active step**: —
-- **직전 종결**: D-1 필터 상태 소유 일원화 (+ UX-2 해소) — 파이프라인 1회전 완주(spec→wrap-up), gate3 수용 완료, wrap-up이 State/장수 Runtime으로 증류(ADR-0007 accepted 확정·C-S2 해소·decision-queue D-1 종결·lessons L-10~L-13·summary 증류·tasks 폐기). 2026-07-09.
-- **다음 세션 인계**: 새 feature 착수 시 spec부터. **미결정 큐 0** — D-3(이미지 호스트 화이트리스트)는 2026-07-09 실측으로 무변경 종결(실호스트 2개 이미 정합, L-14). ~~⚠ UIUX UX-2 문구 갱신 필요~~ → 해소(stale 플래그였음, UIUX.md 이미 정합). 남은 알려진 부채 없음 — 다음은 신규 feature 발굴이 필요.
+- **feature**: D-5 로컬 즐겨찾기
+- **active step**: wrap-up
+- **직전 종결**: 문서 정합성 정리 커밋 `12bf654` — A-1/A-2/A-4 stale 부채 표기를 종결 이슈로 정리.
+- **다음 세션 인계**: D-5 구현·gate2·브라우저 스모크 완료. 사람이 실제 브라우저에서 카드/상세 토글 감각만 수용 확인하면 다음 feature로 넘어갈 수 있음.
 
 <!-- 아래는 다음 세션 시작 시 휘발(비운다). 종결된 D-1 세션의 step 로그·핸드오프는 summary(사람용)·lessons(교훈)·ADR-0007(결정)로 증류 완료. -->
 
@@ -58,6 +58,11 @@
 - [verify] verdict=pass  note=T7 헤드리스 최대치. 정적(AC-12): grep filterStore src/=0(死코드 제거), 4페이지 useState=0(지속상태 이중보유 없음·local미러는 훅 내부만), config 차원 보존 실측(chars/spells/potions=name_cont+house/category/difficulty_eq+name+24, movies=title_cont+이산없음+release_date+12), NuqsAdapter providers.tsx 1곳. 스모크(AC-11/13): npm start 프로덕션 서버 실측 curl — /characters 200, /characters?q=harry&house=Gryffindor&page=2 200, /movies?q=potter&page=2 200. 앱셸 렌더(17KB·title·error/500/NuqsAdapter마커 0), 폴백 미발동(nuqs 정상). 초기 curl "command not found"는 셸 해싱 artifact였고 절대경로 재시도 3x200 재현(L-9). 서버 종료·포트 정리 완료. 시각 동치는 gate3 위임  ts=2026-07-09
 - [test] verdict=pass  note=러너부재(T-1)·verify의 정적3종+스모크로 대체·축약(별도 test runner 없음)  ts=2026-07-09
 - [review] verdict=pass  note=AC/U 코드대조 완료. AC-12 정적 충족(filterStore src/=0·stores/ 삭제·4페이지 useState=0·필터차원 4페이지 실측보존:chars/spells/potions=name_cont+house/category/difficulty_eq+name+24, movies=title_cont+이산없음+release_date+12), AC-13 로직 충족(clearOnDefault:true·setSearch/setDiscrete가 page=1리셋·value||null로 기본값 미부착·history:replace), AC-11 배선 충족(URL→urlState→search미러/discreteValue/fetchOptions 양방향, NuqsAdapter 1곳). 회귀 없음(4페이지 loading/error/empty 3분기·하우스색·페이지네이션·검색 배선 보존). 잔여=AC-11 시각복원·AC-13 URL문자열 관찰 gate3 휴먼 위임. fail 없음 → gate3 대기  ts=2026-07-09
+- [spec/architect] verdict=pass  note=D-5 로컬 즐겨찾기 범위 확정. 서버/로그인/동기화 비목표, Zustand persist+localStorage 단일 소유(ADR-0009), 5종 카드·상세 토글 + /favorites 집계 + Header 네비로 tasks T1~T8 seed.  ts=2026-07-09
+- [build] verdict=pass  note=T2~T6 완료. favoritesStore(Zustand persist+localStorage, hasHydrated, toggle/remove/isFavorite), favorite 메타 팩토리, FavoriteToggleButton, FavoriteCard, /favorites 라우트, Header Favorites 네비 추가. 5종 카드 Link 구조를 카드 루트+Link+독립 하트 버튼으로 조정해 중첩 인터랙션 회피. 5종 상세 사이드바에 label 토글 배선.  ts=2026-07-09
+- [gate2] verdict=pass  note=`npm run gate2` green(tsc --noEmit, eslint, next build). /favorites static prerender 확인. baseline-browser-mapping stale warning은 기존 advisory.  ts=2026-07-09
+- [verify] verdict=pass  note=프로덕션 서버 스모크: curl /favorites=200, /characters=200. Playwright로 /favorites empty 표시, localStorage 주입 후 Harry Potter 카드 표시, Header Favorites 링크 표시, remove 버튼 클릭 후 empty 복귀 확인. 프로젝트 내 Playwright 미설치라 /tmp Playwright 사용; sandbox Chromium 제한으로 승인 후 실행.  ts=2026-07-09
+- [review] verdict=pass  note=AC-14 충족(5종 목록 카드+상세 토글 배선, 상태 즉시 토글 store), AC-15 충족(/favorites 집계·상세 링크·목록 해제), AC-16 충족(localStorage persist+hasHydrated 빈상태). U-8/U-9 코드대조+브라우저 스모크 pass. 잔여는 휴먼 감각 수용(실제 카드/상세 클릭감)만.  ts=2026-07-09
 
 **→ gate3(휴먼 acceptance) — review가 넘긴 최종 수용 체크리스트**: review가 AC-11/12/13·U-7을 코드대조로 pass 판정(fail 없음). 정적 확정분(AC-12 전부·AC-13 로직·AC-11 배선)은 검증 완료. 아래는 사람이 4페이지에서 **눈으로만** 확정할 잔여 시각 갭(헤드리스 불가). `npm run dev`(또는 `npm start`)로 앱을 띄우고 브라우저에서 4페이지 각각 확인.
 

@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { FlaskConical, Clock, AlertTriangle } from "lucide-react";
 import type { PotterPotion } from "@/types/potter";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromPotion } from "@/lib/utils/favorites";
 
 interface PotionCardProps {
   potion: PotterPotion;
@@ -23,8 +25,12 @@ export default function PotionCard({ potion }: PotionCardProps) {
     : "from-green-600 to-emerald-600";
 
   return (
-    <Link href={`/potions/${potion.id}`}>
-      <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+    <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+      <FavoriteToggleButton
+        item={favoriteFromPotion(potion)}
+        className="absolute right-3 top-3 z-20 h-10 w-10"
+      />
+      <Link href={`/potions/${potion.id}`} className="block h-full">
         {/* Difficulty Gradient Background */}
         <div
           className={`absolute inset-0 bg-gradient-to-br ${difficultyGradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
@@ -94,7 +100,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
             </div>
           )}
         </div>
-      </div>
     </Link>
+    </div>
   );
 }

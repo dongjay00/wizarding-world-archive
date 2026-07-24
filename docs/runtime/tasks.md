@@ -8,6 +8,13 @@
 
 ---
 
-## 현재 feature: (없음)
+## 현재 feature: D-5 로컬 즐겨찾기
 
-> D-1(필터 상태 소유 일원화 + UX-2 해소)은 2026-07-09 파이프라인 1회전으로 T1~T8 전부 완료·gate3 수용 → summary로 증류 후 폐기. 다음 feature 착수 시 architect가 SDD에서 분해해 seed.
+- [x] T1 문서 재진입: PRD AC-14~16, UIUX U-8~9, SDD/state-management, ADR-0009, tasks seed
+- [x] T2 상태 골격: `favoritesStore`(Zustand persist, hydration flag, toggle/remove/isFavorite)
+- [x] T3 공용 UI: 즐겨찾기 토글 버튼 + 즐겨찾기 카드
+- [x] T4 목록 카드 5종에 토글 배선
+- [x] T5 상세 페이지 5종에 토글 배선
+- [x] T6 `/favorites` 라우트 + Header 네비 추가
+- [x] T7 gate2(`tsc·lint·build`) 통과
+- [x] T8 review/wrap-up: AC-14~16·U-8~9 대조, summary 증류

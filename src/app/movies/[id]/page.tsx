@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { useMovie } from "@/lib/hooks/useMovies";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromMovie } from "@/lib/utils/favorites";
 
 export default function MovieDetailPage({
   params,
@@ -106,6 +108,12 @@ export default function MovieDetailPage({
             className="lg:col-span-1"
           >
             <div className="glass rounded-2xl p-6 sticky top-24 space-y-6">
+              <FavoriteToggleButton
+                item={favoriteFromMovie(movie)}
+                showLabel
+                className="w-full px-4 py-3 font-semibold"
+              />
+
               {/* Box Office */}
               {(attributes.box_office || attributes.budget) && (
                 <div>

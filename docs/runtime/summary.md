@@ -5,6 +5,17 @@
 
 ---
 
+## D-5 로컬 즐겨찾기 — 서버 없는 개인 저장 표면 추가 (2026-07-09)
+
+- **무엇**: 5종 엔티티(Character·Spell·Potion·Movie·Book)에 로컬 즐겨찾기를 추가. 목록 카드와 상세 페이지에서 하트 토글로 저장/해제하고, Header의 Favorites 네비와 `/favorites` 집계 페이지에서 저장 항목을 모아본다.
+  - 상태 소유 = `src/lib/stores/favoritesStore.ts`의 Zustand persist(localStorage). 저장 값은 `type/id/title/subtitle/image/href/savedAt` 최소 메타데이터.
+  - 공용 `FavoriteToggleButton`, `FavoriteCard`, 엔티티별 favorite 메타 팩토리(`lib/utils/favorites.ts`)를 추가.
+  - 기존 카드의 전체 `Link` 래핑은 카드 루트 + 링크 + 독립 하트 버튼 구조로 조정해 버튼 클릭과 상세 이동이 충돌하지 않게 했다.
+- **왜**: 로그인·서버 쓰기 없이도 같은 브라우저에서 다시 보고 싶은 항목을 빠르게 재방문할 수 있게 하기 위해. PRD의 향후 후보였던 “즐겨찾기(로컬)”를 D-5로 활성화.
+- **결과**: ADR-0009 accepted. PRD AC-14~16, UIUX U-8~9, SDD/state-management 반영. `npm run gate2` green(tsc·lint·build). 프로덕션 서버 스모크(`/favorites`·`/characters` 200)와 Playwright localStorage 수화/표시/해제 스모크 pass. 브라우저별 동기화·서버 저장은 비목표로 유지.
+
+---
+
 ## D-3 이미지 호스트 화이트리스트 정합 — 실측으로 무변경 종결 (2026-07-09)
 
 - **무엇**: decision-queue D-3(“`next.config.ts remotePatterns`와 PotterDB 실제 이미지 호스트 정합 미확인”)을 **실측**으로 해소. PotterDB 전 엔티티(characters·spells·potions·movies·books) 이미지 필드를 API에서 대량 수집해 실제 호스트를 전수 확인.

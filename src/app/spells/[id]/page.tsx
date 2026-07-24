@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { useSpell } from "@/lib/hooks/useSpells";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromSpell } from "@/lib/utils/favorites";
 
 const categoryColors: Record<string, string> = {
   Charm: "from-blue-600 to-cyan-600",
@@ -142,6 +144,12 @@ export default function SpellDetailPage({
                   />
                 </div>
               )}
+
+              <FavoriteToggleButton
+                item={favoriteFromSpell(spell)}
+                showLabel
+                className="w-full px-4 py-3 font-semibold"
+              />
 
               {/* Quick Info */}
               <div className="space-y-4">

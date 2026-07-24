@@ -1,8 +1,9 @@
 # SDD — State Management
 
-> status: **frozen** (현재 구현 반영). 상위: Architecture, ADR-0003/0007/0008.
+> status: **frozen** (현재 구현 반영). 상위: Architecture, ADR-0003/0007/0008/0009.
 > **재진입 2026-07-09 (D-2, ADR-0008)**: 테마 상태 소유를 next-themes 단일로 확정, `themeStore.ts` 삭제. §상태3분류·§설계vs현실 갱신.
 > **재진입 2026-07-09 (D-1, ADR-0007)**: 필터(지속 UI 상태) 소유를 **URL searchParams 단일**로 확정, 기제=nuqs. `filterStore.ts` 삭제 완료. §상태3분류·§설계vs현실·§목표방향 갱신.
+> **재진입 2026-07-09 (D-5, ADR-0009)**: 로컬 즐겨찾기 상태를 Zustand persist(localStorage) 단일 소유로 추가.
 
 ## 상태 3분류
 
@@ -10,10 +11,11 @@
 |---|---|---|
 | 서버 상태(엔티티 데이터) | TanStack Query 캐시 | `lib/hooks` |
 | 지속 필터 상태(검색어·필터·페이지) | **URL searchParams 단일**(ADR-0007) | nuqs `useQueryStates` + 공용 팩토리 훅 `lib/hooks` |
+| 로컬 즐겨찾기 상태 | **Zustand persist 단일**(ADR-0009) | `lib/stores/favoritesStore.ts` + localStorage |
 | 테마 상태(light/dark) | **next-themes 단일**(localStorage 지속) | `providers.tsx` (ADR-0008) |
 | 로컬 뷰 상태(입력·토글) | 컴포넌트 `useState` | 페이지/컴포넌트 |
 
-> **Zustand 잔존 여부**: ADR-0003의 Zustand 채택 자체는 유효(향후 전역 클라이언트 상태 도구로 예약)하나, 필터에 대한 실사용은 URL로 이전되어 현재 소비 store는 없다. D-1 반영 후 `lib/stores` 경계에는 활성 파일이 없다.
+> **Zustand 사용 경계**: 필터에 대한 실사용은 URL로 이전됐고, 즐겨찾기는 서버 쓰기 없는 로컬 사용자 상태이므로 Zustand persist가 소유한다. 서버 상태는 계속 TanStack Query가 소유한다.
 
 ## 필터(지속 UI 상태) — URL 단일 소유 설계 (ADR-0007)
 
@@ -31,6 +33,13 @@
   - `history: 'replace'`(히스토리 오염 방지).
 - **검색 입력의 경계(C-S2 위반 아님 — 명시)**: 검색어 텍스트의 **커밋 전 순간값**은 컴포넌트 local `useState`(정당한 view 상태)로 두어 타이핑 즉각 반응을 유지하고, **디바운스 후** URL `q`에 커밋한다. URL이 유일 **지속** 출처이므로 이 local 미러는 "같은 지속 상태의 이중 보관"이 아니다. house/category/difficulty/page 등 이산 선택은 디바운스 없이 즉시 URL 커밋.
 - **API 옵션 파생**: 훅은 URL 상태에서 `FetchOptions`(page/pageSize/filter/sort)를 파생해 `lib/hooks/use*`(TanStack Query)에 넘긴다. 서버 상태 경계(Query 소유)는 불변.
+
+## 즐겨찾기(로컬 사용자 상태) — Zustand persist 단일 소유 (ADR-0009)
+
+- **소유처**: `src/lib/stores/favoritesStore.ts`. localStorage에 persist되며 서버/API에는 쓰지 않는다.
+- **저장 단위**: `{ type, id, title, subtitle?, image?, href, savedAt }`. `/favorites`는 저장 당시 메타데이터로 렌더하고, 상세 최신화 재조회는 하지 않는다.
+- **적용 표면**: 5종 엔티티 목록 카드, 5종 상세 페이지, `/favorites` 집계 페이지, Header 네비.
+- **수화 경계**: localStorage 수화 전에는 비활성/빈 상태가 잠깐 보일 수 있으므로 store가 `hasHydrated`를 노출해 `/favorites` 빈 상태 판정을 수화 후로 미룬다.
 
 ## 설계 vs 현실 (종결된 괴리)
 

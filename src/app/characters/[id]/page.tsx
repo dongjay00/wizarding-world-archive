@@ -18,6 +18,8 @@ import {
 import { useCharacter } from "@/lib/hooks/useCharacters";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import { HOUSE_COLORS } from "@/lib/utils/constants";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromCharacter } from "@/lib/utils/favorites";
 
 export default function CharacterDetailPage({
   params,
@@ -91,6 +93,12 @@ export default function CharacterDetailPage({
                   </div>
                 )}
               </div>
+
+              <FavoriteToggleButton
+                item={favoriteFromCharacter(character)}
+                showLabel
+                className="mb-6 w-full px-4 py-3 font-semibold"
+              />
 
               {/* House Badge */}
               {house && houseColor && (

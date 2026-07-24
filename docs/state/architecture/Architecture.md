@@ -11,7 +11,7 @@
 | 프레임워크 | Next.js 16 App Router, React 19, **React Compiler** on | ADR-0001 |
 | 언어 | TypeScript strict, `@/*` 절대경로 | Constraints C-1, C-S4 |
 | 서버 상태 | TanStack Query v5 | ADR-0002 |
-| 전역 UI 상태 | Zustand v5 채택 유지(현재 활성 store 없음) | ADR-0003, ADR-0007 |
+| 전역 UI 상태 | Zustand v5 + persist(localStorage) for favorites | ADR-0003, ADR-0007, ADR-0009 |
 | 데이터 소스 | PotterDB REST (`api.potterdb.com/v1`) | ADR-0004 |
 | 스타일 | Tailwind CSS v4 (`@theme`), glassmorphism | ADR-0005, UIUX |
 | 애니메이션 | Framer Motion | UIUX |
@@ -39,7 +39,7 @@ types/          (potter.ts)                          ← 순수 타입, 무의�
 - **모듈 경계**:
   - `lib/api` = 외부 세계와의 유일한 창구. 다른 레이어는 `fetch`를 직접 부르지 않고 `lib/api`의 `*API` 객체만 쓴다.
   - `lib/hooks` = `lib/api`를 TanStack Query로 감싼 **유일한** 데이터 소비 진입점. 컴포넌트는 hook만 부른다(api를 직접 부르지 않음).
-  - `lib/stores` = 전역 클라이언트 상태(Zustand)용 예약 경계. 현재 활성 store는 없고, 서버 데이터는 여기 두지 않는다(Query 소유).
+  - `lib/stores` = 전역 클라이언트 상태(Zustand) 경계. 로컬 즐겨찾기처럼 브라우저에 지속되는 클라이언트 UI 상태를 둔다. 서버 데이터는 여기 두지 않는다(Query 소유).
   - `components/features` = 엔티티별 카드(도메인 인지), `components/ui`·`shared` = 도메인 무지 재사용 조각.
 
 ## 데이터 흐름 (읽기 파이프라인)

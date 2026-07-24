@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Wand2, Lightbulb } from "lucide-react";
 import type { PotterSpell } from "@/types/potter";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromSpell } from "@/lib/utils/favorites";
 
 interface SpellCardProps {
   spell: PotterSpell;
@@ -27,8 +29,12 @@ export default function SpellCard({ spell }: SpellCardProps) {
     : "from-purple-600 to-pink-600";
 
   return (
-    <Link href={`/spells/${spell.id}`}>
-      <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+    <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+      <FavoriteToggleButton
+        item={favoriteFromSpell(spell)}
+        className="absolute right-3 top-3 z-20 h-10 w-10"
+      />
+      <Link href={`/spells/${spell.id}`} className="block h-full">
         {/* Category Gradient Background */}
         <div
           className={`absolute inset-0 bg-gradient-to-br ${categoryGradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
@@ -103,7 +109,7 @@ export default function SpellCard({ spell }: SpellCardProps) {
             )}
           </div>
         </div>
-      </div>
     </Link>
+    </div>
   );
 }

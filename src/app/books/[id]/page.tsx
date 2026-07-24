@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import { useBook, useChapters } from "@/lib/hooks/useBooks";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromBook } from "@/lib/utils/favorites";
 
 export default function BookDetailPage({
   params,
@@ -121,6 +123,12 @@ export default function BookDetailPage({
                   />
                 </div>
               )}
+
+              <FavoriteToggleButton
+                item={favoriteFromBook(book)}
+                showLabel
+                className="w-full px-4 py-3 font-semibold"
+              />
 
               {/* Quick Info */}
               <div className="space-y-4">

@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, Calendar, FileText } from "lucide-react";
 import type { PotterBook } from "@/types/potter";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromBook } from "@/lib/utils/favorites";
 
 interface BookCardProps {
   book: PotterBook;
@@ -13,8 +15,12 @@ export default function BookCard({ book }: BookCardProps) {
   const { attributes } = book;
 
   return (
-    <Link href={`/books/${book.id}`}>
-      <div className="group relative overflow-hidden rounded-2xl glass hover-lift card-shine h-full">
+    <div className="group relative overflow-hidden rounded-2xl glass hover-lift card-shine h-full">
+      <FavoriteToggleButton
+        item={favoriteFromBook(book)}
+        className="absolute right-3 top-3 z-20 h-10 w-10"
+      />
+      <Link href={`/books/${book.id}`} className="block h-full">
         {/* Cover */}
         <div className="relative h-[450px] bg-gradient-to-b from-amber-900/50 to-gray-900 overflow-hidden">
           {attributes.cover ? (
@@ -69,7 +75,7 @@ export default function BookCard({ book }: BookCardProps) {
             </p>
           </div>
         )}
-      </div>
     </Link>
+    </div>
   );
 }

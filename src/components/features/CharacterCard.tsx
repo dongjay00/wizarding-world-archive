@@ -5,6 +5,8 @@ import Image from "next/image";
 import { Home, Sparkles } from "lucide-react";
 import type { PotterCharacter } from "@/types/potter";
 import { HOUSE_COLORS } from "@/lib/utils/constants";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromCharacter } from "@/lib/utils/favorites";
 
 interface CharacterCardProps {
   character: PotterCharacter;
@@ -16,8 +18,12 @@ export default function CharacterCard({ character }: CharacterCardProps) {
   const houseColor = house ? HOUSE_COLORS[house] : null;
 
   return (
-    <Link href={`/characters/${character.id}`}>
-      <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+    <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+      <FavoriteToggleButton
+        item={favoriteFromCharacter(character)}
+        className="absolute right-3 top-3 z-20 h-10 w-10"
+      />
+      <Link href={`/characters/${character.id}`} className="block h-full">
         {/* House Gradient Background */}
         {houseColor && (
           <div
@@ -92,7 +98,7 @@ export default function CharacterCard({ character }: CharacterCardProps) {
             )}
           </div>
         </div>
-      </div>
     </Link>
+    </div>
   );
 }
