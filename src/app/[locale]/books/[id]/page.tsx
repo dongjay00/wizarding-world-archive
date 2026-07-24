@@ -2,8 +2,8 @@
 
 import { use } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { useFormatter, useTranslations } from "next-intl";
 import {
   ArrowLeft,
   BookOpen,
@@ -14,6 +14,7 @@ import {
   List,
   ExternalLink,
 } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { useBook, useChapters } from "@/lib/hooks/useBooks";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
@@ -25,6 +26,9 @@ export default function BookDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const t = useTranslations("books");
+  const tc = useTranslations("common");
+  const format = useFormatter();
   const {
     data: bookData,
     isLoading: bookLoading,
@@ -33,7 +37,7 @@ export default function BookDetailPage({
   const { data: chaptersData, isLoading: chaptersLoading } = useChapters(id);
 
   if (bookLoading) return <FullPageLoader />;
-  if (bookError || !bookData) return <ErrorMessage message="Book not found" />;
+  if (bookError || !bookData) return <ErrorMessage message={t("notFound")} />;
 
   const book = bookData.data;
   const { attributes } = book;
@@ -63,7 +67,7 @@ export default function BookDetailPage({
             className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Books</span>
+            <span>{t("backToList")}</span>
           </Link>
         </div>
 
@@ -85,14 +89,18 @@ export default function BookDetailPage({
                   <div className="flex items-center gap-2">
                     <Calendar className="w-5 h-5" />
                     <span>
-                      {new Date(attributes.release_date).toLocaleDateString()}
+                      {format.dateTime(new Date(attributes.release_date), {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </span>
                   </div>
                 )}
                 {attributes.pages && (
                   <div className="flex items-center gap-2">
                     <FileText className="w-5 h-5" />
-                    <span>{attributes.pages} pages</span>
+                    <span>{t("pagesCount", { count: attributes.pages })}</span>
                   </div>
                 )}
               </div>
@@ -133,7 +141,7 @@ export default function BookDetailPage({
               {/* Quick Info */}
               <div className="space-y-4">
                 <div>
-                  <div className="text-muted text-sm mb-1">Author</div>
+                  <div className="text-muted text-sm mb-1">{t("author")}</div>
                   <div className="font-semibold text-amber-300">
                     {attributes.author}
                   </div>
@@ -141,16 +149,22 @@ export default function BookDetailPage({
 
                 {attributes.pages && (
                   <div>
-                    <div className="text-muted text-sm mb-1">Pages</div>
+                    <div className="text-muted text-sm mb-1">{t("pages")}</div>
                     <div className="font-semibold">{attributes.pages}</div>
                   </div>
                 )}
 
                 {attributes.release_date && (
                   <div>
-                    <div className="text-muted text-sm mb-1">Published</div>
+                    <div className="text-muted text-sm mb-1">
+                      {t("published")}
+                    </div>
                     <div className="font-semibold">
-                      {new Date(attributes.release_date).toLocaleDateString()}
+                      {format.dateTime(new Date(attributes.release_date), {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </div>
                   </div>
                 )}
@@ -165,7 +179,7 @@ export default function BookDetailPage({
                   className="flex items-center justify-center gap-2 px-4 py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 rounded-lg transition-all"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>View Wiki</span>
+                  <span>{tc("viewWiki")}</span>
                 </a>
               )}
             </div>
@@ -182,7 +196,7 @@ export default function BookDetailPage({
               <div className="glass rounded-2xl p-8">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <BookOpen className="w-6 h-6 text-amber-500" />
-                  Summary
+                  {t("summaryTitle")}
                 </h2>
                 <p className="text-muted leading-relaxed text-lg">
                   {attributes.summary}
@@ -195,7 +209,7 @@ export default function BookDetailPage({
               <div className="glass rounded-2xl p-8 border-2 border-pink-500/20">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2 text-pink-400">
                   <Heart className="w-6 h-6" />
-                  Dedication
+                  {t("dedicationTitle")}
                 </h2>
                 <p className="text-pink-200 italic text-lg leading-relaxed">
                   {attributes.dedication}
@@ -208,11 +222,11 @@ export default function BookDetailPage({
               <div className="glass rounded-2xl p-8">
                 <h2 className="text-2xl font-magic font-bold mb-6 flex items-center gap-2">
                   <List className="w-6 h-6 text-amber-500" />
-                  Chapters ({chapters.length})
+                  {t("chapters", { count: chapters.length })}
                 </h2>
                 {chaptersLoading ? (
                   <div className="text-center py-8 text-muted">
-                    Loading chapters...
+                    {t("loadingChapters")}
                   </div>
                 ) : (
                   <div className="space-y-3">

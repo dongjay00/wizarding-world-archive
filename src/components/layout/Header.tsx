@@ -1,15 +1,18 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Sparkles, Menu, X } from "lucide-react";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import { NAVIGATION } from "@/lib/utils/constants";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const t = useTranslations("nav");
+  const tc = useTranslations("common");
 
   return (
     <header className="sticky top-0 z-50 glass-dark border-b border-amber-500/20">
@@ -19,7 +22,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2 group">
             <Sparkles className="w-8 h-8 text-amber-500 group-hover:animate-spin transition-transform" />
             <span className="text-2xl font-magic font-bold magic-text hidden sm:block">
-              Wizarding Archive
+              {tc("brand")}
             </span>
           </Link>
 
@@ -38,20 +41,23 @@ export default function Header() {
                   }`}
                 >
                   <span className="mr-2">{item.icon}</span>
-                  {item.name}
+                  {t(item.key)}
                 </Link>
               );
             })}
           </div>
 
-          {/* Actions: 테마 토글 + 모바일 메뉴 */}
+          {/* Actions: 언어 스위처 + 테마 토글 + 모바일 메뉴 */}
           <div className="flex items-center gap-3">
+            <div className="hidden sm:block">
+              <LanguageSwitcher />
+            </div>
             <ThemeToggle />
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="xl:hidden p-2 rounded-lg hover:bg-surface/10 transition-colors"
-              aria-label="Toggle menu"
+              aria-label={tc("toggleMenu")}
             >
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -79,10 +85,14 @@ export default function Header() {
                   }`}
                 >
                   <span className="mr-2">{item.icon}</span>
-                  {item.name}
+                  {t(item.key)}
                 </Link>
               );
             })}
+            {/* 모바일: 언어 스위처 미러링 (U-10) */}
+            <div className="px-4 pt-2 sm:hidden">
+              <LanguageSwitcher />
+            </div>
           </div>
         )}
       </nav>

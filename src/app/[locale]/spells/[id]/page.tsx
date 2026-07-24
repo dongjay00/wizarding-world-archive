@@ -2,8 +2,8 @@
 
 import { use } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   Wand2,
@@ -14,6 +14,7 @@ import {
   Tag,
   ExternalLink,
 } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { useSpell } from "@/lib/hooks/useSpells";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
@@ -36,10 +37,12 @@ export default function SpellDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const t = useTranslations("spells");
+  const tc = useTranslations("common");
   const { data, isLoading, error } = useSpell(id);
 
   if (isLoading) return <FullPageLoader />;
-  if (error || !data) return <ErrorMessage message="Spell not found" />;
+  if (error || !data) return <ErrorMessage message={t("notFound")} />;
 
   const spell = data.data;
   const { attributes } = spell;
@@ -91,7 +94,7 @@ export default function SpellDetailPage({
             className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Spells</span>
+            <span>{t("backToList")}</span>
           </Link>
         </div>
 
@@ -157,7 +160,7 @@ export default function SpellDetailPage({
                   <div>
                     <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <User className="w-4 h-4" />
-                      <span>Creator</span>
+                      <span>{t("creator")}</span>
                     </div>
                     <div className="font-medium text-purple-300">
                       {attributes.creator}
@@ -169,7 +172,7 @@ export default function SpellDetailPage({
                   <div>
                     <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <Lightbulb className="w-4 h-4" />
-                      <span>Light Color</span>
+                      <span>{t("lightColor")}</span>
                     </div>
                     <div className="font-medium">{attributes.light}</div>
                   </div>
@@ -179,7 +182,7 @@ export default function SpellDetailPage({
                   <div>
                     <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <Hand className="w-4 h-4" />
-                      <span>Wand Movement</span>
+                      <span>{t("wandMovement")}</span>
                     </div>
                     <div className="font-medium">{attributes.hand}</div>
                   </div>
@@ -195,7 +198,7 @@ export default function SpellDetailPage({
                   className="flex items-center justify-center gap-2 px-4 py-3 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg transition-all"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>View Wiki</span>
+                  <span>{tc("viewWiki")}</span>
                 </a>
               )}
             </div>
@@ -212,15 +215,13 @@ export default function SpellDetailPage({
               <div className="glass rounded-2xl p-8 mb-6">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Wand2 className="w-6 h-6 text-purple-500" />
-                  Incantation
+                  {t("incantationTitle")}
                 </h2>
                 <div className="text-center py-8">
                   <div className="text-5xl font-magic magic-text mb-2">
                     {attributes.incantation}
                   </div>
-                  <p className="text-muted text-sm">
-                    Speak clearly while performing the wand movement
-                  </p>
+                  <p className="text-muted text-sm">{t("incantationHint")}</p>
                 </div>
               </div>
             )}
@@ -230,7 +231,7 @@ export default function SpellDetailPage({
               <div className="glass rounded-2xl p-8 mb-6">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Sparkles className="w-6 h-6 text-purple-500" />
-                  Effect
+                  {t("effectTitle")}
                 </h2>
                 <p className="text-muted leading-relaxed text-lg">
                   {attributes.effect}
@@ -243,7 +244,7 @@ export default function SpellDetailPage({
               <div className="glass rounded-2xl p-8">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Tag className="w-6 h-6 text-purple-500" />
-                  Category Information
+                  {t("categoryInfoTitle")}
                 </h2>
                 <div
                   className={`p-6 rounded-xl bg-gradient-to-r ${categoryGradient} text-center`}
@@ -252,7 +253,9 @@ export default function SpellDetailPage({
                     {attributes.category}
                   </div>
                   <p className="text-sm opacity-90">
-                    {getCategoryDescription(attributes.category)}
+                    {t.has(`categoryDesc.${attributes.category}`)
+                      ? t(`categoryDesc.${attributes.category}`)
+                      : t("categoryDescFallback")}
                   </p>
                 </div>
               </div>
@@ -261,23 +264,5 @@ export default function SpellDetailPage({
         </div>
       </div>
     </div>
-  );
-}
-
-function getCategoryDescription(category: string): string {
-  const descriptions: Record<string, string> = {
-    Charm:
-      "Charms are spells that add or change properties of an object or person.",
-    Transfiguration:
-      "Transfiguration is magic that changes one object into another.",
-    Curse: "Curses are dark spells intended to cause harm or control others.",
-    Hex: "Hexes are spells that cause moderate harm or discomfort.",
-    Jinx: "Jinxes are minor spells that cause temporary inconvenience.",
-    Spell: "General magical incantations for various purposes.",
-    "Counter-spell": "Spells designed to counter or reverse other spells.",
-    "Healing spell": "Spells used to heal injuries and cure ailments.",
-  };
-  return (
-    descriptions[category] || "A magical incantation from the Wizarding World."
   );
 }

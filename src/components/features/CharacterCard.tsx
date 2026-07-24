@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { Home, Sparkles } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { PotterCharacter } from "@/types/potter";
 import { HOUSE_COLORS } from "@/lib/utils/constants";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
@@ -13,6 +14,8 @@ interface CharacterCardProps {
 }
 
 export default function CharacterCard({ character }: CharacterCardProps) {
+  const t = useTranslations("characters");
+  const tHouse = useTranslations("domain.house");
   const { attributes } = character;
   const house = attributes.house as keyof typeof HOUSE_COLORS | null;
   const houseColor = house ? HOUSE_COLORS[house] : null;
@@ -65,21 +68,22 @@ export default function CharacterCard({ character }: CharacterCardProps) {
                   className="font-semibold"
                   style={{ color: houseColor?.secondary }}
                 >
-                  {attributes.house}
+                  {house ? tHouse(house) : attributes.house}
                 </span>
               </div>
             )}
 
             {attributes.species && (
               <div className="text-muted">
-                <span className="text-subtle">Species:</span>{" "}
+                <span className="text-subtle">{t("species")}:</span>{" "}
                 {attributes.species}
               </div>
             )}
 
             {attributes.born && (
               <div className="text-muted">
-                <span className="text-subtle">Born:</span> {attributes.born}
+                <span className="text-subtle">{t("born")}:</span>{" "}
+                {attributes.born}
               </div>
             )}
           </div>
@@ -88,12 +92,12 @@ export default function CharacterCard({ character }: CharacterCardProps) {
           <div className="mt-4 flex flex-wrap gap-2">
             {attributes.patronus && (
               <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs">
-                Patronus: {attributes.patronus}
+                {t("patronus")}: {attributes.patronus}
               </span>
             )}
             {attributes.wands.length > 0 && (
               <span className="px-2 py-1 bg-amber-500/20 text-amber-300 rounded text-xs">
-                Has Wand
+                {t("hasWand")}
               </span>
             )}
           </div>

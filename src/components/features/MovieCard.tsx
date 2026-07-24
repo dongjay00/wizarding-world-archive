@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { Film, Calendar, Clock, Star } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import type { PotterMovie } from "@/types/potter";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
 import { favoriteFromMovie } from "@/lib/utils/favorites";

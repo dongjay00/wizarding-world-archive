@@ -2,8 +2,8 @@
 
 import { use } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   FlaskConical,
@@ -15,6 +15,7 @@ import {
   ExternalLink,
   ListChecks,
 } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { usePotion } from "@/lib/hooks/usePotions";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
@@ -33,10 +34,12 @@ export default function PotionDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const t = useTranslations("potions");
+  const tc = useTranslations("common");
   const { data, isLoading, error } = usePotion(id);
 
   if (isLoading) return <FullPageLoader />;
-  if (error || !data) return <ErrorMessage message="Potion not found" />;
+  if (error || !data) return <ErrorMessage message={t("notFound")} />;
 
   const potion = data.data;
   const { attributes } = potion;
@@ -70,7 +73,7 @@ export default function PotionDetailPage({
             className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Potions</span>
+            <span>{t("backToList")}</span>
           </Link>
         </div>
 
@@ -128,7 +131,7 @@ export default function PotionDetailPage({
                   <div>
                     <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <Clock className="w-4 h-4" />
-                      <span>Brewing Time</span>
+                      <span>{t("brewingTime")}</span>
                     </div>
                     <div className="font-medium text-green-300">
                       {attributes.time}
@@ -140,7 +143,7 @@ export default function PotionDetailPage({
                   <div>
                     <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <User className="w-4 h-4" />
-                      <span>Inventor</span>
+                      <span>{t("inventor")}</span>
                     </div>
                     <div className="font-medium">{attributes.inventors}</div>
                   </div>
@@ -150,7 +153,7 @@ export default function PotionDetailPage({
                   <div>
                     <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <Package className="w-4 h-4" />
-                      <span>Manufacturer</span>
+                      <span>{t("manufacturer")}</span>
                     </div>
                     <div className="font-medium">
                       {attributes.manufacturers}
@@ -167,7 +170,7 @@ export default function PotionDetailPage({
                   className="flex items-center justify-center gap-2 px-4 py-3 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg transition-all"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>View Wiki</span>
+                  <span>{tc("viewWiki")}</span>
                 </a>
               )}
             </div>
@@ -184,7 +187,7 @@ export default function PotionDetailPage({
               <div className="glass rounded-2xl p-8">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Sparkles className="w-6 h-6 text-green-500" />
-                  Effect
+                  {t("effectTitle")}
                 </h2>
                 <p className="text-muted leading-relaxed text-lg">
                   {attributes.effect}
@@ -197,7 +200,7 @@ export default function PotionDetailPage({
               <div className="glass rounded-2xl p-8">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <FlaskConical className="w-6 h-6 text-green-500" />
-                  Characteristics
+                  {t("characteristicsTitle")}
                 </h2>
                 <p className="text-muted leading-relaxed">
                   {attributes.characteristics}
@@ -210,7 +213,7 @@ export default function PotionDetailPage({
               <div className="glass rounded-2xl p-8">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <ListChecks className="w-6 h-6 text-green-500" />
-                  Ingredients
+                  {t("ingredientsTitle")}
                 </h2>
                 <div className="prose prose-invert max-w-none">
                   <p className="text-muted whitespace-pre-line">
@@ -225,7 +228,7 @@ export default function PotionDetailPage({
               <div className="glass rounded-2xl p-8 border-2 border-amber-500/20">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2 text-amber-400">
                   <AlertTriangle className="w-6 h-6" />
-                  Side Effects
+                  {t("sideEffectsTitle")}
                 </h2>
                 <div className="bg-amber-500/10 rounded-xl p-6">
                   <p className="text-amber-200 leading-relaxed">

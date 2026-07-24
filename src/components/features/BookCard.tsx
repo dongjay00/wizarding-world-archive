@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { BookOpen, Calendar, FileText } from "lucide-react";
+import { useFormatter, useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { PotterBook } from "@/types/potter";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
 import { favoriteFromBook } from "@/lib/utils/favorites";
@@ -12,6 +13,8 @@ interface BookCardProps {
 }
 
 export default function BookCard({ book }: BookCardProps) {
+  const t = useTranslations("books");
+  const format = useFormatter();
   const { attributes } = book;
 
   return (
@@ -42,7 +45,7 @@ export default function BookCard({ book }: BookCardProps) {
           {attributes.pages && (
             <div className="absolute top-4 right-4 px-3 py-1 glass rounded-full text-xs font-semibold flex items-center gap-1">
               <FileText className="w-3 h-3" />
-              {attributes.pages} pages
+              {t("pagesCount", { count: attributes.pages })}
             </div>
           )}
 
@@ -53,14 +56,18 @@ export default function BookCard({ book }: BookCardProps) {
             </h3>
 
             <div className="text-sm text-white/80 mb-2">
-              by {attributes.author}
+              {t("by", { name: attributes.author })}
             </div>
 
             {attributes.release_date && (
               <div className="flex items-center gap-2 text-sm text-white/70">
                 <Calendar className="w-4 h-4" />
                 <span>
-                  {new Date(attributes.release_date).toLocaleDateString()}
+                  {format.dateTime(new Date(attributes.release_date), {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </span>
               </div>
             )}

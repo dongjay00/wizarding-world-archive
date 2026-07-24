@@ -23,15 +23,17 @@ export const HOUSE_COLORS = {
 };
 
 // 네비게이션 메뉴
+// 표시 라벨은 카탈로그 `nav.*` 키로 소비한다(C-S7: chrome 하드코딩 영문 금지, SDD/i18n §6).
+// href·icon은 불변, name 하드코딩 대신 key로 nav 카탈로그를 참조한다.
 export const NAVIGATION = [
-  { name: "Home", href: "/", icon: "🏰" },
-  { name: "Characters", href: "/characters", icon: "🧙" },
-  { name: "Spells", href: "/spells", icon: "✨" },
-  { name: "Potions", href: "/potions", icon: "⚗️" },
-  { name: "Movies", href: "/movies", icon: "🎬" },
-  { name: "Books", href: "/books", icon: "📚" },
-  { name: "Favorites", href: "/favorites", icon: "♡" },
-];
+  { key: "home", href: "/", icon: "🏰" },
+  { key: "characters", href: "/characters", icon: "🧙" },
+  { key: "spells", href: "/spells", icon: "✨" },
+  { key: "potions", href: "/potions", icon: "⚗️" },
+  { key: "movies", href: "/movies", icon: "🎬" },
+  { key: "books", href: "/books", icon: "📚" },
+  { key: "favorites", href: "/favorites", icon: "♡" },
+] as const;
 
 // 주문 카테고리
 export const SPELL_CATEGORIES = [

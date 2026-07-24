@@ -69,5 +69,14 @@
 - **예외(리터럴 허용)**: 이미지 스크림 위 오버레이 텍스트, 고정 컬러 배경(amber/하우스 버튼·뱃지) 위 텍스트, 이미지 placeholder 아이콘 — 이들은 테마와 무관하게 색 고정이 정답.
 - 현재 enforcement: soft(리뷰 policy 참고). 반복 위반 시 eslint 커스텀 규칙으로 hard 승격 후보(L-7).
 
+### C-S7. chrome 문자열은 카탈로그 경유 (i18n, ADR-0010, 2026-07-10 seed)
+- UI 추(chrome — 내비·필터/정렬 라벨·검색 플레이스홀더·로딩/에러/빈 상태·버튼·레이아웃·metadata) 문자열은 `messages/{locale}.json` 카탈로그를 경유한다(`useTranslations`/`getTranslations`). 신규 chrome 코드에 활성 로케일 카탈로그를 우회하는 **하드코딩 영문 리터럴 금지**(AC-18).
+- **예외(리터럴 허용)**: 브랜드 고유명("Wizarding Archive" 로고 등), API 원본 렌더(가변 canon 서술문·엔티티 데이터 값), 아이콘·이모지, 순수 숫자/기호.
+- 현재 enforcement: **soft**(리뷰 policy 참고). 이를 pass/fail로 측정하는 실재 도구가 **없으므로 hard 금지**. JSX 텍스트 리터럴을 잡는 커스텀 eslint 규칙(예: `no-literal-string` 계열)으로 도구화하면 hard 승격 가능(반복 위반 관찰 시, L-7 정신).
+
+### C-S8. 도메인 어휘 ko 표기 단일 출처 = Domain.md R-6 (i18n, 2026-07-10 seed)
+- 고정 도메인 어휘(House 4·Entity 5·Chapter)의 ko 표기는 **Domain.md 「도메인 어휘 ko 표기 표준」(R-6)이 단일 출처**다. `messages/ko.json`의 `domain.*` 값은 이 표를 복제·정합할 뿐 독자 표기를 만들지 않는다(AC-19). API 종속 필터 어휘(R-5)의 원문 키는 영문 유지(이 제약 밖).
+- 현재 enforcement: **soft**. "카탈로그 domain 값 ↔ Domain.md 표기 문자 일치" 대조 스크립트로 도구화하면 hard 승격 가능(러너/스크립트 도입 시, TestStrategy §i18n 키 대칭과 함께).
+
 ### T-1. 테스트 러너 부재 (승격 대기)
 - 현재 테스트 프레임워크/스크립트 없음. `TestStrategy.md`가 도입 전략을 정의하며, 러너가 들어오면 관련 항목이 hard(C-*)로 승격된다.

@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { Wand2, Lightbulb } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { PotterSpell } from "@/types/potter";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
 import { favoriteFromSpell } from "@/lib/utils/favorites";
@@ -23,6 +24,7 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function SpellCard({ spell }: SpellCardProps) {
+  const t = useTranslations("spells");
   const { attributes } = spell;
   const categoryGradient = attributes.category
     ? categoryColors[attributes.category] || "from-purple-600 to-pink-600"
@@ -76,7 +78,9 @@ export default function SpellCard({ spell }: SpellCardProps) {
           {/* Incantation */}
           {attributes.incantation && (
             <div className="mb-3 px-3 py-2 bg-purple-500/10 rounded-lg">
-              <div className="text-xs text-muted mb-1">Incantation</div>
+              <div className="text-xs text-muted mb-1">
+                {t("incantationTitle")}
+              </div>
               <div className="font-magic text-purple-300 italic">
                 &quot;{attributes.incantation}&quot;
               </div>
@@ -104,7 +108,7 @@ export default function SpellCard({ spell }: SpellCardProps) {
             {/* Creator */}
             {attributes.creator && (
               <div className="text-xs text-subtle truncate max-w-[120px]">
-                by {attributes.creator}
+                {t("by", { name: attributes.creator })}
               </div>
             )}
           </div>

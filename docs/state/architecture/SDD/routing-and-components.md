@@ -1,6 +1,8 @@
 # SDD — Routing & Component Structure
 
 > status: **frozen**. 상위: Architecture, UIUX.
+>
+> **재진입 2026-07-10 (i18n, ADR-0010/0011 · draft `SDD/i18n.md`)**: i18n(ko+en) 도입으로 아래 라우트 트리 전체(`app/{page,characters,spells,potions,movies,books,favorites}` 12 page.tsx)가 **`src/app/[locale]/` 하위로 이전**된다. 루트 `layout.tsx`의 `<html lang>`이 동적화되고 `NextIntlClientProvider`가 배치된다. 기존 `next/link`·`usePathname` 직수입처는 로케일 인지 래퍼(`@/i18n/navigation`)로 치환된다. **본 문서 §라우팅 본문의 슬라이스 구조·컴포넌트 계층 계약 자체는 불변**(파일 위치만 `[locale]` 하위로 이동, 컴포넌트 방향·의존 규칙 유지). 상세 배선은 `SDD/i18n.md` 참조. (append-only 재진입 배너 — 아래 frozen 본문 수정 없음.)
 
 ## 라우팅 (App Router)
 

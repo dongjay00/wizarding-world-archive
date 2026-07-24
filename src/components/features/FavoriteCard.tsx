@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { Heart, Sparkles, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { FavoriteItem } from "@/lib/stores/favoritesStore";
 import { useFavoritesStore } from "@/lib/stores/favoritesStore";
 
-const typeLabels: Record<FavoriteItem["type"], string> = {
+// FavoriteItem.type(소문자) → domain.entity 카탈로그 키(en canonical). ko 표기는 R-6(build-logic T7).
+const entityKey: Record<FavoriteItem["type"], string> = {
   character: "Character",
   spell: "Spell",
   potion: "Potion",
@@ -19,13 +21,15 @@ interface FavoriteCardProps {
 }
 
 export default function FavoriteCard({ item }: FavoriteCardProps) {
+  const t = useTranslations("favorites");
+  const tEntity = useTranslations("domain.entity");
   const removeFavorite = useFavoritesStore((state) => state.removeFavorite);
 
   return (
     <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
       <button
         type="button"
-        aria-label={`Remove ${item.title} from favorites`}
+        aria-label={t("remove", { title: item.title })}
         onClick={() => removeFavorite(item.type, item.id)}
         className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-red-400/30 bg-slate-950/70 text-red-300 shadow-lg backdrop-blur transition-all hover:bg-red-500 hover:text-white"
       >
@@ -50,7 +54,7 @@ export default function FavoriteCard({ item }: FavoriteCardProps) {
           <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent" />
           <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-amber-500/20 px-3 py-1 text-xs font-semibold text-amber-200">
             <Heart className="h-3 w-3 fill-current" />
-            {typeLabels[item.type]}
+            {tEntity(entityKey[item.type])}
           </div>
         </div>
 

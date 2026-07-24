@@ -1,9 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { Heart, Github } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 
 export default function Footer() {
+  const t = useTranslations("footer");
+  const tNav = useTranslations("nav");
+
   return (
     <footer className="glass-dark border-t border-amber-500/20 mt-20">
       <div className="container mx-auto px-4 py-8">
@@ -11,27 +15,28 @@ export default function Footer() {
           {/* About */}
           <div>
             <h3 className="text-lg font-magic font-semibold text-amber-400 mb-3">
-              About This Archive
+              {t("aboutTitle")}
             </h3>
             <p className="text-muted text-sm leading-relaxed">
-              A comprehensive database of the Wizarding World, powered by{" "}
-              <a
-                href="https://potterdb.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-amber-500 hover:text-amber-400 transition-colors"
-              >
-                Potter DB API
-              </a>
-              . Explore characters, spells, potions, movies, and books from the
-              magical universe.
+              {t.rich("aboutBody", {
+                link: (chunks) => (
+                  <a
+                    href="https://potterdb.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-amber-500 hover:text-amber-400 transition-colors"
+                  >
+                    {chunks}
+                  </a>
+                ),
+              })}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="text-lg font-magic font-semibold text-amber-400 mb-3">
-              Quick Links
+              {t("quickLinksTitle")}
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
@@ -39,7 +44,7 @@ export default function Footer() {
                   href="/characters"
                   className="text-muted hover:text-amber-400 transition-colors"
                 >
-                  🧙 Characters
+                  🧙 {tNav("characters")}
                 </Link>
               </li>
               <li>
@@ -47,7 +52,7 @@ export default function Footer() {
                   href="/spells"
                   className="text-muted hover:text-amber-400 transition-colors"
                 >
-                  ✨ Spells
+                  ✨ {tNav("spells")}
                 </Link>
               </li>
               <li>
@@ -55,7 +60,7 @@ export default function Footer() {
                   href="/potions"
                   className="text-muted hover:text-amber-400 transition-colors"
                 >
-                  ⚗️ Potions
+                  ⚗️ {tNav("potions")}
                 </Link>
               </li>
               <li>
@@ -63,7 +68,7 @@ export default function Footer() {
                   href="/movies"
                   className="text-muted hover:text-amber-400 transition-colors"
                 >
-                  🎬 Movies
+                  🎬 {tNav("movies")}
                 </Link>
               </li>
             </ul>
@@ -72,11 +77,9 @@ export default function Footer() {
           {/* Credits */}
           <div>
             <h3 className="text-lg font-magic font-semibold text-amber-400 mb-3">
-              Made with Magic
+              {t("creditsTitle")}
             </h3>
-            <p className="text-muted text-sm mb-4">
-              Built with Next.js 15, React Query, Zustand, and Tailwind CSS.
-            </p>
+            <p className="text-muted text-sm mb-4">{t("creditsBody")}</p>
             <div className="flex items-center gap-4">
               <a
                 href="https://github.com"
@@ -94,12 +97,14 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 pt-6 border-t border-subtle text-center">
           <p className="text-subtle text-sm flex items-center justify-center gap-2">
-            Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" />{" "}
-            for Potterheads
+            {t.rich("madeWith", {
+              heart: () => (
+                <Heart className="w-4 h-4 text-red-500 fill-red-500" />
+              ),
+            })}
           </p>
           <p className="text-subtle text-xs mt-2">
-            © {new Date().getFullYear()} Wizarding World Archive. All rights
-            reserved.
+            {t("rights", { year: String(new Date().getFullYear()) })}
           </p>
         </div>
       </div>

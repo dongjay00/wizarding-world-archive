@@ -2,8 +2,8 @@
 
 import { use } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { useFormatter, useTranslations } from "next-intl";
 import {
   ArrowLeft,
   Calendar,
@@ -16,6 +16,7 @@ import {
   Video,
   ExternalLink,
 } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { useMovie } from "@/lib/hooks/useMovies";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
@@ -27,10 +28,13 @@ export default function MovieDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const t = useTranslations("movies");
+  const tc = useTranslations("common");
+  const format = useFormatter();
   const { data, isLoading, error } = useMovie(id);
 
   if (isLoading) return <FullPageLoader />;
-  if (error || !data) return <ErrorMessage message="Movie not found" />;
+  if (error || !data) return <ErrorMessage message={t("notFound")} />;
 
   const movie = data.data;
   const { attributes } = movie;
@@ -58,7 +62,7 @@ export default function MovieDetailPage({
             className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Movies</span>
+            <span>{t("backToList")}</span>
           </Link>
         </div>
 
@@ -76,7 +80,11 @@ export default function MovieDetailPage({
                   <div className="flex items-center gap-2 text-white/80">
                     <Calendar className="w-5 h-5" />
                     <span>
-                      {new Date(attributes.release_date).toLocaleDateString()}
+                      {format.dateTime(new Date(attributes.release_date), {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </span>
                   </div>
                 )}
@@ -119,12 +127,14 @@ export default function MovieDetailPage({
                 <div>
                   <h3 className="text-lg font-magic font-bold mb-4 flex items-center gap-2">
                     <DollarSign className="w-5 h-5 text-green-500" />
-                    Financial
+                    {t("financialTitle")}
                   </h3>
                   <div className="space-y-3">
                     {attributes.budget && (
                       <div>
-                        <div className="text-muted text-sm mb-1">Budget</div>
+                        <div className="text-muted text-sm mb-1">
+                          {t("budget")}
+                        </div>
                         <div className="font-semibold text-lg">
                           {attributes.budget}
                         </div>
@@ -133,7 +143,7 @@ export default function MovieDetailPage({
                     {attributes.box_office && (
                       <div>
                         <div className="text-muted text-sm mb-1">
-                          Box Office
+                          {t("boxOffice")}
                         </div>
                         <div className="font-semibold text-lg text-green-400">
                           {attributes.box_office}
@@ -154,7 +164,7 @@ export default function MovieDetailPage({
                     className="flex items-center justify-center gap-2 px-4 py-3 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-all"
                   >
                     <Video className="w-4 h-4" />
-                    <span>Watch Trailer</span>
+                    <span>{t("watchTrailer")}</span>
                   </a>
                 )}
                 {attributes.wiki && (
@@ -165,7 +175,7 @@ export default function MovieDetailPage({
                     className="flex items-center justify-center gap-2 px-4 py-3 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg transition-all"
                   >
                     <ExternalLink className="w-4 h-4" />
-                    <span>View Wiki</span>
+                    <span>{tc("viewWiki")}</span>
                   </a>
                 )}
               </div>
@@ -183,7 +193,7 @@ export default function MovieDetailPage({
               <div className="glass rounded-2xl p-8">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Film className="w-6 h-6 text-blue-500" />
-                  Synopsis
+                  {t("synopsisTitle")}
                 </h2>
                 <p className="text-muted leading-relaxed text-lg">
                   {attributes.summary}
@@ -198,7 +208,7 @@ export default function MovieDetailPage({
                 <div className="glass rounded-2xl p-6">
                   <h3 className="text-xl font-magic font-bold mb-4 flex items-center gap-2">
                     <Users className="w-5 h-5 text-blue-500" />
-                    Directors
+                    {t("directorsTitle")}
                   </h3>
                   <div className="space-y-2">
                     {attributes.directors.map((director, idx) => (
@@ -215,7 +225,7 @@ export default function MovieDetailPage({
                 <div className="glass rounded-2xl p-6">
                   <h3 className="text-xl font-magic font-bold mb-4 flex items-center gap-2">
                     <Users className="w-5 h-5 text-purple-500" />
-                    Producers
+                    {t("producersTitle")}
                   </h3>
                   <div className="space-y-2">
                     {attributes.producers.slice(0, 5).map((producer, idx) => (
@@ -232,7 +242,7 @@ export default function MovieDetailPage({
             {attributes.screenwriters.length > 0 && (
               <div className="glass rounded-2xl p-6">
                 <h3 className="text-xl font-magic font-bold mb-4">
-                  Screenwriters
+                  {t("screenwritersTitle")}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {attributes.screenwriters.map((writer, idx) => (
@@ -252,7 +262,7 @@ export default function MovieDetailPage({
               <div className="glass rounded-2xl p-6">
                 <h3 className="text-xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Music className="w-5 h-5 text-purple-500" />
-                  Music
+                  {t("musicTitle")}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {attributes.music_composers.map((composer, idx) => (
@@ -271,7 +281,7 @@ export default function MovieDetailPage({
             {attributes.distributors.length > 0 && (
               <div className="glass rounded-2xl p-6">
                 <h3 className="text-xl font-magic font-bold mb-4">
-                  Distributors
+                  {t("distributorsTitle")}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {attributes.distributors.map((distributor, idx) => (

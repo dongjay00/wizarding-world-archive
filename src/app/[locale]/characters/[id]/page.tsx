@@ -2,8 +2,8 @@
 
 import { use } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   ArrowLeft,
   Home,
@@ -15,6 +15,7 @@ import {
   Award,
   ExternalLink,
 } from "lucide-react";
+import { Link } from "@/i18n/navigation";
 import { useCharacter } from "@/lib/hooks/useCharacters";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import { HOUSE_COLORS } from "@/lib/utils/constants";
@@ -27,10 +28,13 @@ export default function CharacterDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const t = useTranslations("characters");
+  const tc = useTranslations("common");
+  const tHouse = useTranslations("domain.house");
   const { data, isLoading, error } = useCharacter(id);
 
   if (isLoading) return <FullPageLoader />;
-  if (error || !data) return <ErrorMessage message="Character not found" />;
+  if (error || !data) return <ErrorMessage message={t("notFound")} />;
 
   const character = data.data;
   const { attributes } = character;
@@ -62,7 +66,7 @@ export default function CharacterDetailPage({
             className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Characters</span>
+            <span>{t("backToList")}</span>
           </Link>
         </div>
       </div>
@@ -106,7 +110,9 @@ export default function CharacterDetailPage({
                   className={`mb-6 p-4 rounded-xl bg-gradient-to-r ${houseColor.gradient} text-center`}
                 >
                   <Home className="w-6 h-6 mx-auto mb-2" />
-                  <div className="font-magic font-bold text-lg">{house}</div>
+                  <div className="font-magic font-bold text-lg">
+                    {tHouse(house)}
+                  </div>
                 </div>
               )}
 
@@ -114,19 +120,19 @@ export default function CharacterDetailPage({
               <div className="space-y-3 text-sm">
                 {attributes.species && (
                   <div className="flex justify-between">
-                    <span className="text-muted">Species:</span>
+                    <span className="text-muted">{t("species")}:</span>
                     <span className="font-medium">{attributes.species}</span>
                   </div>
                 )}
                 {attributes.gender && (
                   <div className="flex justify-between">
-                    <span className="text-muted">Gender:</span>
+                    <span className="text-muted">{t("gender")}:</span>
                     <span className="font-medium">{attributes.gender}</span>
                   </div>
                 )}
                 {attributes.blood_status && (
                   <div className="flex justify-between">
-                    <span className="text-muted">Blood Status:</span>
+                    <span className="text-muted">{t("bloodStatus")}:</span>
                     <span className="font-medium">
                       {attributes.blood_status}
                     </span>
@@ -143,7 +149,7 @@ export default function CharacterDetailPage({
                   className="mt-6 flex items-center justify-center gap-2 px-4 py-3 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 rounded-lg transition-all"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  <span>View Wiki</span>
+                  <span>{tc("viewWiki")}</span>
                 </a>
               )}
             </div>
@@ -179,12 +185,12 @@ export default function CharacterDetailPage({
               <div className="glass rounded-2xl p-6">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Calendar className="w-6 h-6 text-amber-500" />
-                  Life
+                  {t("lifeTitle")}
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {attributes.born && (
                     <div>
-                      <div className="text-muted text-sm mb-1">Born</div>
+                      <div className="text-muted text-sm mb-1">{t("born")}</div>
                       <div className="text-lg font-medium">
                         {attributes.born}
                       </div>
@@ -192,7 +198,7 @@ export default function CharacterDetailPage({
                   )}
                   {attributes.died && (
                     <div>
-                      <div className="text-muted text-sm mb-1">Died</div>
+                      <div className="text-muted text-sm mb-1">{t("died")}</div>
                       <div className="text-lg font-medium">
                         {attributes.died}
                       </div>
@@ -209,24 +215,26 @@ export default function CharacterDetailPage({
               <div className="glass rounded-2xl p-6">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Eye className="w-6 h-6 text-amber-500" />
-                  Physical Appearance
+                  {t("physicalTitle")}
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {attributes.eye_color && (
                     <div>
-                      <div className="text-muted text-sm mb-1">Eyes</div>
+                      <div className="text-muted text-sm mb-1">{t("eyes")}</div>
                       <div className="font-medium">{attributes.eye_color}</div>
                     </div>
                   )}
                   {attributes.hair_color && (
                     <div>
-                      <div className="text-muted text-sm mb-1">Hair</div>
+                      <div className="text-muted text-sm mb-1">{t("hair")}</div>
                       <div className="font-medium">{attributes.hair_color}</div>
                     </div>
                   )}
                   {attributes.height && (
                     <div>
-                      <div className="text-muted text-sm mb-1">Height</div>
+                      <div className="text-muted text-sm mb-1">
+                        {t("height")}
+                      </div>
                       <div className="font-medium">{attributes.height}</div>
                     </div>
                   )}
@@ -242,12 +250,14 @@ export default function CharacterDetailPage({
               <div className="glass rounded-2xl p-6">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Sparkles className="w-6 h-6 text-amber-500" />
-                  Magical Attributes
+                  {t("magicalTitle")}
                 </h2>
                 <div className="space-y-4">
                   {attributes.patronus && (
                     <div>
-                      <div className="text-muted text-sm mb-1">Patronus</div>
+                      <div className="text-muted text-sm mb-1">
+                        {t("patronus")}
+                      </div>
                       <div className="text-lg font-medium text-purple-400">
                         {attributes.patronus}
                       </div>
@@ -255,19 +265,23 @@ export default function CharacterDetailPage({
                   )}
                   {attributes.boggart && (
                     <div>
-                      <div className="text-muted text-sm mb-1">Boggart</div>
+                      <div className="text-muted text-sm mb-1">
+                        {t("boggart")}
+                      </div>
                       <div className="font-medium">{attributes.boggart}</div>
                     </div>
                   )}
                   {attributes.animagus && (
                     <div>
-                      <div className="text-muted text-sm mb-1">Animagus</div>
+                      <div className="text-muted text-sm mb-1">
+                        {t("animagus")}
+                      </div>
                       <div className="font-medium">{attributes.animagus}</div>
                     </div>
                   )}
                   {attributes.wands.length > 0 && (
                     <div>
-                      <div className="text-muted text-sm mb-2">Wands</div>
+                      <div className="text-muted text-sm mb-2">{t("wands")}</div>
                       <div className="space-y-2">
                         {attributes.wands.map((wand, idx) => (
                           <div
@@ -289,12 +303,12 @@ export default function CharacterDetailPage({
               <div className="glass rounded-2xl p-6">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Award className="w-6 h-6 text-amber-500" />
-                  Occupation & Titles
+                  {t("occupationTitle")}
                 </h2>
                 <div className="space-y-4">
                   {attributes.jobs.length > 0 && (
                     <div>
-                      <div className="text-muted text-sm mb-2">Jobs</div>
+                      <div className="text-muted text-sm mb-2">{t("jobs")}</div>
                       <div className="flex flex-wrap gap-2">
                         {attributes.jobs.map((job, idx) => (
                           <span
@@ -309,7 +323,9 @@ export default function CharacterDetailPage({
                   )}
                   {attributes.titles.length > 0 && (
                     <div>
-                      <div className="text-muted text-sm mb-2">Titles</div>
+                      <div className="text-muted text-sm mb-2">
+                        {t("titles")}
+                      </div>
                       <div className="flex flex-wrap gap-2">
                         {attributes.titles.map((title, idx) => (
                           <span
@@ -332,13 +348,13 @@ export default function CharacterDetailPage({
               <div className="glass rounded-2xl p-6">
                 <h2 className="text-2xl font-magic font-bold mb-4 flex items-center gap-2">
                   <Users className="w-6 h-6 text-amber-500" />
-                  Family & Relationships
+                  {t("familyTitle")}
                 </h2>
                 <div className="space-y-4">
                   {attributes.family_members.length > 0 && (
                     <div>
                       <div className="text-muted text-sm mb-2">
-                        Family Members
+                        {t("familyMembers")}
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {attributes.family_members.map((member, idx) => (
@@ -356,7 +372,7 @@ export default function CharacterDetailPage({
                     <div>
                       <div className="text-muted text-sm mb-2 flex items-center gap-2">
                         <Heart className="w-4 h-4" />
-                        Romances
+                        {t("romances")}
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {attributes.romances.map((romance, idx) => (

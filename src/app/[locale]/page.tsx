@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {
   Sparkles,
   Users,
@@ -10,49 +9,45 @@ import {
   BookOpen,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 
+// 표시 문자열(제목·설명·통계)은 카탈로그 `home.*`/`nav.*`에서 소비한다(C-S7).
+// icon·href·gradient만 하드코딩 유지.
 const categories = [
   {
-    title: "Characters",
-    description: "Discover witches, wizards, and magical creatures",
+    key: "characters",
     icon: Users,
     href: "/characters",
     gradient: "from-red-900 to-amber-600",
-    count: "1000+",
   },
   {
-    title: "Spells",
-    description: "Master the incantations of the wizarding world",
+    key: "spells",
     icon: Wand2,
     href: "/spells",
     gradient: "from-purple-900 to-pink-600",
-    count: "300+",
   },
   {
-    title: "Potions",
-    description: "Explore magical brews and their effects",
+    key: "potions",
     icon: FlaskConical,
     href: "/potions",
     gradient: "from-green-900 to-emerald-600",
-    count: "100+",
   },
   {
-    title: "Movies",
-    description: "Relive the cinematic journey through time",
+    key: "movies",
     icon: Film,
     href: "/movies",
     gradient: "from-blue-900 to-cyan-600",
-    count: "8 Films",
   },
   {
-    title: "Books",
-    description: "Dive into the original magical tales",
+    key: "books",
     icon: BookOpen,
     href: "/books",
     gradient: "from-amber-900 to-yellow-600",
-    count: "7 Books",
   },
-];
+] as const;
+
+const statKeys = ["characters", "spells", "potions", "movies"] as const;
 
 const container = {
   hidden: { opacity: 0 },
@@ -70,6 +65,9 @@ const item = {
 };
 
 export default function HomePage() {
+  const t = useTranslations("home");
+  const tNav = useTranslations("nav");
+
   return (
     <div className="relative">
       {/* Hero Section */}
@@ -99,11 +97,10 @@ export default function HomePage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-6xl md:text-8xl font-magic font-bold mb-6 magic-text">
-              The Wizarding World
+              {t("heroTitle")}
             </h1>
             <p className="text-xl md:text-2xl text-muted mb-8 max-w-3xl mx-auto">
-              Explore the complete archive of characters, spells, potions, and
-              more from the magical universe of Harry Potter
+              {t("heroSubtitle")}
             </p>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
@@ -111,7 +108,7 @@ export default function HomePage() {
                 className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-white font-semibold rounded-full transition-all duration-300 magic-glow"
               >
                 <Sparkles className="w-5 h-5" />
-                Begin Your Journey
+                {t("cta")}
               </Link>
             </motion.div>
           </motion.div>
@@ -123,17 +120,12 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            {[
-              { label: "Characters", value: "1000+" },
-              { label: "Spells", value: "300+" },
-              { label: "Potions", value: "100+" },
-              { label: "Movies", value: "8" },
-            ].map((stat, idx) => (
-              <div key={idx} className="glass p-6 rounded-xl">
+            {statKeys.map((key) => (
+              <div key={key} className="glass p-6 rounded-xl">
                 <div className="text-3xl font-bold text-amber-400">
-                  {stat.value}
+                  {t(`stats.${key}`)}
                 </div>
-                <div className="text-sm text-muted mt-1">{stat.label}</div>
+                <div className="text-sm text-muted mt-1">{tNav(key)}</div>
               </div>
             ))}
           </motion.div>
@@ -150,11 +142,9 @@ export default function HomePage() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-magic font-bold mb-4">
-            Explore the Archive
+            {t("exploreTitle")}
           </h2>
-          <p className="text-muted text-lg">
-            Choose your path through the magical world
-          </p>
+          <p className="text-muted text-lg">{t("exploreSubtitle")}</p>
         </motion.div>
 
         <motion.div
@@ -164,10 +154,10 @@ export default function HomePage() {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {categories.map((category, idx) => {
+          {categories.map((category) => {
             const Icon = category.icon;
             return (
-              <motion.div key={idx} variants={item}>
+              <motion.div key={category.key} variants={item}>
                 <Link href={category.href}>
                   <div className="group relative overflow-hidden rounded-2xl glass p-8 hover-lift card-shine h-full">
                     <div
@@ -182,15 +172,15 @@ export default function HomePage() {
                           <Icon className="w-8 h-8 text-white" />
                         </div>
                         <span className="text-sm font-semibold text-amber-400">
-                          {category.count}
+                          {t(`cards.${category.key}.count`)}
                         </span>
                       </div>
 
                       <h3 className="text-2xl font-magic font-bold mb-2 group-hover:text-amber-400 transition-colors">
-                        {category.title}
+                        {tNav(category.key)}
                       </h3>
                       <p className="text-muted text-sm">
-                        {category.description}
+                        {t(`cards.${category.key}.description`)}
                       </p>
                     </div>
                   </div>
@@ -212,18 +202,17 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 to-purple-500/10" />
           <div className="relative z-10">
             <h2 className="text-3xl md:text-4xl font-magic font-bold mb-4">
-              Ready to Cast Your First Spell?
+              {t("ctaTitle")}
             </h2>
             <p className="text-muted mb-8 max-w-2xl mx-auto">
-              Join thousands of wizards and witches exploring the most
-              comprehensive Harry Potter database
+              {t("ctaSubtitle")}
             </p>
             <Link
               href="/spells"
               className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-semibold rounded-full transition-all duration-300"
             >
               <Wand2 className="w-5 h-5" />
-              Explore Spells
+              {t("ctaButton")}
             </Link>
           </div>
         </motion.div>

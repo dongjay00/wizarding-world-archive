@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { FlaskConical, Clock, AlertTriangle } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { PotterPotion } from "@/types/potter";
 import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
 import { favoriteFromPotion } from "@/lib/utils/favorites";
@@ -19,6 +20,7 @@ const difficultyColors: Record<string, string> = {
 };
 
 export default function PotionCard({ potion }: PotionCardProps) {
+  const t = useTranslations("potions");
   const { attributes } = potion;
   const difficultyGradient = attributes.difficulty
     ? difficultyColors[attributes.difficulty] || "from-green-600 to-emerald-600"
@@ -88,7 +90,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
             {attributes.side_effects && (
               <div className="flex items-center gap-2 text-amber-400">
                 <AlertTriangle className="w-3 h-3" />
-                <span className="line-clamp-1">Side effects</span>
+                <span className="line-clamp-1">{t("sideEffectsCard")}</span>
               </div>
             )}
           </div>

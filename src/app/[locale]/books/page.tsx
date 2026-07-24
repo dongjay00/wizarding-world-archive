@@ -2,15 +2,17 @@
 
 import { motion } from "framer-motion";
 import { BookOpen } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useBooks } from "@/lib/hooks/useBooks";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import BookCard from "@/components/features/BookCard";
 
 export default function BooksPage() {
+  const t = useTranslations("books");
   const { data, isLoading, error } = useBooks({ sort: "release_date" });
 
   if (isLoading) return <FullPageLoader />;
-  if (error) return <ErrorMessage message="Failed to load books" />;
+  if (error) return <ErrorMessage message={t("error")} />;
 
   const books = data?.data || [];
 
@@ -24,18 +26,18 @@ export default function BooksPage() {
       >
         <div className="flex items-center justify-center gap-3 mb-4">
           <BookOpen className="w-12 h-12 text-amber-500" />
-          <h1 className="text-5xl font-magic font-bold">Books</h1>
+          <h1 className="text-5xl font-magic font-bold">{t("title")}</h1>
         </div>
-        <p className="text-muted text-lg max-w-2xl mx-auto">
-          Explore the original tales that started the magical journey
-        </p>
+        <p className="text-muted text-lg max-w-2xl mx-auto">{t("subtitle")}</p>
       </motion.div>
 
       {/* Books Grid */}
       {books.length === 0 ? (
         <div className="text-center py-20">
           <div className="text-6xl mb-4">📚</div>
-          <h3 className="text-2xl font-magic font-bold mb-2">No Books Found</h3>
+          <h3 className="text-2xl font-magic font-bold mb-2">
+            {t("emptyTitle")}
+          </h3>
         </div>
       ) : (
         <motion.div

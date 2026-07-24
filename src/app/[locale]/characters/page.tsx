@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { Search, Filter, Users } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { useCharacters } from "@/lib/hooks/useCharacters";
 import { useListFilters, type ListFiltersConfig } from "@/lib/hooks/useListFilters";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
@@ -29,6 +30,8 @@ export default function CharactersPage() {
 }
 
 function CharactersPageContent() {
+  const t = useTranslations("characters");
+  const tHouse = useTranslations("domain.house");
   const {
     search,
     setSearch,
@@ -54,12 +57,9 @@ function CharactersPageContent() {
       >
         <div className="flex items-center justify-center gap-3 mb-4">
           <Users className="w-12 h-12 text-amber-500" />
-          <h1 className="text-5xl font-magic font-bold">Characters</h1>
+          <h1 className="text-5xl font-magic font-bold">{t("title")}</h1>
         </div>
-        <p className="text-muted text-lg max-w-2xl mx-auto">
-          Discover the witches, wizards, and magical creatures of the Wizarding
-          World
-        </p>
+        <p className="text-muted text-lg max-w-2xl mx-auto">{t("subtitle")}</p>
       </motion.div>
 
       {/* Filters */}
@@ -69,7 +69,7 @@ function CharactersPageContent() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
           <input
             type="text"
-            placeholder="Search characters by name..."
+            placeholder={t("searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-surface/5 border border-subtle rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-content placeholder-subtle transition-all"
@@ -80,7 +80,7 @@ function CharactersPageContent() {
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-sm text-muted">
             <Filter className="w-4 h-4" />
-            <span>Filter by House:</span>
+            <span>{t("filterByHouse")}</span>
           </div>
           <div className="flex flex-wrap gap-2">
             <button
@@ -91,7 +91,7 @@ function CharactersPageContent() {
                   : "glass hover:bg-surface/10"
               }`}
             >
-              All Houses
+              {t("allHouses")}
             </button>
             {houses.map((house) => (
               <button
@@ -106,7 +106,7 @@ function CharactersPageContent() {
                     : "glass hover:bg-surface/10"
                 }`}
               >
-                {house}
+                {tHouse(house)}
               </button>
             ))}
           </div>
@@ -116,16 +116,17 @@ function CharactersPageContent() {
       {isLoading ? (
         <FullPageLoader />
       ) : error ? (
-        <ErrorMessage message="Failed to load characters" />
+        <ErrorMessage message={t("error")} />
       ) : (
         <>
           {/* Results Count */}
           <div className="mb-6 text-muted">
-            Found{" "}
-            <span className="text-amber-400 font-semibold">
-              {data?.meta?.pagination?.records || 0}
-            </span>{" "}
-            characters
+            {t.rich("found", {
+              count: data?.meta?.pagination?.records || 0,
+              em: (chunks) => (
+                <span className="text-amber-400 font-semibold">{chunks}</span>
+              ),
+            })}
           </div>
 
           {/* Characters Grid */}
@@ -133,11 +134,9 @@ function CharactersPageContent() {
             <div className="text-center py-20">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-magic font-bold mb-2">
-                No Characters Found
+                {t("emptyTitle")}
               </h3>
-              <p className="text-muted">
-                Try adjusting your search or filters
-              </p>
+              <p className="text-muted">{t("emptyHint")}</p>
             </div>
           ) : (
             <>

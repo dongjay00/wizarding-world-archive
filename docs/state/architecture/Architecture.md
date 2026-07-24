@@ -16,6 +16,7 @@
 | 스타일 | Tailwind CSS v4 (`@theme`), glassmorphism | ADR-0005, UIUX |
 | 애니메이션 | Framer Motion | UIUX |
 | 테마 | next-themes (class 전략) + 시맨틱 토큰 | ADR-0008 (ADR-0006 supersede) |
+| i18n (ko+en) | **next-intl** (App Router / RSC, `[locale]` 라우팅, `as-needed` 프리픽스, 미들웨어 감지·쿠키) | ADR-0010, ADR-0011, SDD/i18n |
 
 ## 레이어와 의존 방향
 
@@ -41,6 +42,11 @@ types/          (potter.ts)                          ← 순수 타입, 무의�
   - `lib/hooks` = `lib/api`를 TanStack Query로 감싼 **유일한** 데이터 소비 진입점. 컴포넌트는 hook만 부른다(api를 직접 부르지 않음).
   - `lib/stores` = 전역 클라이언트 상태(Zustand) 경계. 로컬 즐겨찾기처럼 브라우저에 지속되는 클라이언트 UI 상태를 둔다. 서버 데이터는 여기 두지 않는다(Query 소유).
   - `components/features` = 엔티티별 카드(도메인 인지), `components/ui`·`shared` = 도메인 무지 재사용 조각.
+  - `src/i18n/*`(신규, i18n) = 로케일 라우팅·메시지 로딩·로케일 인지 네비게이션의 경계(`routing.ts`/`request.ts`/`navigation.ts`). `messages/{en,ko}.json` = 카탈로그(chrome + 고정 도메인 어휘, Domain R-6 정합). `src/middleware.ts`(신규) = 요청 경계에서 로케일 감지·프리픽스·쿠키. 컴포넌트/페이지는 `next/link`·`next/navigation` 직수입 대신 `@/i18n/navigation` 래퍼를 쓴다. → ADR-0010/0011, SDD/i18n.
+
+## i18n 레이어 (ko+en, ADR-0010/0011)
+
+전 라우트가 `src/app/[locale]/` 하위로 이전된다(라우팅 계층 변경, SDD/routing-and-components 재진입 배너·SDD/i18n). 번역 계층(카탈로그 조회)을 타는 것은 **UI 추(chrome) + 고정 도메인 어휘**뿐 — API 가변 canon 서술문(biography·effect·summary)은 계층을 우회해 원본 렌더(스코프 가드 AC-22). 로케일 상태 소유: URL 경로(`[locale]`) + `NEXT_LOCALE` 쿠키(지속) — 미들웨어가 감지·우선순위 집행(AC-21).
 
 ## 데이터 흐름 (읽기 파이프라인)
 

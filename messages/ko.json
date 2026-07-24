@@ -1,0 +1,225 @@
+{
+  "common": {
+    "brand": "위저딩 아카이브",
+    "loading": "마법 같은 콘텐츠를 불러오는 중...",
+    "errorTitle": "문제가 발생했습니다",
+    "viewWiki": "위키 보기",
+    "toggleMenu": "메뉴 열기/닫기",
+    "themeToggle": "라이트/다크 테마 전환",
+    "metaTitle": "위저딩 월드 아카이브",
+    "metaDescription": "해리 포터의 마법 세계를 탐험하세요 - 인물, 주문, 마법약, 영화, 책"
+  },
+  "nav": {
+    "home": "홈",
+    "characters": "인물",
+    "spells": "주문",
+    "potions": "마법약",
+    "movies": "영화",
+    "books": "책",
+    "favorites": "즐겨찾기"
+  },
+  "home": {
+    "heroTitle": "위저딩 월드",
+    "heroSubtitle": "해리 포터의 마법 세계에서 인물, 주문, 마법약 등 방대한 아카이브를 탐험하세요",
+    "cta": "여정을 시작하세요",
+    "exploreTitle": "아카이브 둘러보기",
+    "exploreSubtitle": "마법 세계로 향하는 당신의 길을 선택하세요",
+    "ctaTitle": "첫 주문을 외울 준비가 되셨나요?",
+    "ctaSubtitle": "가장 방대한 해리 포터 데이터베이스를 탐험하는 수천 명의 마법사·마녀와 함께하세요",
+    "ctaButton": "주문 둘러보기",
+    "cards": {
+      "characters": {
+        "description": "마녀, 마법사, 그리고 마법 생명체를 만나보세요",
+        "count": "1000+"
+      },
+      "spells": {
+        "description": "마법 세계의 주문을 익혀보세요",
+        "count": "300+"
+      },
+      "potions": {
+        "description": "마법의 물약과 그 효과를 탐험하세요",
+        "count": "100+"
+      },
+      "movies": {
+        "description": "시간을 넘나드는 영화 여정을 다시 만나보세요",
+        "count": "영화 8편"
+      },
+      "books": {
+        "description": "마법 여정을 시작한 원작 이야기 속으로",
+        "count": "책 7권"
+      }
+    },
+    "stats": {
+      "characters": "1000+",
+      "spells": "300+",
+      "potions": "100+",
+      "movies": "8"
+    }
+  },
+  "footer": {
+    "aboutTitle": "이 아카이브 소개",
+    "aboutBody": "<link>Potter DB API</link>로 구동되는 위저딩 월드의 종합 데이터베이스입니다. 마법 세계의 인물, 주문, 마법약, 영화, 책을 탐험하세요.",
+    "quickLinksTitle": "바로가기",
+    "creditsTitle": "마법으로 만들었습니다",
+    "creditsBody": "Next.js 15, React Query, Zustand, Tailwind CSS로 제작되었습니다.",
+    "madeWith": "포터헤드를 위해 <heart></heart>을 담아 만들었습니다",
+    "rights": "© {year} Wizarding World Archive. All rights reserved."
+  },
+  "characters": {
+    "title": "인물",
+    "subtitle": "위저딩 월드의 마녀, 마법사, 마법 생명체를 만나보세요",
+    "searchPlaceholder": "이름으로 인물 검색...",
+    "filterByHouse": "기숙사로 필터:",
+    "allHouses": "전체 기숙사",
+    "found": "<em>{count}</em>명의 인물을 찾았습니다",
+    "emptyTitle": "인물을 찾을 수 없습니다",
+    "emptyHint": "검색어나 필터를 조정해 보세요",
+    "error": "인물을 불러오지 못했습니다",
+    "backToList": "인물 목록으로",
+    "notFound": "인물을 찾을 수 없습니다",
+    "species": "종족",
+    "gender": "성별",
+    "bloodStatus": "혈통",
+    "lifeTitle": "생애",
+    "born": "출생",
+    "died": "사망",
+    "physicalTitle": "외형",
+    "eyes": "눈",
+    "hair": "머리카락",
+    "height": "키",
+    "magicalTitle": "마법 속성",
+    "patronus": "패트로누스",
+    "boggart": "보가트",
+    "animagus": "애니마구스",
+    "wands": "지팡이",
+    "occupationTitle": "직업 및 칭호",
+    "jobs": "직업",
+    "titles": "칭호",
+    "familyTitle": "가족 및 관계",
+    "familyMembers": "가족 구성원",
+    "romances": "연인",
+    "hasWand": "지팡이 보유"
+  },
+  "spells": {
+    "title": "주문",
+    "subtitle": "위저딩 월드의 주문과 마법 주문을 익혀보세요",
+    "searchPlaceholder": "이름이나 주문어로 주문 검색...",
+    "filterByCategory": "분류로 필터:",
+    "allCategories": "전체 분류",
+    "found": "<em>{count}</em>개의 주문을 찾았습니다",
+    "emptyTitle": "주문을 찾을 수 없습니다",
+    "emptyHint": "검색어나 필터를 조정해 보세요",
+    "error": "주문을 불러오지 못했습니다",
+    "backToList": "주문 목록으로",
+    "notFound": "주문을 찾을 수 없습니다",
+    "incantationTitle": "주문어",
+    "incantationHint": "지팡이를 움직이며 또렷하게 외우세요",
+    "effectTitle": "효과",
+    "categoryInfoTitle": "분류 정보",
+    "creator": "창시자",
+    "lightColor": "빛 색상",
+    "wandMovement": "지팡이 동작",
+    "by": "창시: {name}",
+    "categoryDesc": {
+      "Charm": "매혹술은 사물이나 사람의 성질을 더하거나 바꾸는 주문입니다.",
+      "Transfiguration": "변신술은 한 사물을 다른 사물로 바꾸는 마법입니다.",
+      "Curse": "저주는 해를 끼치거나 상대를 조종하려는 어둠의 주문입니다.",
+      "Hex": "훼방술은 어느 정도의 해나 불편을 일으키는 주문입니다.",
+      "Jinx": "방해술은 일시적인 불편을 일으키는 사소한 주문입니다.",
+      "Spell": "다양한 목적을 위한 일반 마법 주문입니다.",
+      "Counter-spell": "다른 주문을 상쇄하거나 되돌리기 위해 고안된 주문입니다.",
+      "Healing spell": "부상을 치료하고 병을 낫게 하는 주문입니다."
+    },
+    "categoryDescFallback": "위저딩 월드의 마법 주문입니다."
+  },
+  "potions": {
+    "title": "마법약",
+    "subtitle": "마법의 물약과 재료, 강력한 효과를 탐험하세요",
+    "searchPlaceholder": "이름으로 마법약 검색...",
+    "filterByDifficulty": "난이도로 필터:",
+    "allLevels": "전체 난이도",
+    "found": "<em>{count}</em>개의 마법약을 찾았습니다",
+    "emptyTitle": "마법약을 찾을 수 없습니다",
+    "emptyHint": "검색어나 필터를 조정해 보세요",
+    "error": "마법약을 불러오지 못했습니다",
+    "backToList": "마법약 목록으로",
+    "notFound": "마법약을 찾을 수 없습니다",
+    "brewingTime": "제조 시간",
+    "inventor": "발명가",
+    "manufacturer": "제조사",
+    "effectTitle": "효과",
+    "characteristicsTitle": "특징",
+    "ingredientsTitle": "재료",
+    "sideEffectsTitle": "부작용",
+    "sideEffectsCard": "부작용"
+  },
+  "movies": {
+    "title": "영화",
+    "subtitle": "해리 포터 영화 시리즈의 마법 여정을 경험하세요",
+    "searchPlaceholder": "제목으로 영화 검색...",
+    "found": "<em>{count}</em>편의 영화를 찾았습니다",
+    "emptyTitle": "영화를 찾을 수 없습니다",
+    "emptyHint": "검색어를 조정해 보세요",
+    "error": "영화를 불러오지 못했습니다",
+    "backToList": "영화 목록으로",
+    "notFound": "영화를 찾을 수 없습니다",
+    "financialTitle": "재무",
+    "budget": "제작비",
+    "boxOffice": "흥행 수익",
+    "watchTrailer": "예고편 보기",
+    "synopsisTitle": "줄거리",
+    "directorsTitle": "감독",
+    "producersTitle": "제작자",
+    "screenwritersTitle": "각본",
+    "musicTitle": "음악",
+    "distributorsTitle": "배급사"
+  },
+  "books": {
+    "title": "책",
+    "subtitle": "마법 여정을 시작한 원작 이야기를 탐험하세요",
+    "emptyTitle": "책을 찾을 수 없습니다",
+    "error": "책을 불러오지 못했습니다",
+    "backToList": "책 목록으로",
+    "notFound": "책을 찾을 수 없습니다",
+    "author": "저자",
+    "pages": "쪽수",
+    "published": "출간일",
+    "pagesCount": "{count}쪽",
+    "by": "저자: {name}",
+    "summaryTitle": "줄거리",
+    "dedicationTitle": "헌정사",
+    "chapters": "챕터 ({count})",
+    "loadingChapters": "챕터를 불러오는 중..."
+  },
+  "favorites": {
+    "title": "즐겨찾기",
+    "summaryEmpty": "아카이브의 어느 페이지에서든 마법 같은 항목을 저장하세요.",
+    "summaryCount": "{count}개 저장됨",
+    "emptyTitle": "아직 즐겨찾기가 없습니다",
+    "emptyBody": "하트 버튼으로 인물, 주문, 마법약, 영화, 책을 추가하세요.",
+    "browseCharacters": "인물 둘러보기",
+    "browseSpells": "주문 둘러보기",
+    "remove": "{title}을(를) 즐겨찾기에서 제거"
+  },
+  "domain": {
+    "house": {
+      "Gryffindor": "그리핀도르",
+      "Slytherin": "슬리데린",
+      "Ravenclaw": "래번클로",
+      "Hufflepuff": "후플푸프"
+    },
+    "entity": {
+      "Character": "인물",
+      "Spell": "주문",
+      "Potion": "마법약",
+      "Movie": "영화",
+      "Book": "책"
+    },
+    "chapter": "챕터"
+  },
+  "switcher": {
+    "label": "언어",
+    "en": "EN",
+    "ko": "KO"
+  }
+}

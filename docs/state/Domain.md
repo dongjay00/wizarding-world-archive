@@ -22,6 +22,25 @@
 | **Slug** | 사람이 읽는 안정 식별자. 라우팅에는 `id`(UUID)를 쓰고 slug는 표시·위키 링크용. |
 | **Canon(정전)** | PotterDB가 제공하는 원본 사실. 이 앱은 canon을 **변형하지 않는다**(read-only). |
 
+## 도메인 어휘 ko 표기 표준 (i18n 단일 출처, D-8 확정 2026-07-10)
+
+> 고정 도메인 어휘의 **ko 표기(음역 규범)**를 여기서 못박는다. i18n(ko) 로케일의 도메인 어휘 매핑은 **이 표를 단일 출처로 삼아 정합**해야 한다(PRD AC-19). 메시지 카탈로그는 이 표를 복제할 뿐 독자 표기를 만들지 않는다.
+> **적용 범위**: 아래는 **고정(closed) 도메인 어휘**(House 4종·Entity 5종·Chapter 등)에 한한다. **API 종속 필터 어휘**(Spell `category`·Potion `difficulty`·`sort` 키 등 R-5류)의 **원문 키는 영문 유지**가 원칙이며 이 표의 대상이 아니다(ko 화면 표시 라벨은 카탈로그가 담당하되 원문 키를 재명명하지 않는다).
+
+| 어휘(en) | ko 표기 표준 | 비고 |
+|---|---|---|
+| **House(기숙사)** — Gryffindor | 그리핀도르 | House→색 매핑은 R-4(HOUSE_COLORS)가 소유, 표기만 여기서 확정 |
+| **House** — Slytherin | 슬리데린 | |
+| **House** — Ravenclaw | 래번클로 | |
+| **House** — Hufflepuff | 후플푸프 | |
+| **Entity** — Character | 인물 | 엔티티 범주명(내비·헤딩 등 chrome 표기) |
+| **Entity** — Spell | 주문 | |
+| **Entity** — Potion | 마법약 | |
+| **Entity** — Movie | 영화 | |
+| **Entity** — Book | 책 | |
+| **Chapter** | 챕터 | Book 종속 관계 어휘 |
+| **Entity(총칭)** | 엔티티 | 5종 자원 통칭 |
+
 ## 규칙 / 불변식 (도메인 레벨)
 
 - **R-1. 읽기 전용**: 도메인에 쓰기/삭제/변경 연산이 없다. 모든 유스케이스는 조회.
@@ -29,6 +48,7 @@
 - **R-3. null 관용**: 대부분의 attribute는 `null` 가능. UI는 누락을 정상 상태로 다루고 빈 값을 숨기거나 대체 표현을 쓴다(예: 이미지 없으면 Sparkles 아이콘).
 - **R-4. House 색 매핑의 유일 출처**: House→색은 `HOUSE_COLORS`(constants.ts) + `@theme` 토큰. 4하우스 외 값은 색 없음으로 처리.
 - **R-5. 필터 어휘는 API 종속**: 검색/필터 파라미터(`name_cont`, `house_eq`, `sort` 키 등)는 PotterDB의 쿼리 문법을 그대로 따른다 — 도메인이 독자 필터 언어를 만들지 않는다.
+- **R-6. 도메인 어휘 ko 표기의 유일 출처**: 고정 도메인 어휘(House 4종·Entity 5종·Chapter 등)의 ko 표기 표준은 위 「도메인 어휘 ko 표기 표준」 표가 단일 출처다. i18n(ko) 메시지 카탈로그는 이 표와 정합해야 하며(PRD AC-19) 독자 표기를 만들지 않는다. 단 R-5의 API 종속 필터 어휘 원문 키는 이 규칙 밖(영문 유지).
 
 ## 상태 전이
 
