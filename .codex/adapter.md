@@ -57,8 +57,9 @@ Every feature is one of `product` / `debt` / `investigation` (see `AGENTS.md §4
 `architect` re-confirms via blast-radius and may reclassify (record the transition
 in `session.md`, re-fire skipped upper gates on upgrade).
 
-- gate1: always human. product = validate PRD/AC; debt/investigation = lightweight
-  intake approval (worth doing + scope).
+- gate1: always human. product = validate PRD/AC; debt = lightweight intake approval
+  (worth doing + scope); investigation = lightweight intake approval (question +
+  measurement plan).
 - gate2: product/debt always; investigation only when code changed (N/A on a
   no-change close).
 - gate3: always human. investigation = accept the finding and decide dissolve vs spawn.

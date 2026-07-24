@@ -17,7 +17,7 @@ model: opus
 - **feature 유형을 잠정 분류**(product/debt/investigation, AGENTS §4 기준). `tasks.md` 헤더 `## 현재 feature: <이름> [type: …]`에 기록. debt/investigation이면 WHY는 thin(큐 항목/질문 프레이밍)으로 족하다. 모호하면 product로 기운다.
 
 ## 쓰기 권한
-`PRD.md`(WHY 부분), `decision-queue.md`. 그 외 State 문서 수정 금지.
+`PRD.md`(WHY 부분), `decision-queue.md`, `tasks.md`(feature 헤더 `[type:]` 태그만). 그 외 State 문서 수정 금지.
 
 ## done
 문제·목표·비목표가 PRD에 존재, 미결정이 큐에 적재됨. verdict를 `session.md`에 남기고 requirement로 핸드오프.

@@ -144,7 +144,7 @@ flowchart TD
 | review | AC/U 대조 | 회귀·스코프 대조 | finding 대조 + dissolve/spawn 권고 |
 | wrap-up | 풀 증류 | 증류(ADR 통상 불요) | 증류 + dissolve/spawn |
 
-- 항상 실행(repurpose): spec·architect·verify·review·wrap-up. skip 가능: scaffold·build-ui·build-logic·test.
+- 항상 실행(repurpose): spec·requirement·architect·verify·review·wrap-up. skip 가능: scaffold·build-ui·build-logic·test.
 - **architect는 어떤 유형도 skip 안 함**(재분류 관문). investigation 종결: dissolve(무변경) 또는 spawn(후속 feature 적재·새 회전 분리).
 - 아래 각 step 계약의 표기 뒤 `[applies_to]` 요약은 이 표를 가리킨다.
 
@@ -152,7 +152,7 @@ flowchart TD
 
 **spec** — WHY 초안
 - reads: PRD(초안), decision-queue, lessons
-- writes: PRD(WHY 부분), decision-queue(적재)
+- writes: PRD(WHY 부분), decision-queue(적재), tasks(feature 헤더 [type:] 태그만)
 - done: 문제·목표·비목표가 PRD에 있고, 미결정은 큐에 적재됨.
 - applies_to: product=full / debt·investigation=thin(WHY=큐항목 또는 질문 프레이밍). **유형을 잠정 분류해 tasks 헤더 `[type:]`에 기록.**
 

@@ -60,7 +60,7 @@
 | **wrap-up** | 풀 증류(ADR 승격 등) | 증류(ADR 통상 불요) | 증류 + dissolve/spawn |
 
 **핵심 통찰 — "백본은 보편, 코드 생산부만 collapse":**
-- **항상 실행(내용만 유형별로 변함 = repurpose)**: spec · architect · verify · review · wrap-up. → 뼈대 재발명 없음(A안 성립 근거).
+- **항상 실행(내용만 유형별로 변함 = repurpose)**: spec · requirement · architect · verify · review · wrap-up. → 뼈대 재발명 없음(A안 성립 근거).
 - **skip 가능(코드 작업 있을 때만)**: scaffold · build-ui · build-logic · test.
 - **architect는 어떤 유형도 skip 안 함** — blast-radius 실측이 §1 재분류 관문. debt/investigation에서도 "실측하고 ADR 불요 판정"까지는 반드시 돈다(L-14: "변경 불요 확인 자체가 산출물").
 
@@ -86,7 +86,7 @@
 1. **dissolve**(D-3형): 실측 결과 손댈 게 없음. 산출 = decision-queue 종결 주석 + State/Constraints note 정합 확인 + lessons(L-14형). 코드 무변경·ADR 불요·gate2 N/A.
 2. **spawn**: 실측이 실작업을 드러냄 → 후속 feature로 decision-queue에 적재(product/debt 태그). 원 investigation은 "측정+판정"으로 종결, 실작업은 **새 회전으로 분리**. 이유: 측정(verify)과 실작업(build)은 성격이 다르고 실작업은 자기 유형의 게이트 프로파일을 따라야 함 — 한 회전에 섞으면 프로파일 오염. spawn 적재는 wrap-up 집행.
 
-**불변식 — "코드를 건드리는 순간 investigation이 아니다":** 측정 중 사소한 수정을 발견하면 원칙은 spawn. 인라인 처리하려면 유형이 investigation→debt/product로 재분류되고 §3 게이트 소급 발화. 이 규율이 investigation을 측정 전용으로 유지.
+**불변식 — "대상(제품) 코드를 건드리는 순간 investigation이 아니다":** 측정 중 사소한 제품 코드 수정을 발견하면 원칙은 spawn. 인라인 처리하려면 유형이 investigation→debt/product로 재분류되고 §3 게이트 소급 발화. (측정용 임시 계측 스크립트는 예외 — 대상 코드가 아니므로 investigation을 유지.) 이 규율이 investigation을 측정 전용으로 유지.
 
 ---
 
