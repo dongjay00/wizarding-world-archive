@@ -4,6 +4,17 @@ A beautiful, modern web application for exploring the magical universe of Harry 
 
 ![Wizarding World Archive](https://via.placeholder.com/1200x600/1a1a2e/FFD700?text=Wizarding+World+Archive)
 
+## 🧭 Team Governance (AI harness)
+
+이 저장소는 **frontend team governance(AI 에이전트 하네스)** 의 기준 앱이다. 규범과 컨텍스트는 다음에 있다:
+
+- **[`AGENTS.md`](./AGENTS.md)** — 하네스 중립 헌법(파이프라인·step·게이트·문서 계약, 단일 출처).
+- **[`CLAUDE.md`](./CLAUDE.md)** — Claude Code 어댑터(`.claude/agents/*`, `.claude/settings.json` hooks).
+- **[`docs/state/`](./docs/state)** — read-mostly(PRD·Domain·Architecture·SDD·ADR·UIUX·TestStrategy·Constraints), 게이트에서 freeze.
+- **[`docs/runtime/`](./docs/runtime)** — mutate(session·tasks·lessons·decision-queue·summary).
+
+작업 전 `AGENTS.md`와 `docs/runtime/session.md`를 먼저 읽는다. 게이트: gate1(휴먼)·gate2(결정론 `tsc`/`lint`/`build`)·gate3(휴먼).
+
 ## ✨ Features
 
 - 🧙 **Characters Database** - Explore detailed profiles of witches, wizards, and magical creatures

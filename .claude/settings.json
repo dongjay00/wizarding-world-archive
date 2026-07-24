@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "//": "gate2(build-verify) 어댑터. AGENTS.md §3의 결정론 게이트를 Stop hook으로 연결. 기본 advisory(GATE_ENFORCE 미설정), feature 세션에서 GATE_ENFORCE=1 로 무장.",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/gate2-build-verify.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
