@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Sparkles, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { NAVIGATION } from "@/lib/utils/constants";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export default function Header() {
   const pathname = usePathname();
@@ -33,7 +34,7 @@ export default function Header() {
                   className={`px-4 py-2 rounded-lg transition-all duration-300 font-medium ${
                     isActive
                       ? "bg-amber-500/20 text-amber-400 magic-glow"
-                      : "hover:bg-white/5 text-gray-300 hover:text-white"
+                      : "hover:bg-surface/10 text-muted hover:text-content"
                   }`}
                 >
                   <span className="mr-2">{item.icon}</span>
@@ -43,12 +44,13 @@ export default function Header() {
             })}
           </div>
 
-          {/* Mobile Menu */}
+          {/* Actions: 테마 토글 + 모바일 메뉴 */}
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+              className="xl:hidden p-2 rounded-lg hover:bg-surface/10 transition-colors"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -73,7 +75,7 @@ export default function Header() {
                   className={`block px-4 py-3 rounded-lg transition-all duration-300 ${
                     isActive
                       ? "bg-amber-500/20 text-amber-400"
-                      : "hover:bg-white/5 text-gray-300"
+                      : "hover:bg-surface/10 text-muted"
                   }`}
                 >
                   <span className="mr-2">{item.icon}</span>

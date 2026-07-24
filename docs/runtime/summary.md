@@ -27,4 +27,17 @@
 
 ---
 
+## D-2 테마 토글 정상화 — 첫 product-feature 파이프라인 1회전 (2026-07-09)
+
+- **무엇**: decision-queue D-2를 **option (a)**(토글 정상화)로 해소. 다크/라이트 토글이 실제 색을 전환하도록 테마 기제를 교정하고 라이트 팔레트를 도입.
+  - 기제 일원화: next-themes `.dark` 클래스 단일 소스 + Tailwind `@custom-variant dark`. `@media prefers-color-scheme` 이원화 제거, ThemeProvider 이중 래핑 제거, 빈 `themeStore.ts` 삭제.
+  - 시맨틱 색 토큰 레이어(`globals.css`): `:root`(라이트)/`.dark`(다크) 채널 변수 → `@theme` 유틸(`text-content`/`muted`/`subtle`, `bg-surface`), `.glass`/`.glass-dark`/스크롤바 변수화.
+  - 색 ~150 사이트 치환. **히어로 이미지 스크림 오버레이 텍스트·컬러 버튼/뱃지·이미지 placeholder 아이콘은 리터럴 흰색 유지**(대비 보존). amber 강조·하우스 색 공용 유지.
+  - `ThemeToggle.tsx`: next-themes `setTheme` + CSS `dark:` 아이콘 전환(effect/state 없음 → 하이드레이션 안전).
+- **왜**: 토글 어포던스가 있으나 색을 못 바꿔(사실상 다크 고정) 신뢰를 해치던 UX-1 결함 해소. 동시에 하네스를 **debt가 아닌 실제 product feature로 처음 완주** 검증(D-4는 순수 부채였음).
+- **결과**: gate1(휴먼)·gate2(tsc·lint·build green)·gate3(휴먼 시각 수용) 3게이트 통과. ADR-0008 승격(ADR-0006 supersede). UIUX U-6 추가·UX-1 종결. **D-2 종결.**
+- **배운 것**: L-7(결함 표면크기≠실제크기, blast radius 수치 실측→스코프 재확인 게이트), L-8(시각검증 헤드리스 한계→gate3 위임), L-9(결정론 게이트도 flake/실패 구분).
+
+---
+
 _(이후 feature별 요약을 위에 append)_

@@ -40,13 +40,13 @@ export default function MovieCard({ movie }: MovieCardProps) {
             </div>
           )}
 
-          {/* Title Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6">
+          {/* Title Overlay (스크림 위 — 양 테마 흰색 고정) */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
             <h3 className="text-2xl font-magic font-bold mb-2 group-hover:text-blue-400 transition-colors">
               {attributes.title}
             </h3>
 
-            <div className="flex items-center gap-4 text-sm text-gray-300">
+            <div className="flex items-center gap-4 text-sm text-white/80">
               {attributes.release_date && (
                 <div className="flex items-center gap-1">
                   <Calendar className="w-4 h-4" />
@@ -66,7 +66,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
         {/* Quick Info */}
         {attributes.summary && (
           <div className="p-5">
-            <p className="text-sm text-gray-400 line-clamp-3">
+            <p className="text-sm text-muted line-clamp-3">
               {attributes.summary}
             </p>
           </div>

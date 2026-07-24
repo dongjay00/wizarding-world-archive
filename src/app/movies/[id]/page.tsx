@@ -53,7 +53,7 @@ export default function MovieDetailPage({
         <div className="absolute top-8 left-8 z-10">
           <Link
             href="/movies"
-            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-white/10 transition-all"
+            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Movies</span>
@@ -71,7 +71,7 @@ export default function MovieDetailPage({
               </h1>
               <div className="flex flex-wrap items-center gap-4 text-lg">
                 {attributes.release_date && (
-                  <div className="flex items-center gap-2 text-gray-300">
+                  <div className="flex items-center gap-2 text-white/80">
                     <Calendar className="w-5 h-5" />
                     <span>
                       {new Date(attributes.release_date).toLocaleDateString()}
@@ -79,7 +79,7 @@ export default function MovieDetailPage({
                   </div>
                 )}
                 {attributes.running_time && (
-                  <div className="flex items-center gap-2 text-gray-300">
+                  <div className="flex items-center gap-2 text-white/80">
                     <Clock className="w-5 h-5" />
                     <span>{attributes.running_time}</span>
                   </div>
@@ -116,7 +116,7 @@ export default function MovieDetailPage({
                   <div className="space-y-3">
                     {attributes.budget && (
                       <div>
-                        <div className="text-gray-400 text-sm mb-1">Budget</div>
+                        <div className="text-muted text-sm mb-1">Budget</div>
                         <div className="font-semibold text-lg">
                           {attributes.budget}
                         </div>
@@ -124,7 +124,7 @@ export default function MovieDetailPage({
                     )}
                     {attributes.box_office && (
                       <div>
-                        <div className="text-gray-400 text-sm mb-1">
+                        <div className="text-muted text-sm mb-1">
                           Box Office
                         </div>
                         <div className="font-semibold text-lg text-green-400">
@@ -177,7 +177,7 @@ export default function MovieDetailPage({
                   <Film className="w-6 h-6 text-blue-500" />
                   Synopsis
                 </h2>
-                <p className="text-gray-300 leading-relaxed text-lg">
+                <p className="text-muted leading-relaxed text-lg">
                   {attributes.summary}
                 </p>
               </div>
@@ -194,7 +194,7 @@ export default function MovieDetailPage({
                   </h3>
                   <div className="space-y-2">
                     {attributes.directors.map((director, idx) => (
-                      <div key={idx} className="text-gray-300">
+                      <div key={idx} className="text-muted">
                         {director}
                       </div>
                     ))}
@@ -211,7 +211,7 @@ export default function MovieDetailPage({
                   </h3>
                   <div className="space-y-2">
                     {attributes.producers.slice(0, 5).map((producer, idx) => (
-                      <div key={idx} className="text-gray-300">
+                      <div key={idx} className="text-muted">
                         {producer}
                       </div>
                     ))}

@@ -54,7 +54,7 @@ export default function CharacterCard({ character }: CharacterCardProps) {
           <div className="space-y-2 text-sm">
             {attributes.house && (
               <div className="flex items-center gap-2">
-                <Home className="w-4 h-4 text-gray-400" />
+                <Home className="w-4 h-4 text-muted" />
                 <span
                   className="font-semibold"
                   style={{ color: houseColor?.secondary }}
@@ -65,15 +65,15 @@ export default function CharacterCard({ character }: CharacterCardProps) {
             )}
 
             {attributes.species && (
-              <div className="text-gray-400">
-                <span className="text-gray-500">Species:</span>{" "}
+              <div className="text-muted">
+                <span className="text-subtle">Species:</span>{" "}
                 {attributes.species}
               </div>
             )}
 
             {attributes.born && (
-              <div className="text-gray-400">
-                <span className="text-gray-500">Born:</span> {attributes.born}
+              <div className="text-muted">
+                <span className="text-subtle">Born:</span> {attributes.born}
               </div>
             )}
           </div>

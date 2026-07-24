@@ -57,7 +57,7 @@ export default function CharacterDetailPage({
         <div className="absolute top-8 left-8 z-10">
           <Link
             href="/characters"
-            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-white/10 transition-all"
+            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Characters</span>
@@ -106,19 +106,19 @@ export default function CharacterDetailPage({
               <div className="space-y-3 text-sm">
                 {attributes.species && (
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Species:</span>
+                    <span className="text-muted">Species:</span>
                     <span className="font-medium">{attributes.species}</span>
                   </div>
                 )}
                 {attributes.gender && (
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Gender:</span>
+                    <span className="text-muted">Gender:</span>
                     <span className="font-medium">{attributes.gender}</span>
                   </div>
                 )}
                 {attributes.blood_status && (
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Blood Status:</span>
+                    <span className="text-muted">Blood Status:</span>
                     <span className="font-medium">
                       {attributes.blood_status}
                     </span>
@@ -176,7 +176,7 @@ export default function CharacterDetailPage({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {attributes.born && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-1">Born</div>
+                      <div className="text-muted text-sm mb-1">Born</div>
                       <div className="text-lg font-medium">
                         {attributes.born}
                       </div>
@@ -184,7 +184,7 @@ export default function CharacterDetailPage({
                   )}
                   {attributes.died && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-1">Died</div>
+                      <div className="text-muted text-sm mb-1">Died</div>
                       <div className="text-lg font-medium">
                         {attributes.died}
                       </div>
@@ -206,19 +206,19 @@ export default function CharacterDetailPage({
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {attributes.eye_color && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-1">Eyes</div>
+                      <div className="text-muted text-sm mb-1">Eyes</div>
                       <div className="font-medium">{attributes.eye_color}</div>
                     </div>
                   )}
                   {attributes.hair_color && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-1">Hair</div>
+                      <div className="text-muted text-sm mb-1">Hair</div>
                       <div className="font-medium">{attributes.hair_color}</div>
                     </div>
                   )}
                   {attributes.height && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-1">Height</div>
+                      <div className="text-muted text-sm mb-1">Height</div>
                       <div className="font-medium">{attributes.height}</div>
                     </div>
                   )}
@@ -239,7 +239,7 @@ export default function CharacterDetailPage({
                 <div className="space-y-4">
                   {attributes.patronus && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-1">Patronus</div>
+                      <div className="text-muted text-sm mb-1">Patronus</div>
                       <div className="text-lg font-medium text-purple-400">
                         {attributes.patronus}
                       </div>
@@ -247,19 +247,19 @@ export default function CharacterDetailPage({
                   )}
                   {attributes.boggart && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-1">Boggart</div>
+                      <div className="text-muted text-sm mb-1">Boggart</div>
                       <div className="font-medium">{attributes.boggart}</div>
                     </div>
                   )}
                   {attributes.animagus && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-1">Animagus</div>
+                      <div className="text-muted text-sm mb-1">Animagus</div>
                       <div className="font-medium">{attributes.animagus}</div>
                     </div>
                   )}
                   {attributes.wands.length > 0 && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-2">Wands</div>
+                      <div className="text-muted text-sm mb-2">Wands</div>
                       <div className="space-y-2">
                         {attributes.wands.map((wand, idx) => (
                           <div
@@ -286,7 +286,7 @@ export default function CharacterDetailPage({
                 <div className="space-y-4">
                   {attributes.jobs.length > 0 && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-2">Jobs</div>
+                      <div className="text-muted text-sm mb-2">Jobs</div>
                       <div className="flex flex-wrap gap-2">
                         {attributes.jobs.map((job, idx) => (
                           <span
@@ -301,7 +301,7 @@ export default function CharacterDetailPage({
                   )}
                   {attributes.titles.length > 0 && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-2">Titles</div>
+                      <div className="text-muted text-sm mb-2">Titles</div>
                       <div className="flex flex-wrap gap-2">
                         {attributes.titles.map((title, idx) => (
                           <span
@@ -329,7 +329,7 @@ export default function CharacterDetailPage({
                 <div className="space-y-4">
                   {attributes.family_members.length > 0 && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-2">
+                      <div className="text-muted text-sm mb-2">
                         Family Members
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -346,7 +346,7 @@ export default function CharacterDetailPage({
                   )}
                   {attributes.romances.length > 0 && (
                     <div>
-                      <div className="text-gray-400 text-sm mb-2 flex items-center gap-2">
+                      <div className="text-muted text-sm mb-2 flex items-center gap-2">
                         <Heart className="w-4 h-4" />
                         Romances
                       </div>

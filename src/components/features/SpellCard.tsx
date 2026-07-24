@@ -70,7 +70,7 @@ export default function SpellCard({ spell }: SpellCardProps) {
           {/* Incantation */}
           {attributes.incantation && (
             <div className="mb-3 px-3 py-2 bg-purple-500/10 rounded-lg">
-              <div className="text-xs text-gray-400 mb-1">Incantation</div>
+              <div className="text-xs text-muted mb-1">Incantation</div>
               <div className="font-magic text-purple-300 italic">
                 &quot;{attributes.incantation}&quot;
               </div>
@@ -79,13 +79,13 @@ export default function SpellCard({ spell }: SpellCardProps) {
 
           {/* Effect */}
           {attributes.effect && (
-            <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+            <p className="text-sm text-muted mb-3 line-clamp-2">
               {attributes.effect}
             </p>
           )}
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-3 border-t border-gray-800">
+          <div className="flex items-center justify-between pt-3 border-t border-subtle">
             {/* Category Badge */}
             {attributes.category && (
               <span
@@ -97,7 +97,7 @@ export default function SpellCard({ spell }: SpellCardProps) {
 
             {/* Creator */}
             {attributes.creator && (
-              <div className="text-xs text-gray-500 truncate max-w-[120px]">
+              <div className="text-xs text-subtle truncate max-w-[120px]">
                 by {attributes.creator}
               </div>
             )}

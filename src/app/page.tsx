@@ -101,7 +101,7 @@ export default function HomePage() {
             <h1 className="text-6xl md:text-8xl font-magic font-bold mb-6 magic-text">
               The Wizarding World
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-2xl text-muted mb-8 max-w-3xl mx-auto">
               Explore the complete archive of characters, spells, potions, and
               more from the magical universe of Harry Potter
             </p>
@@ -133,7 +133,7 @@ export default function HomePage() {
                 <div className="text-3xl font-bold text-amber-400">
                   {stat.value}
                 </div>
-                <div className="text-sm text-gray-400 mt-1">{stat.label}</div>
+                <div className="text-sm text-muted mt-1">{stat.label}</div>
               </div>
             ))}
           </motion.div>
@@ -152,7 +152,7 @@ export default function HomePage() {
           <h2 className="text-4xl md:text-5xl font-magic font-bold mb-4">
             Explore the Archive
           </h2>
-          <p className="text-gray-400 text-lg">
+          <p className="text-muted text-lg">
             Choose your path through the magical world
           </p>
         </motion.div>
@@ -189,7 +189,7 @@ export default function HomePage() {
                       <h3 className="text-2xl font-magic font-bold mb-2 group-hover:text-amber-400 transition-colors">
                         {category.title}
                       </h3>
-                      <p className="text-gray-400 text-sm">
+                      <p className="text-muted text-sm">
                         {category.description}
                       </p>
                     </div>
@@ -214,7 +214,7 @@ export default function HomePage() {
             <h2 className="text-3xl md:text-4xl font-magic font-bold mb-4">
               Ready to Cast Your First Spell?
             </h2>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
+            <p className="text-muted mb-8 max-w-2xl mx-auto">
               Join thousands of wizards and witches exploring the most
               comprehensive Harry Potter database
             </p>

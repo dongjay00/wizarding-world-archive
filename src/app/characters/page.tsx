@@ -64,7 +64,7 @@ export default function CharactersPage() {
           <Users className="w-12 h-12 text-amber-500" />
           <h1 className="text-5xl font-magic font-bold">Characters</h1>
         </div>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+        <p className="text-muted text-lg max-w-2xl mx-auto">
           Discover the witches, wizards, and magical creatures of the Wizarding
           World
         </p>
@@ -74,19 +74,19 @@ export default function CharactersPage() {
       <div className="glass rounded-2xl p-6 mb-8">
         {/* Search Bar */}
         <div className="relative mb-6">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
           <input
             type="text"
             placeholder="Search characters by name..."
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white/5 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-white placeholder-gray-500 transition-all"
+            className="w-full pl-12 pr-4 py-3 bg-surface/5 border border-subtle rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-content placeholder-subtle transition-all"
           />
         </div>
 
         {/* House Filter */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2 text-sm text-gray-400">
+          <div className="flex items-center gap-2 text-sm text-muted">
             <Filter className="w-4 h-4" />
             <span>Filter by House:</span>
           </div>
@@ -96,7 +96,7 @@ export default function CharactersPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
                 selectedHouse === null
                   ? "bg-amber-500 text-white"
-                  : "glass hover:bg-white/10"
+                  : "glass hover:bg-surface/10"
               }`}
             >
               All Houses
@@ -111,7 +111,7 @@ export default function CharactersPage() {
                         HOUSE_COLORS[house as keyof typeof HOUSE_COLORS]
                           .gradient
                       } text-white`
-                    : "glass hover:bg-white/10"
+                    : "glass hover:bg-surface/10"
                 }`}
               >
                 {house}
@@ -128,7 +128,7 @@ export default function CharactersPage() {
       ) : (
         <>
           {/* Results Count */}
-          <div className="mb-6 text-gray-400">
+          <div className="mb-6 text-muted">
             Found{" "}
             <span className="text-amber-400 font-semibold">
               {data?.meta?.pagination?.records || 0}
@@ -143,7 +143,7 @@ export default function CharactersPage() {
               <h3 className="text-2xl font-magic font-bold mb-2">
                 No Characters Found
               </h3>
-              <p className="text-gray-400">
+              <p className="text-muted">
                 Try adjusting your search or filters
               </p>
             </div>

@@ -58,7 +58,7 @@ export default function BookDetailPage({
         <div className="absolute top-8 left-8 z-10">
           <Link
             href="/books"
-            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-white/10 transition-all"
+            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Books</span>
@@ -74,7 +74,7 @@ export default function BookDetailPage({
               <h1 className="text-5xl md:text-6xl font-magic font-bold magic-text mb-4">
                 {attributes.title}
               </h1>
-              <div className="flex flex-wrap items-center gap-4 text-lg text-gray-300">
+              <div className="flex flex-wrap items-center gap-4 text-lg text-white/80">
                 <div className="flex items-center gap-2">
                   <User className="w-5 h-5" />
                   <span>{attributes.author}</span>
@@ -125,7 +125,7 @@ export default function BookDetailPage({
               {/* Quick Info */}
               <div className="space-y-4">
                 <div>
-                  <div className="text-gray-400 text-sm mb-1">Author</div>
+                  <div className="text-muted text-sm mb-1">Author</div>
                   <div className="font-semibold text-amber-300">
                     {attributes.author}
                   </div>
@@ -133,14 +133,14 @@ export default function BookDetailPage({
 
                 {attributes.pages && (
                   <div>
-                    <div className="text-gray-400 text-sm mb-1">Pages</div>
+                    <div className="text-muted text-sm mb-1">Pages</div>
                     <div className="font-semibold">{attributes.pages}</div>
                   </div>
                 )}
 
                 {attributes.release_date && (
                   <div>
-                    <div className="text-gray-400 text-sm mb-1">Published</div>
+                    <div className="text-muted text-sm mb-1">Published</div>
                     <div className="font-semibold">
                       {new Date(attributes.release_date).toLocaleDateString()}
                     </div>
@@ -176,7 +176,7 @@ export default function BookDetailPage({
                   <BookOpen className="w-6 h-6 text-amber-500" />
                   Summary
                 </h2>
-                <p className="text-gray-300 leading-relaxed text-lg">
+                <p className="text-muted leading-relaxed text-lg">
                   {attributes.summary}
                 </p>
               </div>
@@ -203,7 +203,7 @@ export default function BookDetailPage({
                   Chapters ({chapters.length})
                 </h2>
                 {chaptersLoading ? (
-                  <div className="text-center py-8 text-gray-400">
+                  <div className="text-center py-8 text-muted">
                     Loading chapters...
                   </div>
                 ) : (
@@ -211,7 +211,7 @@ export default function BookDetailPage({
                     {chapters.map((chapter) => (
                       <div
                         key={chapter.id}
-                        className="p-4 bg-white/5 hover:bg-white/10 rounded-lg transition-all cursor-pointer group"
+                        className="p-4 bg-surface/5 hover:bg-surface/10 rounded-lg transition-all cursor-pointer group"
                       >
                         <div className="flex items-start gap-4">
                           <div className="flex-shrink-0 w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center font-bold text-amber-400">
@@ -221,7 +221,7 @@ export default function BookDetailPage({
                             <h3 className="font-magic font-semibold text-lg group-hover:text-amber-400 transition-colors mb-1">
                               {chapter.attributes.title}
                             </h3>
-                            <p className="text-sm text-gray-400 line-clamp-2">
+                            <p className="text-sm text-muted line-clamp-2">
                               {chapter.attributes.summary}
                             </p>
                           </div>

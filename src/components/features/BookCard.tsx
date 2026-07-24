@@ -40,18 +40,18 @@ export default function BookCard({ book }: BookCardProps) {
             </div>
           )}
 
-          {/* Title Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6">
+          {/* Title Overlay (스크림 위 — 양 테마 흰색 고정) */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
             <h3 className="text-2xl font-magic font-bold mb-2 group-hover:text-amber-400 transition-colors">
               {attributes.title}
             </h3>
 
-            <div className="text-sm text-gray-300 mb-2">
+            <div className="text-sm text-white/80 mb-2">
               by {attributes.author}
             </div>
 
             {attributes.release_date && (
-              <div className="flex items-center gap-2 text-sm text-gray-400">
+              <div className="flex items-center gap-2 text-sm text-white/70">
                 <Calendar className="w-4 h-4" />
                 <span>
                   {new Date(attributes.release_date).toLocaleDateString()}
@@ -64,7 +64,7 @@ export default function BookCard({ book }: BookCardProps) {
         {/* Summary */}
         {attributes.summary && (
           <div className="p-5">
-            <p className="text-sm text-gray-400 line-clamp-3">
+            <p className="text-sm text-muted line-clamp-3">
               {attributes.summary}
             </p>
           </div>

@@ -57,5 +57,10 @@
 ### C-S4. import 경로
 - 절대경로 `@/*`(tsconfig paths) 사용. 깊은 상대경로(`../../..`) 지양.
 
+### C-S5. 테마 색은 시맨틱 토큰 경유 (ADR-0008, 2026-07-09 seed)
+- 전경/표면 색은 시맨틱 유틸(`text-content`/`text-muted`/`text-subtle`, `bg-surface`)을 쓴다. 신규 코드에서 하드코딩 `text-gray-*`/`text-white`/`bg-white/*`(다크 전제) 금지.
+- **예외(리터럴 허용)**: 이미지 스크림 위 오버레이 텍스트, 고정 컬러 배경(amber/하우스 버튼·뱃지) 위 텍스트, 이미지 placeholder 아이콘 — 이들은 테마와 무관하게 색 고정이 정답.
+- 현재 enforcement: soft(리뷰 policy 참고). 반복 위반 시 eslint 커스텀 규칙으로 hard 승격 후보(L-7).
+
 ### T-1. 테스트 러너 부재 (승격 대기)
 - 현재 테스트 프레임워크/스크립트 없음. `TestStrategy.md`가 도입 전략을 정의하며, 러너가 들어오면 관련 항목이 hard(C-*)로 승격된다.

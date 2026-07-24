@@ -12,7 +12,7 @@
 - **active step**: —
 - **started**: —
 
-> 직전 세션(2026-07-09): D-4 부채상환 파이프라인 1회전 완료 → gate3 수용 → wrap-up 증류(summary). session은 규약대로 비움.
+> 직전 세션(2026-07-09): **D-2 테마 토글 정상화** product-feature 파이프라인 1회전 완료. spec→gate1(휴먼)→architect→build→gate2(tsc·lint·build)→verify→gate3(휴먼 시각 수용)→review→wrap-up. ADR-0008 승격(0006 supersede), UX-1 종결, D-2 큐 삭제. 상세는 summary. session은 규약대로 비움.
 
 ## step 로그
 

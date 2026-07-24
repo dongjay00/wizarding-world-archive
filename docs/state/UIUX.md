@@ -8,7 +8,7 @@
 
 ## 디자인 언어
 
-- **테마**: 다크 우선. 배경 `slate-950→900→950` 그라디언트 + `bg-magic-pattern`.
+- **테마**: 다크 **기본** + 동작하는 라이트/다크 토글(ADR-0008). 색은 시맨틱 토큰(`content`/`muted`/`subtle`/`surface`, `:root`=라이트·`.dark`=다크)로 전환. 다크 배경 `slate-950→900→950` 그라디언트 + `bg-magic-pattern`, 라이트는 밝은 대응 팔레트. amber 강조·하우스 색은 양 테마 공용.
 - **글래스모피즘**: `.glass`(반투명 + `backdrop-blur`) 카드·패널 표면 기본.
 - **하우스 색 정체성**: Gryffindor/Slytherin/Ravenclaw/Hufflepuff 각 primary·secondary·gradient (`HOUSE_COLORS` + `@theme` 토큰). 강조·필터·카드 호버에 사용.
 - **강조색**: amber(`amber-400/500`) = 액션·하이라이트·포커스 링.
@@ -47,8 +47,9 @@
 - **U-3**: House 보유 캐릭터 카드/필터 칩이 하우스 gradient·secondary 색을 반영.
 - **U-4**: 그리드가 mobile(1열)~xl(4열)로 반응형.
 - **U-5**: 제목은 Cinzel, 본문은 Inter로 렌더(폰트 변수 적용).
+- **U-6**: Header 토글로 라이트↔다크가 **실제 색으로** 전환되고(배경·전경·표면), 선택이 새로고침 후 유지된다. **양 테마 모두** 본문 대비가 읽힌다(→ PRD AC-8·9, ADR-0008).
 
 ## 알려진 UX 결함 (재진입 후보)
 
-- **UX-1**: 다크/라이트 토글이 실제로 색을 바꾸지 못함(next-themes class ↔ CSS `prefers-color-scheme` 불일치, → Architecture A-2). 현재는 사실상 다크 고정.
-- **UX-2**: 검색·필터 상태가 URL에 없어 새로고침/공유 시 소실(local `useState`, → A-1).
+- ~~**UX-1**: 다크/라이트 토글이 실제로 색을 바꾸지 못함.~~ **해소(2026-07-09, ADR-0008 → U-6).** D-2 option (a): `.dark` 클래스 + 시맨틱 토큰으로 기제 일원화.
+- **UX-2**: 검색·필터 상태가 URL에 없어 새로고침/공유 시 소실(local `useState`, → A-1, decision-queue D-1).

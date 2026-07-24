@@ -50,7 +50,7 @@ export default function MoviesPage() {
           <Film className="w-12 h-12 text-blue-500" />
           <h1 className="text-5xl font-magic font-bold">Movies</h1>
         </div>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+        <p className="text-muted text-lg max-w-2xl mx-auto">
           Experience the magical journey through the Harry Potter film series
         </p>
       </motion.div>
@@ -58,13 +58,13 @@ export default function MoviesPage() {
       {/* Search Bar */}
       <div className="glass rounded-2xl p-6 mb-8">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
           <input
             type="text"
             placeholder="Search movies by title..."
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white/5 border border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-white placeholder-gray-500 transition-all"
+            className="w-full pl-12 pr-4 py-3 bg-surface/5 border border-subtle rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-content placeholder-subtle transition-all"
           />
         </div>
       </div>
@@ -76,7 +76,7 @@ export default function MoviesPage() {
       ) : (
         <>
           {/* Results Count */}
-          <div className="mb-6 text-gray-400">
+          <div className="mb-6 text-muted">
             Found{" "}
             <span className="text-blue-400 font-semibold">
               {data?.meta?.pagination?.records || 0}
@@ -91,7 +91,7 @@ export default function MoviesPage() {
               <h3 className="text-2xl font-magic font-bold mb-2">
                 No Movies Found
               </h3>
-              <p className="text-gray-400">Try adjusting your search</p>
+              <p className="text-muted">Try adjusting your search</p>
             </div>
           ) : (
             <>

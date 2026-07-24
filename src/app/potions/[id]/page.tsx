@@ -65,7 +65,7 @@ export default function PotionDetailPage({
         <div className="absolute top-8 left-8 z-10">
           <Link
             href="/potions"
-            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-white/10 transition-all"
+            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Potions</span>
@@ -118,7 +118,7 @@ export default function PotionDetailPage({
               <div className="space-y-4">
                 {attributes.time && (
                   <div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                    <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <Clock className="w-4 h-4" />
                       <span>Brewing Time</span>
                     </div>
@@ -130,7 +130,7 @@ export default function PotionDetailPage({
 
                 {attributes.inventors && (
                   <div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                    <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <User className="w-4 h-4" />
                       <span>Inventor</span>
                     </div>
@@ -140,7 +140,7 @@ export default function PotionDetailPage({
 
                 {attributes.manufacturers && (
                   <div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                    <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <Package className="w-4 h-4" />
                       <span>Manufacturer</span>
                     </div>
@@ -178,7 +178,7 @@ export default function PotionDetailPage({
                   <Sparkles className="w-6 h-6 text-green-500" />
                   Effect
                 </h2>
-                <p className="text-gray-300 leading-relaxed text-lg">
+                <p className="text-muted leading-relaxed text-lg">
                   {attributes.effect}
                 </p>
               </div>
@@ -191,7 +191,7 @@ export default function PotionDetailPage({
                   <FlaskConical className="w-6 h-6 text-green-500" />
                   Characteristics
                 </h2>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-muted leading-relaxed">
                   {attributes.characteristics}
                 </p>
               </div>
@@ -205,7 +205,7 @@ export default function PotionDetailPage({
                   Ingredients
                 </h2>
                 <div className="prose prose-invert max-w-none">
-                  <p className="text-gray-300 whitespace-pre-line">
+                  <p className="text-muted whitespace-pre-line">
                     {attributes.ingredients}
                   </p>
                 </div>

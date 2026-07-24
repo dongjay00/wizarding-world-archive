@@ -26,7 +26,7 @@ export default function BooksPage() {
           <BookOpen className="w-12 h-12 text-amber-500" />
           <h1 className="text-5xl font-magic font-bold">Books</h1>
         </div>
-        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+        <p className="text-muted text-lg max-w-2xl mx-auto">
           Explore the original tales that started the magical journey
         </p>
       </motion.div>

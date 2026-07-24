@@ -20,7 +20,7 @@ export function FullPageLoader() {
   return (
     <div className="min-h-[60vh] flex flex-col items-center justify-center">
       <Sparkles className="w-16 h-16 text-amber-500 animate-pulse mb-4" />
-      <p className="text-gray-400 text-lg">Loading magical content...</p>
+      <p className="text-muted text-lg">Loading magical content...</p>
     </div>
   );
 }
@@ -33,7 +33,7 @@ export function ErrorMessage({ message }: { message: string }) {
         <h3 className="text-2xl font-magic font-bold text-red-400 mb-2">
           Something Went Wrong
         </h3>
-        <p className="text-gray-400">{message}</p>
+        <p className="text-muted">{message}</p>
       </div>
     </div>
   );

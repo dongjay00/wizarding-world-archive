@@ -86,7 +86,7 @@ export default function SpellDetailPage({
         <div className="absolute top-8 left-8 z-10">
           <Link
             href="/spells"
-            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-white/10 transition-all"
+            className="flex items-center gap-2 px-4 py-2 glass rounded-lg hover:bg-surface/10 transition-all"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Spells</span>
@@ -147,7 +147,7 @@ export default function SpellDetailPage({
               <div className="space-y-4">
                 {attributes.creator && (
                   <div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                    <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <User className="w-4 h-4" />
                       <span>Creator</span>
                     </div>
@@ -159,7 +159,7 @@ export default function SpellDetailPage({
 
                 {attributes.light && (
                   <div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                    <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <Lightbulb className="w-4 h-4" />
                       <span>Light Color</span>
                     </div>
@@ -169,7 +169,7 @@ export default function SpellDetailPage({
 
                 {attributes.hand && (
                   <div>
-                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-2">
+                    <div className="flex items-center gap-2 text-muted text-sm mb-2">
                       <Hand className="w-4 h-4" />
                       <span>Wand Movement</span>
                     </div>
@@ -210,7 +210,7 @@ export default function SpellDetailPage({
                   <div className="text-5xl font-magic magic-text mb-2">
                     {attributes.incantation}
                   </div>
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-muted text-sm">
                     Speak clearly while performing the wand movement
                   </p>
                 </div>
@@ -224,7 +224,7 @@ export default function SpellDetailPage({
                   <Sparkles className="w-6 h-6 text-purple-500" />
                   Effect
                 </h2>
-                <p className="text-gray-300 leading-relaxed text-lg">
+                <p className="text-muted leading-relaxed text-lg">
                   {attributes.effect}
                 </p>
               </div>

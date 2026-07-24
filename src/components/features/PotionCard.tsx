@@ -65,7 +65,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
 
           {/* Effect */}
           {attributes.effect && (
-            <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+            <p className="text-sm text-muted mb-3 line-clamp-2">
               {attributes.effect}
             </p>
           )}
@@ -73,7 +73,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
           {/* Meta Info */}
           <div className="space-y-2 text-xs">
             {attributes.time && (
-              <div className="flex items-center gap-2 text-gray-400">
+              <div className="flex items-center gap-2 text-muted">
                 <Clock className="w-3 h-3" />
                 <span>{attributes.time}</span>
               </div>

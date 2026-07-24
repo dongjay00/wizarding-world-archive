@@ -13,7 +13,7 @@ export default function Footer() {
             <h3 className="text-lg font-magic font-semibold text-amber-400 mb-3">
               About This Archive
             </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-muted text-sm leading-relaxed">
               A comprehensive database of the Wizarding World, powered by{" "}
               <a
                 href="https://potterdb.com"
@@ -37,7 +37,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/characters"
-                  className="text-gray-400 hover:text-amber-400 transition-colors"
+                  className="text-muted hover:text-amber-400 transition-colors"
                 >
                   🧙 Characters
                 </Link>
@@ -45,7 +45,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/spells"
-                  className="text-gray-400 hover:text-amber-400 transition-colors"
+                  className="text-muted hover:text-amber-400 transition-colors"
                 >
                   ✨ Spells
                 </Link>
@@ -53,7 +53,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/potions"
-                  className="text-gray-400 hover:text-amber-400 transition-colors"
+                  className="text-muted hover:text-amber-400 transition-colors"
                 >
                   ⚗️ Potions
                 </Link>
@@ -61,7 +61,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/movies"
-                  className="text-gray-400 hover:text-amber-400 transition-colors"
+                  className="text-muted hover:text-amber-400 transition-colors"
                 >
                   🎬 Movies
                 </Link>
@@ -74,7 +74,7 @@ export default function Footer() {
             <h3 className="text-lg font-magic font-semibold text-amber-400 mb-3">
               Made with Magic
             </h3>
-            <p className="text-gray-400 text-sm mb-4">
+            <p className="text-muted text-sm mb-4">
               Built with Next.js 15, React Query, Zustand, and Tailwind CSS.
             </p>
             <div className="flex items-center gap-4">
@@ -82,7 +82,7 @@ export default function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-amber-400 transition-colors"
+                className="text-muted hover:text-amber-400 transition-colors"
                 aria-label="GitHub"
               >
                 <Github className="w-5 h-5" />
@@ -92,12 +92,12 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-8 pt-6 border-t border-gray-800 text-center">
-          <p className="text-gray-500 text-sm flex items-center justify-center gap-2">
+        <div className="mt-8 pt-6 border-t border-subtle text-center">
+          <p className="text-subtle text-sm flex items-center justify-center gap-2">
             Made with <Heart className="w-4 h-4 text-red-500 fill-red-500" />{" "}
             for Potterheads
           </p>
-          <p className="text-gray-600 text-xs mt-2">
+          <p className="text-subtle text-xs mt-2">
             © {new Date().getFullYear()} Wizarding World Archive. All rights
             reserved.
           </p>

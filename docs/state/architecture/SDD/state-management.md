@@ -1,13 +1,15 @@
 # SDD — State Management
 
 > status: **frozen** (현재 구현 반영, 부채 명시). 상위: Architecture A-1/A-2, ADR-0003/0006.
+> **재진입 2026-07-09 (D-2, ADR-0008)**: 테마 상태 소유를 next-themes 단일로 확정, `themeStore.ts` 삭제. §상태3분류·§설계vs현실 갱신.
 
 ## 상태 3분류
 
 | 종류 | 소유 | 도구 |
 |---|---|---|
 | 서버 상태(엔티티 데이터) | TanStack Query 캐시 | `lib/hooks` |
-| 전역 UI 상태(필터·테마) | Zustand | `lib/stores` |
+| 전역 UI 상태(필터) | Zustand | `lib/stores` |
+| 테마 상태(light/dark) | **next-themes 단일**(localStorage 지속) | `providers.tsx` (ADR-0008) |
 | 로컬 뷰 상태(입력·토글) | 컴포넌트 `useState` | 페이지/컴포넌트 |
 
 ## 설계 vs 현실 (⚠ 부채)
@@ -15,7 +17,7 @@
 - **`lib/stores/filterStore.ts`** — `searchQuery/selectedHouse/selectedCategory/sortBy/currentPage` + 세터, `resetFilters`. 세터가 필터 변경 시 `currentPage: 1`로 리셋하는 규칙까지 설계됨.
   - **현실**: `app/characters/page.tsx` 등은 이 store를 **쓰지 않고** local `useState`로 동일 상태를 관리. → store는 사실상 死코드. → decision-queue **D-1**.
   - 결과 UX 부채: 필터 상태가 URL·전역에 없어 공유/새로고침 시 소실(UIUX UX-2).
-- **`lib/stores/themeStore.ts`** — **빈 파일(0줄)**. 테마는 `next-themes`가 담당. → decision-queue **D-2**, ADR-0006.
+- ~~**`lib/stores/themeStore.ts`** — 빈 파일(0줄).~~ **삭제(2026-07-09, ADR-0008)**: 테마는 next-themes가 단일 소유. D-2 option (a)로 기제 일원화(`.dark` 클래스 + 시맨틱 토큰).
 
 ## 목표 방향 (재진입 시)
 
