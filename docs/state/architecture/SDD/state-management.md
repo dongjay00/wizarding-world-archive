@@ -1,8 +1,8 @@
 # SDD — State Management
 
-> status: **frozen** (현재 구현 반영, 부채 명시). 상위: Architecture A-1/A-2, ADR-0003/0006.
+> status: **frozen** (현재 구현 반영). 상위: Architecture, ADR-0003/0007/0008.
 > **재진입 2026-07-09 (D-2, ADR-0008)**: 테마 상태 소유를 next-themes 단일로 확정, `themeStore.ts` 삭제. §상태3분류·§설계vs현실 갱신.
-> **재진입 2026-07-09 (D-1, ADR-0007)**: 필터(지속 UI 상태) 소유를 **URL searchParams 단일**로 확정, 기제=nuqs. `filterStore.ts` 폐기 예정. §상태3분류·§설계vs현실·§목표방향 갱신. (구현은 tasks.md D-1, build step 집행.)
+> **재진입 2026-07-09 (D-1, ADR-0007)**: 필터(지속 UI 상태) 소유를 **URL searchParams 단일**로 확정, 기제=nuqs. `filterStore.ts` 삭제 완료. §상태3분류·§설계vs현실·§목표방향 갱신.
 
 ## 상태 3분류
 
@@ -13,7 +13,7 @@
 | 테마 상태(light/dark) | **next-themes 단일**(localStorage 지속) | `providers.tsx` (ADR-0008) |
 | 로컬 뷰 상태(입력·토글) | 컴포넌트 `useState` | 페이지/컴포넌트 |
 
-> **Zustand 잔존 여부**: ADR-0003의 Zustand 채택 자체는 유효(향후 전역 클라이언트 상태 도구로 예약)하나, 필터에 대한 실사용은 URL로 이전되어 현재 소비 store는 없다. `lib/stores`는 D-1 반영 후 빈 디렉터리가 될 수 있다.
+> **Zustand 잔존 여부**: ADR-0003의 Zustand 채택 자체는 유효(향후 전역 클라이언트 상태 도구로 예약)하나, 필터에 대한 실사용은 URL로 이전되어 현재 소비 store는 없다. D-1 반영 후 `lib/stores` 경계에는 활성 파일이 없다.
 
 ## 필터(지속 UI 상태) — URL 단일 소유 설계 (ADR-0007)
 
@@ -32,11 +32,9 @@
 - **검색 입력의 경계(C-S2 위반 아님 — 명시)**: 검색어 텍스트의 **커밋 전 순간값**은 컴포넌트 local `useState`(정당한 view 상태)로 두어 타이핑 즉각 반응을 유지하고, **디바운스 후** URL `q`에 커밋한다. URL이 유일 **지속** 출처이므로 이 local 미러는 "같은 지속 상태의 이중 보관"이 아니다. house/category/difficulty/page 등 이산 선택은 디바운스 없이 즉시 URL 커밋.
 - **API 옵션 파생**: 훅은 URL 상태에서 `FetchOptions`(page/pageSize/filter/sort)를 파생해 `lib/hooks/use*`(TanStack Query)에 넘긴다. 서버 상태 경계(Query 소유)는 불변.
 
-## 설계 vs 현실 (⚠ 부채)
+## 설계 vs 현실 (종결된 괴리)
 
-- **`lib/stores/filterStore.ts`** — `searchQuery/selectedHouse/selectedCategory/sortBy/currentPage` + 세터, `resetFilters`(필터 변경 시 `currentPage: 1` 리셋 규칙 설계됨).
-  - **현실**: `app/characters/page.tsx` 등은 이 store를 **쓰지 않고** local `useState`로 동일 상태를 관리. grep 실측 소비자 0 → 死코드.
-  - **처리(2026-07-09, ADR-0007)**: **폐기 예정.** 필터 소유를 URL 단일로 이전하면서 파일 삭제. `page=1` 리셋 규칙은 위 §URL 단일 소유 설계로 계승. (구현: tasks.md D-1.)
+- ~~**`lib/stores/filterStore.ts`** — `searchQuery/selectedHouse/selectedCategory/sortBy/currentPage` + 세터, `resetFilters`(필터 변경 시 `currentPage: 1` 리셋 규칙 설계됨).~~ **삭제 완료(2026-07-09, ADR-0007)**: 필터 소유를 URL 단일로 이전하면서 파일을 제거했다. `page=1` 리셋 규칙은 위 §URL 단일 소유 설계로 계승.
 - ~~**`lib/stores/themeStore.ts`** — 빈 파일(0줄).~~ **삭제(2026-07-09, ADR-0008)**: 테마는 next-themes가 단일 소유. D-2 option (a)로 기제 일원화(`.dark` 클래스 + 시맨틱 토큰).
 
 ## 목표 방향 (수렴 완료)
