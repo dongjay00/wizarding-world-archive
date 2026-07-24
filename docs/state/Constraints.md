@@ -37,7 +37,7 @@
 - **enforcement**: hard
 - **enforced_by**: `next build` / 런타임(등재되지 않은 호스트 사용 시 이미지 렌더 실패). 현재 등재: `static.wikia.nocookie.net`, `www.wizardingworld.com`.
 - **gate**: gate2(build-verify) — 단, 빌드가 잡지 못하는 데이터-의존 호스트는 review에서 확인.
-- **note**: PotterDB가 반환하는 실제 이미지 호스트와 화이트리스트가 어긋날 수 있음 → `decision-queue` D-3 참조.
+- **note**: 실측 정합 확인(2026-07-09, D-3 종결). PotterDB 전 엔티티 이미지 필드를 수집한 결과 실제 호스트는 2개뿐이며 현재 등재와 완전 정합 — characters/spells/potions `image`=`static.wikia.nocookie.net` (경로 `/harrypotter/images/**`, 221샘플 0 불일치), movies `poster`·books `cover`=`www.wizardingworld.com`. 신규 호스트·프록시 불요. `www.wizardingworld.com`은 `/**`로 넓게 열려 있으나 CDN 경로 변경 대비 의도적 유지(하드닝 보류).
 
 ---
 

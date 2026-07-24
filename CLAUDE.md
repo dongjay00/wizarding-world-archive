@@ -37,4 +37,4 @@
 
 - Next.js 16 App Router / React 19 / React Compiler on · TS strict · TanStack Query v5 · Zustand v5 · Tailwind v4 · PotterDB API.
 - 정적 오라클: `npx tsc --noEmit`, `npm run lint`, `npm run build`.
-- 알려진 부채: 상태 이원화(D-1), 테마 전략 불일치(D-2), 이미지 호스트(D-3). 상세는 `docs/runtime/decision-queue.md`.
+- 알려진 부채: **없음** — D-1(상태 이원화)·D-2(테마 전략)·D-3(이미지 호스트)·D-4(gate2 lint) 전부 2026-07-09 종결. 이력은 `docs/runtime/summary.md`, 미결정 큐(`docs/runtime/decision-queue.md`)는 현재 비어 있음.

@@ -11,7 +11,7 @@
 - **feature**: (없음 — 세션 종료·휘발)
 - **active step**: —
 - **직전 종결**: D-1 필터 상태 소유 일원화 (+ UX-2 해소) — 파이프라인 1회전 완주(spec→wrap-up), gate3 수용 완료, wrap-up이 State/장수 Runtime으로 증류(ADR-0007 accepted 확정·C-S2 해소·decision-queue D-1 종결·lessons L-10~L-13·summary 증류·tasks 폐기). 2026-07-09.
-- **다음 세션 인계**: 새 feature 착수 시 spec부터. 미결정 잔여는 decision-queue D-3(이미지 호스트 화이트리스트)뿐. ~~⚠ UIUX UX-2 문구 갱신 필요~~ → **해소(2026-07-09 후속 확인)**: UIUX.md는 architect D-1 재진입에서 이미 "해소·구현 종결"로 갱신됨(stale 플래그였음). summary.md 동기화 완료.
+- **다음 세션 인계**: 새 feature 착수 시 spec부터. **미결정 큐 0** — D-3(이미지 호스트 화이트리스트)는 2026-07-09 실측으로 무변경 종결(실호스트 2개 이미 정합, L-14). ~~⚠ UIUX UX-2 문구 갱신 필요~~ → 해소(stale 플래그였음, UIUX.md 이미 정합). 남은 알려진 부채 없음 — 다음은 신규 feature 발굴이 필요.
 
 <!-- 아래는 다음 세션 시작 시 휘발(비운다). 종결된 D-1 세션의 step 로그·핸드오프는 summary(사람용)·lessons(교훈)·ADR-0007(결정)로 증류 완료. -->
 

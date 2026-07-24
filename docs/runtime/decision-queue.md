@@ -10,10 +10,7 @@
 
 <!-- D-2(테마 전략 정합)는 2026-07-09 파이프라인 1회전으로 해소·종결 → option (a) 채택, ADR-0008 승격(0006 supersede). summary 참조. 큐에서 삭제됨. -->
 
-### D-3. 이미지 호스트 화이트리스트 vs PotterDB 실제 호스트
-- **맥락**: `next.config.ts remotePatterns`는 `static.wikia.nocookie.net`·`www.wizardingworld.com`만 허용. PotterDB가 반환하는 실제 이미지 호스트와 정합 미확인(Constraints C-4, A-4).
-- **필요 작업**: 실데이터의 이미지 호스트 수집 → 누락 시 remotePatterns 보강 or 이미지 프록시.
-- **결정 시**: 설정 변경 + (프록시 도입이면) ADR.
+<!-- D-3(이미지 호스트 화이트리스트 vs PotterDB 실제 호스트)는 2026-07-09 실측으로 해소·종결 → 실데이터 수집 결과 실호스트 2개(static.wikia.nocookie.net /harrypotter/images/**, www.wizardingworld.com)가 현재 remotePatterns와 완전 정합. 신규 호스트·프록시 불요 → 코드 무변경 종결(프록시 미도입이라 ADR 불요). Constraints C-4 note 정합 확인 갱신, summary·lessons(L-14) 참조. 큐에서 삭제됨. -->
 
 <!-- D-4(베이스라인 gate2 lint 실패)는 2026-07-09 파이프라인 1회전으로 해소·종결 → summary 참조. 큐에서 삭제됨. -->
 

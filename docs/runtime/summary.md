@@ -5,6 +5,15 @@
 
 ---
 
+## D-3 이미지 호스트 화이트리스트 정합 — 실측으로 무변경 종결 (2026-07-09)
+
+- **무엇**: decision-queue D-3(“`next.config.ts remotePatterns`와 PotterDB 실제 이미지 호스트 정합 미확인”)을 **실측**으로 해소. PotterDB 전 엔티티(characters·spells·potions·movies·books) 이미지 필드를 API에서 대량 수집해 실제 호스트를 전수 확인.
+- **왜**: 미등재 호스트는 `next/image` 런타임에서 터지는 hard 제약(C-4)인데, 데이터-의존이라 build가 못 잡는 갭. 스코프를 수치로 확정해야 “보강 vs 프록시”를 정할 수 있었다(L-7/L-12).
+- **결과**: 실호스트는 **2개뿐**이며 현재 등재와 **완전 정합** — characters/spells/potions `image`=`static.wikia.nocookie.net`(경로 `/harrypotter/images/**`, 221샘플 0 불일치), movies `poster`·books `cover`=`www.wizardingworld.com`. 신규 호스트·프록시 불요 → **코드 무변경 종결**(프록시 미도입이라 ADR 불요). `www.wizardingworld.com`의 `/**` 광역 허용은 CDN 경로 변경 대비 의도적 유지(하드닝 보류, 휴먼 게이트 선택). Constraints C-4 note를 “정합 확인”으로 갱신, decision-queue D-3 삭제. **D-3 종결 → 미결정 큐 0.**
+- **배운 것**: L-14(실측이 부채를 dissolve — “표면 크기 ≠ 실제 크기”(L-7)는 과대뿐 아니라 **과소**로도 성립: 실측 결과 손댈 게 없을 수 있고, 그 확인 자체가 산출물).
+
+---
+
 ## D-1 필터 상태 소유 일원화 — 첫 신규 의존성 도입 product-feature 1회전 (2026-07-09)
 
 - **무엇**: decision-queue D-1을 **option (a) 변형**(URL searchParams 단일 소유)으로 해소. 목록 4페이지의 검색어·필터·페이지 상태를 URL이 유일하게 소유하도록 이전하고, 死코드 `filterStore.ts`를 폐기.
