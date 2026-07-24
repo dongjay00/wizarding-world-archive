@@ -13,6 +13,7 @@ model: sonnet
 ## 할 일
 - 핵심 동작을 실제로 확인한다: 목록→필터→상세 플로우, 상태 3분기, null 렌더.
 - 러너가 없으면 수동 스모크(dev 서버 구동 등)로 확인하고 갭을 명시.
+- **유형별**: product=behavioral / debt=회귀 스모크 / **investigation=증거 수집(실측 실행)이 핵심 산출** — 측정 결과를 session에 정량 기록(dissolve/spawn 판단 근거).
 
 ## 쓰기 권한
 `session.md`(verdict = pass/fail + 최소 원인)만. 코드 수정 금지.

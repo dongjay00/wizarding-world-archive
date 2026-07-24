@@ -16,6 +16,7 @@ model: opus
 - 되돌리기 어려운 결정은 `architecture/ADR/NNNN-*.md`(append-only)로. 미결정은 `decision-queue`로.
 - `Constraints.md`를 seed(hard는 실재 도구만).
 - **SDD를 구현 단위로 쪼개 `docs/runtime/tasks.md`에 분해**한다.
+- **유형 재확인(재분류 관문)**: blast-radius를 수치로 실측해 spec의 잠정 유형을 재확인. 어긋나면 재분류하고 `session.md`에 전이를 남긴다. 유형을 올리면(debt→product 등) 건너뛴 게이트/step을 소급 발화(gate1 재발화 등). debt/investigation은 ADR·SDD 통상 불요 — "실측 후 불요 판정"까지는 반드시 수행(어떤 유형도 skip 없음).
 
 ## 쓰기 권한
 Architecture, UIUX, TestStrategy, SDD(draft), ADR(신규), Constraints(seed), decision-queue, tasks.

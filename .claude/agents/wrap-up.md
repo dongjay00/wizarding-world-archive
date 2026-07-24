@@ -16,6 +16,7 @@ model: opus
 - 확정된 미결정을 `decision-queue`에서 **ADR로 승격**(⚠ "되돌리기 어려운 결정"은 **사람 승인 후**) 후 큐에서 삭제.
 - 도구화된 반복 위반을 Constraints **soft→hard** 승격.
 - 완료된 `tasks`를 폐기.
+- **유형별 종결**: debt=ADR 통상 불요. **investigation=dissolve**(무변경이면 decision-queue 종결 주석+State/Constraints note 정합 확인+lessons) 또는 **spawn**(실작업을 후속 feature로 decision-queue 적재·유형 태그, 새 회전으로 분리).
 
 ## 쓰기 권한
 `lessons.md`(append), `summary.md`, `decision-queue.md`, `ADR/`(승격), `Constraints.md`(승격), `tasks.md`(폐기).
