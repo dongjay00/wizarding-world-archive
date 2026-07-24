@@ -3,7 +3,7 @@
 > 이 문서는 **하네스 중립 헌법**이다. 파이프라인·step 스펙(WHO)·게이트·문서 계약의 **단일 출처(SSOT)**.
 > 특정 도구(Claude Code / Codex)는 이 문서를 **어댑터**로 참조한다:
 > - Claude Code → `CLAUDE.md` + `.claude/agents/*` + `.claude/settings.json`(hooks)
-> - Codex(향후) → `.codex/*` 어댑터만 추가
+> - Codex → `.codex/adapter.md` + `.codex/steps/*`
 >
 > 어댑터는 "누가 실행하고 어떤 도구를 쓰는가"만 다르게 하고, **역할·읽는 문서·쓰는 문서·통과 게이트는 이 문서를 그대로 따른다.**
 
@@ -105,9 +105,9 @@ flowchart TD
 
 - **전이 트리거(주)**: build-logic이 done을 선언하는 **Implement→Testing 경계에서 파이프라인이 완전 게이트(`tsc·lint·build`)를 1회 명시 호출**한다.
 - **2-tier 비용**: 값싼 연속 체크(`tsc·lint`, step 단위로 자주) vs 비싼 완전 게이트(`build`, 경계 1회).
-- **Stop hook 안전망(보조)**: `.claude/hooks/gate2-build-verify.sh`는 Stop마다 도는 **값싼 안전망**일 뿐, 게이트의 주 메커니즘이 아니다. 기본 advisory, `GATE_ENFORCE=1`로 무장 시 차단.
+- **Stop hook 안전망(보조)**: `scripts/harness/gate2-build-verify.sh`는 **하네스 중립 gate2 커널**이다. Claude Stop hook은 `.claude/hooks/gate2-build-verify.sh` wrapper로 이 커널을 호출한다. Stop마다 도는 것은 **값싼 안전망**일 뿐, 게이트의 주 메커니즘이 아니다. 기본 advisory, `GATE_ENFORCE=1`로 무장 시 차단.
 
-> ⚠ **현 상태**: 이 저장소 어댑터는 아직 **Stop hook 안전망만** 배선돼 있고, "전이 트리거" 주경로는 파이프라인 정식 1회전 때 코드로 구현된다(그전까지 문서상 규정).
+> **현 상태**: gate2 커널은 `npm run gate2` / `npm run gate2:fast`로 명시 호출 가능하다. Claude 어댑터는 Stop hook 안전망을 추가로 배선하고, Codex 어댑터는 `build-logic` 완료 시 `npm run gate2`를 전이 트리거로 호출한다.
 
 ---
 
@@ -191,4 +191,4 @@ flowchart TD
 - **R3. 초기 ADR은 `retro` 태그.** 사후 복원한 결정은 `status: accepted (retro)`로 실시간 결정과 구분(ADR-0001~0006).
 - **R4. 채택 직후 gate2 베이스라인 실측.** 입히자마자 gate2를 1회 돌려 기존 부채를 뽑아 적재한다(이 실험에서 Footer lint 4건 = D-4를 이렇게 잡음).
 
-다음 feature는 이 파이프라인을 처음부터 한 바퀴 도는 첫 실사용이 되며, 그때 §3의 "전이 트리거"가 코드로 구현된다.
+다음 feature는 이 파이프라인을 처음부터 한 바퀴 돌며, §3의 "전이 트리거"는 `npm run gate2` 명시 호출로 실행한다.

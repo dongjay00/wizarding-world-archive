@@ -26,7 +26,7 @@
 ## 게이트 실행 (Claude 측)
 
 - **gate1(휴먼)**, **gate3(휴먼)**: 자동 통과하지 않는다. 사람의 승인을 요청하고(질문), 승인 전까지 다음 phase로 넘어가지 않는다.
-- **gate2(결정론)**: 발화 모델은 **전이 트리거(주) + Stop 안전망(보조)** (AGENTS.md §3). 주경로는 Implement→Testing 경계에서 파이프라인이 완전 게이트(`tsc·lint·build`)를 1회 호출(파이프라인 1회전 때 구현). Stop 안전망은 `.claude/hooks/gate2-build-verify.sh`(값싼 tsc·lint), `.claude/settings.json`의 Stop hook에 연결, 기본 advisory·`GATE_ENFORCE=1` 시 차단. **현재 배선은 Stop 안전망만** 존재.
+- **gate2(결정론)**: 발화 모델은 **전이 트리거(주) + Stop 안전망(보조)** (AGENTS.md §3). 주경로는 Implement→Testing 경계에서 `npm run gate2`로 완전 게이트(`tsc·lint·build`)를 1회 호출한다. Stop 안전망은 `.claude/hooks/gate2-build-verify.sh` wrapper가 중립 커널 `scripts/harness/gate2-build-verify.sh`를 호출하며, `.claude/settings.json`의 Stop hook에 연결된다. 기본 advisory·`GATE_ENFORCE=1` 시 차단.
 
 ## 문서 쓰기 규율 (재확인)
 

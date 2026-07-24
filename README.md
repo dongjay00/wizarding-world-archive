@@ -10,10 +10,11 @@ A beautiful, modern web application for exploring the magical universe of Harry 
 
 - **[`AGENTS.md`](./AGENTS.md)** — 하네스 중립 헌법(파이프라인·step·게이트·문서 계약, 단일 출처).
 - **[`CLAUDE.md`](./CLAUDE.md)** — Claude Code 어댑터(`.claude/agents/*`, `.claude/settings.json` hooks).
+- **[`.codex/adapter.md`](./.codex/adapter.md)** — Codex 어댑터(`.codex/steps/*`, 명시적 gate 호출).
 - **[`docs/state/`](./docs/state)** — read-mostly(PRD·Domain·Architecture·SDD·ADR·UIUX·TestStrategy·Constraints), 게이트에서 freeze.
 - **[`docs/runtime/`](./docs/runtime)** — mutate(session·tasks·lessons·decision-queue·summary).
 
-작업 전 `AGENTS.md`와 `docs/runtime/session.md`를 먼저 읽는다. 게이트: gate1(휴먼)·gate2(결정론 `tsc`/`lint`/`build`)·gate3(휴먼).
+작업 전 `AGENTS.md`와 `docs/runtime/session.md`를 먼저 읽는다. 게이트: gate1(휴먼)·gate2(결정론 `npm run gate2`)·gate3(휴먼).
 
 ## ✨ Features
 

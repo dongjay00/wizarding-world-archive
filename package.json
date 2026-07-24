@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "gate2": "GATE_ENFORCE=1 GATE_FULL=1 bash .claude/hooks/gate2-build-verify.sh",
-    "gate2:fast": "GATE_ENFORCE=1 bash .claude/hooks/gate2-build-verify.sh"
+    "gate2": "GATE_ENFORCE=1 GATE_FULL=1 bash scripts/harness/gate2-build-verify.sh",
+    "gate2:fast": "GATE_ENFORCE=1 bash scripts/harness/gate2-build-verify.sh"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.5",
