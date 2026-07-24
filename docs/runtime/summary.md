@@ -14,7 +14,7 @@
   - `filterStore.ts` 삭제(grep 소비자 0). nuqs `useSearchParams` Suspense 요구가 build에서 표면화 → 4페이지 콘텐츠를 `<Suspense fallback={FullPageLoader}>`로 감쌈(최상단 `"use client"` 유지, L-2 스코프 확대 아님).
 - **왜**: 필터 상태 소유가 이원화(설계된 filterStore는 死코드, 실제는 local useState)돼 C-S2(상태 이중화)를 위반하고, 필터·검색·페이지가 URL 밖이라 새로고침·공유 시 소실(UX-2)되던 두 결함을 **같은 뿌리(단일 소유처 부재)**에서 동시 해소하기 위해. 하네스로 **첫 신규 런타임 의존성 도입 + 상태 아키텍처 변경** product feature를 완주 검증.
 - **결과**: gate1(휴먼)·gate2(tsc·lint·build 3종 green, 4목록 static prerender)·gate3(휴먼 시각 수용: 4페이지 URL 복원·문자열 관찰) 3게이트 통과. **폴백 클로즈(자작 useFilterParams) 미발동**(nuqs 2.9.0에서 #1263 해소, Next 16.0.10/React Compiler on 환경 정상). ADR-0007 승격(accepted 최종 확정). C-S2 해소·C-S6 배선 확인. UX-2 구현 완료(gate3 수용). **D-1 종결.**
-  - ⚠ **UIUX UX-2 문구 미갱신(계약 경계)**: UIUX는 wrap-up 쓰기 권한이 아니라, UX-2가 아직 "해소 설계됨·**구현 대기**"로 남아 있다. gate3 수용으로 구현 완료됐으므로 "해소(구현 완료)"로의 갱신이 필요 — review 재진입/architect 소관(아래 최종 보고 플래그).
+  - ✅ **UIUX UX-2 문구 정합 완료(2026-07-09 후속 확인)**: 이 플래그는 wrap-up 시점 가정("UIUX가 아직 '구현 대기'")에 근거했으나, 실제 `UIUX.md`는 architect의 D-1 재진입에서 이미 UX-2를 "해소(ADR-0007 → U-7)·구현 종결"로 갱신하고 U-7 수용기준을 추가한 상태였다(재진입 로그·라인 56·61). 즉 문서는 이미 현실과 일치(L-1) — 별도 갱신 불요. stale 플래그였음을 여기 정리.
 - **배운 것**: L-10(방향 확정 브레인스토밍을 파이프라인 진입 전에 두고 session 핸드오프로 실음), L-11(신규 의존성=ADR+폴백 클로즈+게이트 안전망으로 흡수), L-12(blast radius 확정분≠실측 3건, config 파라미터화로 흡수, L-7 재확인), L-13(부산물 Suspense 경계를 L-2 스코프 확대 아님으로 격리).
 
 ---
