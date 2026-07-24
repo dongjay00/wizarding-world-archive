@@ -93,11 +93,21 @@ flowchart TD
 | 게이트 | 위치 | 종류 | 통과 조건 | 실행 |
 |---|---|---|---|---|
 | **gate1** `validate_prd` | Plan→Implement | 휴먼 + 구조 | PRD/Domain에 WHY·수용기준·유비쿼터스 언어가 존재하고 모순 없음. **사람이 승인**. 구조 체크(필수 섹션 존재)는 자동. | 사람(팀장/개발자) + 어댑터의 구조 린트 |
-| **gate2** `build-verify` | Implement→Testing | 결정론 | `tsc --noEmit` **and** `npm run lint` **and** `npm run build` 모두 pass. 하나라도 fail이면 차단. | 어댑터 hook (자동) |
+| **gate2** `build-verify` | Implement→Testing | 결정론 | `tsc --noEmit` **and** `npm run lint` **and** `npm run build` 모두 pass. 하나라도 fail이면 차단. | **전이 트리거(주)** + Stop hook 안전망 (아래 발화 모델) |
 | **gate3** `acceptance` | Testing→Review | 휴먼 | PRD 수용기준(AC-*)·UIUX 기준(U-*)을 review가 대조, **사람이 최종 수용**. | review step + 사람 |
 
 - gate2는 Constraints C-1~C-3와 1:1. 테스트 러너 도입 시 `npm test`가 gate2에 편입(TestStrategy 승격 규칙).
 - **ADR 승격은 휴먼 판단**: "되돌리기 어려운 결정"은 사람 승인 후에만 decision-queue→ADR 승격(wrap-up이 집행, 사람이 결정).
+
+### 게이트 발화 모델 (전이 트리거 + Stop 안전망)
+
+게이트는 개념상 **phase 경계에서 발화**한다 — 매 Stop마다가 아니라. 결정론 게이트(gate2)의 기본 모델:
+
+- **전이 트리거(주)**: build-logic이 done을 선언하는 **Implement→Testing 경계에서 파이프라인이 완전 게이트(`tsc·lint·build`)를 1회 명시 호출**한다.
+- **2-tier 비용**: 값싼 연속 체크(`tsc·lint`, step 단위로 자주) vs 비싼 완전 게이트(`build`, 경계 1회).
+- **Stop hook 안전망(보조)**: `.claude/hooks/gate2-build-verify.sh`는 Stop마다 도는 **값싼 안전망**일 뿐, 게이트의 주 메커니즘이 아니다. 기본 advisory, `GATE_ENFORCE=1`로 무장 시 차단.
+
+> ⚠ **현 상태**: 이 저장소 어댑터는 아직 **Stop hook 안전망만** 배선돼 있고, "전이 트리거" 주경로는 파이프라인 정식 1회전 때 코드로 구현된다(그전까지 문서상 규정).
 
 ---
 
@@ -172,6 +182,13 @@ flowchart TD
 - **State 재진입은 흔적을 남긴다.** freeze된 문서를 고치면 이유를 session에, 결정이면 ADR/decision-queue에.
 - **Constraints hard는 실재 도구만.** `enforced_by` 없는 hard 금지.
 
-## 6. 지금 저장소의 상태
+## 6. Brownfield(역복원) 채택 모드
 
-이 앱은 **완성 후 역복원**으로 거버넌스가 입혀졌다. State 문서는 "의도"가 아니라 **현재 코드의 현실**을 기록하며, 설계-현실 괴리는 `decision-queue`(D-1~D-3)에 미결로 적재돼 있다. 다음 feature는 이 파이프라인을 처음부터 한 바퀴 도는 첫 실사용이 된다.
+이 앱은 **완성 후 역복원**으로 거버넌스가 입혀졌다(greenfield가 아니다). 이 모드의 규율:
+
+- **R1. State는 의도가 아니라 현실을 적는다.** 설계 의도와 실제 동작이 갈리면 **현실**을 기록한다.
+- **R2. 괴리는 decision-queue로.** 설계-현실 불일치(死코드·이중화·결함)는 문서에 봉합하지 않고 미결로 흘려보낸다(D-1~D-4).
+- **R3. 초기 ADR은 `retro` 태그.** 사후 복원한 결정은 `status: accepted (retro)`로 실시간 결정과 구분(ADR-0001~0006).
+- **R4. 채택 직후 gate2 베이스라인 실측.** 입히자마자 gate2를 1회 돌려 기존 부채를 뽑아 적재한다(이 실험에서 Footer lint 4건 = D-4를 이렇게 잡음).
+
+다음 feature는 이 파이프라인을 처음부터 한 바퀴 도는 첫 실사용이 되며, 그때 §3의 "전이 트리거"가 코드로 구현된다.
