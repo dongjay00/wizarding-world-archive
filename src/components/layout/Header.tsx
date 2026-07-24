@@ -1,22 +1,18 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { Moon, Sun, Sparkles, Menu, X } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Sparkles, Menu, X } from "lucide-react";
+import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import { NAVIGATION } from "@/lib/utils/constants";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
 
 export default function Header() {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
+  const t = useTranslations("nav");
+  const tc = useTranslations("common");
 
   return (
     <header className="sticky top-0 z-50 glass-dark border-b border-amber-500/20">
@@ -26,7 +22,7 @@ export default function Header() {
           <Link href="/" className="flex items-center gap-2 group">
             <Sparkles className="w-8 h-8 text-amber-500 group-hover:animate-spin transition-transform" />
             <span className="text-2xl font-magic font-bold magic-text hidden sm:block">
-              Wizarding Archive
+              {tc("brand")}
             </span>
           </Link>
 
@@ -41,37 +37,27 @@ export default function Header() {
                   className={`px-4 py-2 rounded-lg transition-all duration-300 font-medium ${
                     isActive
                       ? "bg-amber-500/20 text-amber-400 magic-glow"
-                      : "hover:bg-white/5 text-gray-300 hover:text-white"
+                      : "hover:bg-surface/10 text-muted hover:text-content"
                   }`}
                 >
                   <span className="mr-2">{item.icon}</span>
-                  {item.name}
+                  {t(item.key)}
                 </Link>
               );
             })}
           </div>
 
-          {/* Theme Toggle & Mobile Menu */}
+          {/* Actions: 언어 스위처 + 테마 토글 + 모바일 메뉴 */}
           <div className="flex items-center gap-3">
-            {/* {mounted && (
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-lg hover:bg-white/10 transition-colors"
-                aria-label="Toggle theme"
-              >
-                {theme === "dark" ? (
-                  <Sun className="w-5 h-5 text-amber-400" />
-                ) : (
-                  <Moon className="w-5 h-5 text-slate-700" />
-                )}
-              </button>
-            )} */}
-
+            <div className="hidden sm:block">
+              <LanguageSwitcher />
+            </div>
+            <ThemeToggle />
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
-              aria-label="Toggle menu"
+              className="xl:hidden p-2 rounded-lg hover:bg-surface/10 transition-colors"
+              aria-label={tc("toggleMenu")}
             >
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" />
@@ -95,14 +81,18 @@ export default function Header() {
                   className={`block px-4 py-3 rounded-lg transition-all duration-300 ${
                     isActive
                       ? "bg-amber-500/20 text-amber-400"
-                      : "hover:bg-white/5 text-gray-300"
+                      : "hover:bg-surface/10 text-muted"
                   }`}
                 >
                   <span className="mr-2">{item.icon}</span>
-                  {item.name}
+                  {t(item.key)}
                 </Link>
               );
             })}
+            {/* 모바일: 언어 스위처 미러링 (U-10) */}
+            <div className="px-4 pt-2 sm:hidden">
+              <LanguageSwitcher />
+            </div>
           </div>
         )}
       </nav>

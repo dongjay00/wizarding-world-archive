@@ -1,0 +1,225 @@
+{
+  "common": {
+    "brand": "Wizarding Archive",
+    "loading": "Loading magical content...",
+    "errorTitle": "Something Went Wrong",
+    "viewWiki": "View Wiki",
+    "toggleMenu": "Toggle menu",
+    "themeToggle": "Toggle light/dark theme",
+    "metaTitle": "The Wizarding World Archive",
+    "metaDescription": "Explore the magical world of Harry Potter - Characters, Spells, Potions, Movies, and Books"
+  },
+  "nav": {
+    "home": "Home",
+    "characters": "Characters",
+    "spells": "Spells",
+    "potions": "Potions",
+    "movies": "Movies",
+    "books": "Books",
+    "favorites": "Favorites"
+  },
+  "home": {
+    "heroTitle": "The Wizarding World",
+    "heroSubtitle": "Explore the complete archive of characters, spells, potions, and more from the magical universe of Harry Potter",
+    "cta": "Begin Your Journey",
+    "exploreTitle": "Explore the Archive",
+    "exploreSubtitle": "Choose your path through the magical world",
+    "ctaTitle": "Ready to Cast Your First Spell?",
+    "ctaSubtitle": "Join thousands of wizards and witches exploring the most comprehensive Harry Potter database",
+    "ctaButton": "Explore Spells",
+    "cards": {
+      "characters": {
+        "description": "Discover witches, wizards, and magical creatures",
+        "count": "1000+"
+      },
+      "spells": {
+        "description": "Master the incantations of the wizarding world",
+        "count": "300+"
+      },
+      "potions": {
+        "description": "Explore magical brews and their effects",
+        "count": "100+"
+      },
+      "movies": {
+        "description": "Relive the cinematic journey through time",
+        "count": "8 Films"
+      },
+      "books": {
+        "description": "Dive into the original magical tales",
+        "count": "7 Books"
+      }
+    },
+    "stats": {
+      "characters": "1000+",
+      "spells": "300+",
+      "potions": "100+",
+      "movies": "8"
+    }
+  },
+  "footer": {
+    "aboutTitle": "About This Archive",
+    "aboutBody": "A comprehensive database of the Wizarding World, powered by <link>Potter DB API</link>. Explore characters, spells, potions, movies, and books from the magical universe.",
+    "quickLinksTitle": "Quick Links",
+    "creditsTitle": "Made with Magic",
+    "creditsBody": "Built with Next.js 15, React Query, Zustand, and Tailwind CSS.",
+    "madeWith": "Made with <heart></heart> for Potterheads",
+    "rights": "© {year} Wizarding World Archive. All rights reserved."
+  },
+  "characters": {
+    "title": "Characters",
+    "subtitle": "Discover the witches, wizards, and magical creatures of the Wizarding World",
+    "searchPlaceholder": "Search characters by name...",
+    "filterByHouse": "Filter by House:",
+    "allHouses": "All Houses",
+    "found": "Found <em>{count}</em> characters",
+    "emptyTitle": "No Characters Found",
+    "emptyHint": "Try adjusting your search or filters",
+    "error": "Failed to load characters",
+    "backToList": "Back to Characters",
+    "notFound": "Character not found",
+    "species": "Species",
+    "gender": "Gender",
+    "bloodStatus": "Blood Status",
+    "lifeTitle": "Life",
+    "born": "Born",
+    "died": "Died",
+    "physicalTitle": "Physical Appearance",
+    "eyes": "Eyes",
+    "hair": "Hair",
+    "height": "Height",
+    "magicalTitle": "Magical Attributes",
+    "patronus": "Patronus",
+    "boggart": "Boggart",
+    "animagus": "Animagus",
+    "wands": "Wands",
+    "occupationTitle": "Occupation & Titles",
+    "jobs": "Jobs",
+    "titles": "Titles",
+    "familyTitle": "Family & Relationships",
+    "familyMembers": "Family Members",
+    "romances": "Romances",
+    "hasWand": "Has Wand"
+  },
+  "spells": {
+    "title": "Spells",
+    "subtitle": "Master the incantations and magical spells of the Wizarding World",
+    "searchPlaceholder": "Search spells by name or incantation...",
+    "filterByCategory": "Filter by Category:",
+    "allCategories": "All Categories",
+    "found": "Found <em>{count}</em> spells",
+    "emptyTitle": "No Spells Found",
+    "emptyHint": "Try adjusting your search or filters",
+    "error": "Failed to load spells",
+    "backToList": "Back to Spells",
+    "notFound": "Spell not found",
+    "incantationTitle": "Incantation",
+    "incantationHint": "Speak clearly while performing the wand movement",
+    "effectTitle": "Effect",
+    "categoryInfoTitle": "Category Information",
+    "creator": "Creator",
+    "lightColor": "Light Color",
+    "wandMovement": "Wand Movement",
+    "by": "by {name}",
+    "categoryDesc": {
+      "Charm": "Charms are spells that add or change properties of an object or person.",
+      "Transfiguration": "Transfiguration is magic that changes one object into another.",
+      "Curse": "Curses are dark spells intended to cause harm or control others.",
+      "Hex": "Hexes are spells that cause moderate harm or discomfort.",
+      "Jinx": "Jinxes are minor spells that cause temporary inconvenience.",
+      "Spell": "General magical incantations for various purposes.",
+      "Counter-spell": "Spells designed to counter or reverse other spells.",
+      "Healing spell": "Spells used to heal injuries and cure ailments."
+    },
+    "categoryDescFallback": "A magical incantation from the Wizarding World."
+  },
+  "potions": {
+    "title": "Potions",
+    "subtitle": "Explore magical brews, their ingredients, and powerful effects",
+    "searchPlaceholder": "Search potions by name...",
+    "filterByDifficulty": "Filter by Difficulty:",
+    "allLevels": "All Levels",
+    "found": "Found <em>{count}</em> potions",
+    "emptyTitle": "No Potions Found",
+    "emptyHint": "Try adjusting your search or filters",
+    "error": "Failed to load potions",
+    "backToList": "Back to Potions",
+    "notFound": "Potion not found",
+    "brewingTime": "Brewing Time",
+    "inventor": "Inventor",
+    "manufacturer": "Manufacturer",
+    "effectTitle": "Effect",
+    "characteristicsTitle": "Characteristics",
+    "ingredientsTitle": "Ingredients",
+    "sideEffectsTitle": "Side Effects",
+    "sideEffectsCard": "Side effects"
+  },
+  "movies": {
+    "title": "Movies",
+    "subtitle": "Experience the magical journey through the Harry Potter film series",
+    "searchPlaceholder": "Search movies by title...",
+    "found": "Found <em>{count}</em> movies",
+    "emptyTitle": "No Movies Found",
+    "emptyHint": "Try adjusting your search",
+    "error": "Failed to load movies",
+    "backToList": "Back to Movies",
+    "notFound": "Movie not found",
+    "financialTitle": "Financial",
+    "budget": "Budget",
+    "boxOffice": "Box Office",
+    "watchTrailer": "Watch Trailer",
+    "synopsisTitle": "Synopsis",
+    "directorsTitle": "Directors",
+    "producersTitle": "Producers",
+    "screenwritersTitle": "Screenwriters",
+    "musicTitle": "Music",
+    "distributorsTitle": "Distributors"
+  },
+  "books": {
+    "title": "Books",
+    "subtitle": "Explore the original tales that started the magical journey",
+    "emptyTitle": "No Books Found",
+    "error": "Failed to load books",
+    "backToList": "Back to Books",
+    "notFound": "Book not found",
+    "author": "Author",
+    "pages": "Pages",
+    "published": "Published",
+    "pagesCount": "{count} pages",
+    "by": "by {name}",
+    "summaryTitle": "Summary",
+    "dedicationTitle": "Dedication",
+    "chapters": "Chapters ({count})",
+    "loadingChapters": "Loading chapters..."
+  },
+  "favorites": {
+    "title": "Favorites",
+    "summaryEmpty": "Save magical entries from any archive page.",
+    "summaryCount": "{count, plural, one {# saved entry} other {# saved entries}}",
+    "emptyTitle": "No Favorites Yet",
+    "emptyBody": "Add characters, spells, potions, movies, or books with the heart button.",
+    "browseCharacters": "Browse Characters",
+    "browseSpells": "Browse Spells",
+    "remove": "Remove {title} from favorites"
+  },
+  "domain": {
+    "house": {
+      "Gryffindor": "Gryffindor",
+      "Slytherin": "Slytherin",
+      "Ravenclaw": "Ravenclaw",
+      "Hufflepuff": "Hufflepuff"
+    },
+    "entity": {
+      "Character": "Character",
+      "Spell": "Spell",
+      "Potion": "Potion",
+      "Movie": "Movie",
+      "Book": "Book"
+    },
+    "chapter": "Chapter"
+  },
+  "switcher": {
+    "label": "Language",
+    "en": "EN",
+    "ko": "KO"
+  }
+}

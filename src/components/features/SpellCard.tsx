@@ -1,9 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
-import { Sparkles, Wand2, Lightbulb } from "lucide-react";
+import { Wand2, Lightbulb } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { PotterSpell } from "@/types/potter";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromSpell } from "@/lib/utils/favorites";
 
 interface SpellCardProps {
   spell: PotterSpell;
@@ -21,14 +24,19 @@ const categoryColors: Record<string, string> = {
 };
 
 export default function SpellCard({ spell }: SpellCardProps) {
+  const t = useTranslations("spells");
   const { attributes } = spell;
   const categoryGradient = attributes.category
     ? categoryColors[attributes.category] || "from-purple-600 to-pink-600"
     : "from-purple-600 to-pink-600";
 
   return (
-    <Link href={`/spells/${spell.id}`}>
-      <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+    <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+      <FavoriteToggleButton
+        item={favoriteFromSpell(spell)}
+        className="absolute left-3 top-3 z-20 h-10 w-10"
+      />
+      <Link href={`/spells/${spell.id}`} className="block h-full">
         {/* Category Gradient Background */}
         <div
           className={`absolute inset-0 bg-gradient-to-br ${categoryGradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
@@ -70,7 +78,9 @@ export default function SpellCard({ spell }: SpellCardProps) {
           {/* Incantation */}
           {attributes.incantation && (
             <div className="mb-3 px-3 py-2 bg-purple-500/10 rounded-lg">
-              <div className="text-xs text-gray-400 mb-1">Incantation</div>
+              <div className="text-xs text-muted mb-1">
+                {t("incantationTitle")}
+              </div>
               <div className="font-magic text-purple-300 italic">
                 &quot;{attributes.incantation}&quot;
               </div>
@@ -79,13 +89,13 @@ export default function SpellCard({ spell }: SpellCardProps) {
 
           {/* Effect */}
           {attributes.effect && (
-            <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+            <p className="text-sm text-muted mb-3 line-clamp-2">
               {attributes.effect}
             </p>
           )}
 
           {/* Footer */}
-          <div className="flex items-center justify-between pt-3 border-t border-gray-800">
+          <div className="flex items-center justify-between pt-3 border-t border-subtle">
             {/* Category Badge */}
             {attributes.category && (
               <span
@@ -97,13 +107,13 @@ export default function SpellCard({ spell }: SpellCardProps) {
 
             {/* Creator */}
             {attributes.creator && (
-              <div className="text-xs text-gray-500 truncate max-w-[120px]">
-                by {attributes.creator}
+              <div className="text-xs text-subtle truncate max-w-[120px]">
+                {t("by", { name: attributes.creator })}
               </div>
             )}
           </div>
         </div>
-      </div>
     </Link>
+    </div>
   );
 }

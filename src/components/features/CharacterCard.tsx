@@ -1,23 +1,32 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { Home, Sparkles } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { PotterCharacter } from "@/types/potter";
 import { HOUSE_COLORS } from "@/lib/utils/constants";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromCharacter } from "@/lib/utils/favorites";
 
 interface CharacterCardProps {
   character: PotterCharacter;
 }
 
 export default function CharacterCard({ character }: CharacterCardProps) {
+  const t = useTranslations("characters");
+  const tHouse = useTranslations("domain.house");
   const { attributes } = character;
   const house = attributes.house as keyof typeof HOUSE_COLORS | null;
   const houseColor = house ? HOUSE_COLORS[house] : null;
 
   return (
-    <Link href={`/characters/${character.id}`}>
-      <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+    <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+      <FavoriteToggleButton
+        item={favoriteFromCharacter(character)}
+        className="absolute left-3 top-3 z-20 h-10 w-10"
+      />
+      <Link href={`/characters/${character.id}`} className="block h-full">
         {/* House Gradient Background */}
         {houseColor && (
           <div
@@ -54,26 +63,27 @@ export default function CharacterCard({ character }: CharacterCardProps) {
           <div className="space-y-2 text-sm">
             {attributes.house && (
               <div className="flex items-center gap-2">
-                <Home className="w-4 h-4 text-gray-400" />
+                <Home className="w-4 h-4 text-muted" />
                 <span
                   className="font-semibold"
                   style={{ color: houseColor?.secondary }}
                 >
-                  {attributes.house}
+                  {house ? tHouse(house) : attributes.house}
                 </span>
               </div>
             )}
 
             {attributes.species && (
-              <div className="text-gray-400">
-                <span className="text-gray-500">Species:</span>{" "}
+              <div className="text-muted">
+                <span className="text-subtle">{t("species")}:</span>{" "}
                 {attributes.species}
               </div>
             )}
 
             {attributes.born && (
-              <div className="text-gray-400">
-                <span className="text-gray-500">Born:</span> {attributes.born}
+              <div className="text-muted">
+                <span className="text-subtle">{t("born")}:</span>{" "}
+                {attributes.born}
               </div>
             )}
           </div>
@@ -82,17 +92,17 @@ export default function CharacterCard({ character }: CharacterCardProps) {
           <div className="mt-4 flex flex-wrap gap-2">
             {attributes.patronus && (
               <span className="px-2 py-1 bg-purple-500/20 text-purple-300 rounded text-xs">
-                Patronus: {attributes.patronus}
+                {t("patronus")}: {attributes.patronus}
               </span>
             )}
             {attributes.wands.length > 0 && (
               <span className="px-2 py-1 bg-amber-500/20 text-amber-300 rounded text-xs">
-                Has Wand
+                {t("hasWand")}
               </span>
             )}
           </div>
         </div>
-      </div>
     </Link>
+    </div>
   );
 }

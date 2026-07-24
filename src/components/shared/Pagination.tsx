@@ -38,7 +38,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="p-2 rounded-lg glass hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="p-2 rounded-lg glass hover:bg-surface/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
       >
         <ChevronLeft className="w-5 h-5" />
       </button>
@@ -47,11 +47,11 @@ export default function Pagination({
         <>
           <button
             onClick={() => onPageChange(1)}
-            className="px-4 py-2 rounded-lg glass hover:bg-white/10 transition-all"
+            className="px-4 py-2 rounded-lg glass hover:bg-surface/10 transition-all"
           >
             1
           </button>
-          {pages[0] > 2 && <span className="px-2 text-gray-500">...</span>}
+          {pages[0] > 2 && <span className="px-2 text-subtle">...</span>}
         </>
       )}
 
@@ -62,7 +62,7 @@ export default function Pagination({
           className={`px-4 py-2 rounded-lg transition-all ${
             page === currentPage
               ? "bg-amber-500 text-white magic-glow"
-              : "glass hover:bg-white/10"
+              : "glass hover:bg-surface/10"
           }`}
         >
           {page}
@@ -72,11 +72,11 @@ export default function Pagination({
       {pages[pages.length - 1] < totalPages && (
         <>
           {pages[pages.length - 1] < totalPages - 1 && (
-            <span className="px-2 text-gray-500">...</span>
+            <span className="px-2 text-subtle">...</span>
           )}
           <button
             onClick={() => onPageChange(totalPages)}
-            className="px-4 py-2 rounded-lg glass hover:bg-white/10 transition-all"
+            className="px-4 py-2 rounded-lg glass hover:bg-surface/10 transition-all"
           >
             {totalPages}
           </button>
@@ -86,7 +86,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="p-2 rounded-lg glass hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        className="p-2 rounded-lg glass hover:bg-surface/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
       >
         <ChevronRight className="w-5 h-5" />
       </button>

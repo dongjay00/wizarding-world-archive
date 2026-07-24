@@ -1,4 +1,7 @@
 @import "tailwindcss";
+
+/* Tailwind v4: `dark:` 변형이 next-themes 의 <html>.dark 클래스를 보도록 (기본값은 prefers-color-scheme). ADR-0008 */
+@custom-variant dark (&:where(.dark, .dark *));
 /* @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"); */
 
 /* ------------------------------------------------------ */
@@ -22,34 +25,57 @@
   --animate-shimmer: shimmer 2.5s linear infinite;
   --animate-fade-in: fadeIn 0.5s ease-in;
   --animate-slide-up: slideUp 0.5s ease-out;
+
+  /* 시맨틱 색 토큰 (ADR-0008): 런타임 채널 변수(--c-*)를 참조 → .dark 클래스로 전환.
+     생성 유틸: text-content/muted/subtle, bg-surface, border-* 등. /opacity는 v4 color-mix로 동작. */
+  --color-content: rgb(var(--c-content));
+  --color-muted: rgb(var(--c-muted));
+  --color-subtle: rgb(var(--c-subtle));
+  --color-surface: rgb(var(--c-surface));
 }
 
 /* ------------------------------------------------------ */
 /* 🌈 Base Styles */
 /* ------------------------------------------------------ */
 @layer base {
+  /* 라이트(기본): 채널 변수. 색은 "R G B" (space-separated) 로 두어 rgb(var(--x) / a) 지원 */
   :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+    color-scheme: light;
+    --c-content: 24 24 27; /* 본문(near-black) */
+    --c-muted: 82 82 91; /* 2차 */
+    --c-subtle: 113 113 122; /* 3차/라벨 */
+    --c-surface: 24 24 27; /* 채움 표면(어두운 잉크) → 낮은 alpha로 은은한 대비 */
+    --bg-start: 245 243 255; /* 페이지 그라디언트 */
+    --bg-end: 255 255 255;
+    --glass-tint: 255 255 255;
+    --glass-alpha: 0.72;
+    --glass-border: 24 24 27;
+    --glass-border-alpha: 0.1;
+    --glass-dark-tint: 255 255 255;
+    --glass-dark-alpha: 0.85;
+    --scrollbar-track: 233 231 240;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --foreground-rgb: 255, 255, 255;
-      --background-start-rgb: 0, 0, 0;
-      --background-end-rgb: 0, 0, 0;
-    }
+  /* 다크: next-themes 가 <html>.dark 에 부착. 기존 다크 외관 보존 */
+  .dark {
+    color-scheme: dark;
+    --c-content: 255 255 255;
+    --c-muted: 156 163 175; /* gray-400 */
+    --c-subtle: 107 114 128; /* gray-500 */
+    --c-surface: 255 255 255; /* 흰색 → 낮은 alpha로 다크 위 은은한 대비 */
+    --bg-start: 2 6 23; /* slate-950 */
+    --bg-end: 2 6 23;
+    --glass-tint: 255 255 255;
+    --glass-alpha: 0.05;
+    --glass-border: 255 255 255;
+    --glass-border-alpha: 0.1;
+    --glass-dark-tint: 0 0 0;
+    --glass-dark-alpha: 0.3;
+    --scrollbar-track: 26 26 26;
   }
 
   body {
-    color: rgb(var(--foreground-rgb));
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgb(var(--background-end-rgb))
-      )
-      rgb(var(--background-start-rgb));
+    color: rgb(var(--c-content));
     font-family: var(--font-body);
   }
 
@@ -73,7 +99,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #1a1a1a;
+    background: rgb(var(--scrollbar-track));
+  }
+
+  /* 테마 인지 페이지 배경 (ADR-0008) — layout 루트 div가 사용 */
+  .bg-app {
+    background: linear-gradient(
+      to bottom right,
+      rgb(var(--bg-start)),
+      rgb(var(--bg-end))
+    );
   }
 
   ::-webkit-scrollbar-thumb {
@@ -85,17 +120,17 @@
     background: linear-gradient(180deg, #ffd700 0%, #8b0000 100%);
   }
 
-  /* Glassmorphism */
+  /* Glassmorphism (ADR-0008: 채널 변수로 테마 전환) */
   .glass {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgb(var(--glass-tint) / var(--glass-alpha));
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgb(var(--glass-border) / var(--glass-border-alpha));
   }
 
   .glass-dark {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgb(var(--glass-dark-tint) / var(--glass-dark-alpha));
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgb(var(--glass-border) / var(--glass-border-alpha));
   }
 
   /* Magic glow & text */

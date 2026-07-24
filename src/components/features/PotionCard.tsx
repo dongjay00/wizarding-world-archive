@@ -1,9 +1,12 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { FlaskConical, Clock, AlertTriangle } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { PotterPotion } from "@/types/potter";
+import FavoriteToggleButton from "@/components/shared/FavoriteToggleButton";
+import { favoriteFromPotion } from "@/lib/utils/favorites";
 
 interface PotionCardProps {
   potion: PotterPotion;
@@ -17,14 +20,19 @@ const difficultyColors: Record<string, string> = {
 };
 
 export default function PotionCard({ potion }: PotionCardProps) {
+  const t = useTranslations("potions");
   const { attributes } = potion;
   const difficultyGradient = attributes.difficulty
     ? difficultyColors[attributes.difficulty] || "from-green-600 to-emerald-600"
     : "from-green-600 to-emerald-600";
 
   return (
-    <Link href={`/potions/${potion.id}`}>
-      <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+    <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
+      <FavoriteToggleButton
+        item={favoriteFromPotion(potion)}
+        className="absolute left-3 top-3 z-20 h-10 w-10"
+      />
+      <Link href={`/potions/${potion.id}`} className="block h-full">
         {/* Difficulty Gradient Background */}
         <div
           className={`absolute inset-0 bg-gradient-to-br ${difficultyGradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
@@ -65,7 +73,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
 
           {/* Effect */}
           {attributes.effect && (
-            <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+            <p className="text-sm text-muted mb-3 line-clamp-2">
               {attributes.effect}
             </p>
           )}
@@ -73,7 +81,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
           {/* Meta Info */}
           <div className="space-y-2 text-xs">
             {attributes.time && (
-              <div className="flex items-center gap-2 text-gray-400">
+              <div className="flex items-center gap-2 text-muted">
                 <Clock className="w-3 h-3" />
                 <span>{attributes.time}</span>
               </div>
@@ -82,7 +90,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
             {attributes.side_effects && (
               <div className="flex items-center gap-2 text-amber-400">
                 <AlertTriangle className="w-3 h-3" />
-                <span className="line-clamp-1">Side effects</span>
+                <span className="line-clamp-1">{t("sideEffectsCard")}</span>
               </div>
             )}
           </div>
@@ -94,7 +102,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
             </div>
           )}
         </div>
-      </div>
     </Link>
+    </div>
   );
 }

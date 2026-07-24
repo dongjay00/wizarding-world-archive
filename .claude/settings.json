@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "//": "gate2 발화 모델의 Stop hook '안전망'(보조). 주경로는 전이 트리거(파이프라인이 Implement→Testing 경계에서 1회 호출, AGENTS.md §3) — 파이프라인 1회전 때 구현. 이 Stop hook은 값싼 tsc/lint 안전망일 뿐. 기본 advisory, feature 세션에서 GATE_ENFORCE=1 로 무장.",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/gate2-build-verify.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
