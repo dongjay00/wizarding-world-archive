@@ -8,13 +8,11 @@
 
 ---
 
-## 현재 feature: D-5 로컬 즐겨찾기
+## 현재 feature: (없음)
 
-- [x] T1 문서 재진입: PRD AC-14~16, UIUX U-8~9, SDD/state-management, ADR-0009, tasks seed
-- [x] T2 상태 골격: `favoritesStore`(Zustand persist, hydration flag, toggle/remove/isFavorite)
-- [x] T3 공용 UI: 즐겨찾기 토글 버튼 + 즐겨찾기 카드
-- [x] T4 목록 카드 5종에 토글 배선
-- [x] T5 상세 페이지 5종에 토글 배선
-- [x] T6 `/favorites` 라우트 + Header 네비 추가
-- [x] T7 gate2(`tsc·lint·build`) 통과
-- [x] T8 review/wrap-up: AC-14~16·U-8~9 대조, summary 증류
+> 진행 중 feature 없음. 직전 feature **D-5 로컬 즐겨찾기**는 gate3(휴먼 수용) 통과로 종결 → `summary.md`로 증류·폐기(2026-07-09).
+> 다음 feature가 architect의 SDD 분해에 진입하면 여기에 T1~Tn을 seed 한다.
+
+<!-- 종결 이력(증류 완료, 참조는 summary.md):
+D-4 부채상환 · D-2 테마 · D-1 필터 상태 일원화 · D-3 이미지 호스트(무변경) · D-5 로컬 즐겨찾기 -->
+
