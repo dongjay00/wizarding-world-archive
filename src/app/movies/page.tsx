@@ -1,39 +1,39 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { Suspense } from "react";
 import { Search, Film } from "lucide-react";
 import { motion } from "framer-motion";
 import { useMovies } from "@/lib/hooks/useMovies";
+import { useListFilters, type ListFiltersConfig } from "@/lib/hooks/useListFilters";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/shared/Pagination";
 import MovieCard from "@/components/features/MovieCard";
 
+const FILTERS_CONFIG: ListFiltersConfig = {
+  searchFilterKey: "title_cont",
+  sort: "release_date",
+  pageSize: 12,
+};
+
 export default function MoviesPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 12;
+  // useListFilters(useSearchParams) 는 App Router에서 Suspense 경계를 요구한다.
+  return (
+    <Suspense fallback={<FullPageLoader />}>
+      <MoviesPageContent />
+    </Suspense>
+  );
+}
 
-  const apiOptions = useMemo(() => {
-    const filter: Record<string, string> = {};
+function MoviesPageContent() {
+  const {
+    search,
+    setSearch,
+    page: currentPage,
+    setPage: setCurrentPage,
+    fetchOptions,
+  } = useListFilters(FILTERS_CONFIG);
 
-    if (searchQuery) {
-      filter.title_cont = searchQuery;
-    }
-
-    return {
-      page: currentPage,
-      pageSize,
-      filter: Object.keys(filter).length > 0 ? filter : undefined,
-      sort: "release_date",
-    };
-  }, [searchQuery, currentPage]);
-
-  const { data, isLoading, error } = useMovies(apiOptions);
-
-  const handleSearch = (value: string) => {
-    setSearchQuery(value);
-    setCurrentPage(1);
-  };
+  const { data, isLoading, error } = useMovies(fetchOptions);
 
   const movies = data?.data || [];
   const totalPages = data?.meta?.pagination?.last || 1;
@@ -62,8 +62,8 @@ export default function MoviesPage() {
           <input
             type="text"
             placeholder="Search movies by title..."
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-surface/5 border border-subtle rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-content placeholder-subtle transition-all"
           />
         </div>

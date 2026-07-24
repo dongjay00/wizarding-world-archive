@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { Suspense } from "react";
 import { Search, Filter, Users } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCharacters } from "@/lib/hooks/useCharacters";
+import { useListFilters, type ListFiltersConfig } from "@/lib/hooks/useListFilters";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/shared/Pagination";
 import CharacterCard from "@/components/features/CharacterCard";
@@ -11,43 +12,34 @@ import { HOUSE_COLORS } from "@/lib/utils/constants";
 
 const houses = ["Gryffindor", "Slytherin", "Ravenclaw", "Hufflepuff"];
 
+const FILTERS_CONFIG: ListFiltersConfig = {
+  searchFilterKey: "name_cont",
+  discreteFilter: { param: "house", filterKey: "house_eq" },
+  sort: "name",
+  pageSize: 24,
+};
+
 export default function CharactersPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedHouse, setSelectedHouse] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 24;
+  // useListFilters(useSearchParams) 는 App Router에서 Suspense 경계를 요구한다.
+  return (
+    <Suspense fallback={<FullPageLoader />}>
+      <CharactersPageContent />
+    </Suspense>
+  );
+}
 
-  // API 호출 옵션
-  const apiOptions = useMemo(() => {
-    const filter: Record<string, string> = {};
+function CharactersPageContent() {
+  const {
+    search,
+    setSearch,
+    discreteValue: selectedHouse,
+    setDiscreteValue: setSelectedHouse,
+    page: currentPage,
+    setPage: setCurrentPage,
+    fetchOptions,
+  } = useListFilters(FILTERS_CONFIG);
 
-    if (searchQuery) {
-      filter.name_cont = searchQuery;
-    }
-
-    if (selectedHouse) {
-      filter.house_eq = selectedHouse;
-    }
-
-    return {
-      page: currentPage,
-      pageSize,
-      filter: Object.keys(filter).length > 0 ? filter : undefined,
-      sort: "name",
-    };
-  }, [searchQuery, selectedHouse, currentPage]);
-
-  const { data, isLoading, error } = useCharacters(apiOptions);
-
-  const handleSearch = (value: string) => {
-    setSearchQuery(value);
-    setCurrentPage(1);
-  };
-
-  const handleHouseFilter = (house: string | null) => {
-    setSelectedHouse(house);
-    setCurrentPage(1);
-  };
+  const { data, isLoading, error } = useCharacters(fetchOptions);
 
   const characters = data?.data || [];
   const totalPages = data?.meta?.pagination?.last || 1;
@@ -78,8 +70,8 @@ export default function CharactersPage() {
           <input
             type="text"
             placeholder="Search characters by name..."
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-surface/5 border border-subtle rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-500 text-content placeholder-subtle transition-all"
           />
         </div>
@@ -92,9 +84,9 @@ export default function CharactersPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => handleHouseFilter(null)}
+              onClick={() => setSelectedHouse(null)}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                selectedHouse === null
+                selectedHouse === ""
                   ? "bg-amber-500 text-white"
                   : "glass hover:bg-surface/10"
               }`}
@@ -104,7 +96,7 @@ export default function CharactersPage() {
             {houses.map((house) => (
               <button
                 key={house}
-                onClick={() => handleHouseFilter(house)}
+                onClick={() => setSelectedHouse(house)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   selectedHouse === house
                     ? `bg-gradient-to-r ${

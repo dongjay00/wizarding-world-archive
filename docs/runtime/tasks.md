@@ -10,4 +10,4 @@
 
 ## 현재 feature: (없음)
 
-_(비어 있음 — 직전 feature 'D-2 테마 토글 정상화'는 완료·gate3 수용·summary로 증류 후 폐기(2026-07-09). architect가 다음 feature를 분해해 채운다.)_
+> D-1(필터 상태 소유 일원화 + UX-2 해소)은 2026-07-09 파이프라인 1회전으로 T1~T8 전부 완료·gate3 수용 → summary로 증류 후 폐기. 다음 feature 착수 시 architect가 SDD에서 분해해 seed.

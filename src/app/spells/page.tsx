@@ -1,50 +1,43 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { Suspense } from "react";
 import { Search, Wand2, Filter } from "lucide-react";
 import { motion } from "framer-motion";
 import { useSpells } from "@/lib/hooks/useSpells";
+import { useListFilters, type ListFiltersConfig } from "@/lib/hooks/useListFilters";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/shared/Pagination";
 import SpellCard from "@/components/features/SpellCard";
 import { SPELL_CATEGORIES } from "@/lib/utils/constants";
 
+const FILTERS_CONFIG: ListFiltersConfig = {
+  searchFilterKey: "name_cont",
+  discreteFilter: { param: "category", filterKey: "category_eq" },
+  sort: "name",
+  pageSize: 24,
+};
+
 export default function SpellsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 24;
+  // useListFilters(useSearchParams) 는 App Router에서 Suspense 경계를 요구한다.
+  return (
+    <Suspense fallback={<FullPageLoader />}>
+      <SpellsPageContent />
+    </Suspense>
+  );
+}
 
-  const apiOptions = useMemo(() => {
-    const filter: Record<string, string> = {};
+function SpellsPageContent() {
+  const {
+    search,
+    setSearch,
+    discreteValue: selectedCategory,
+    setDiscreteValue: setSelectedCategory,
+    page: currentPage,
+    setPage: setCurrentPage,
+    fetchOptions,
+  } = useListFilters(FILTERS_CONFIG);
 
-    if (searchQuery) {
-      filter.name_cont = searchQuery;
-    }
-
-    if (selectedCategory) {
-      filter.category_eq = selectedCategory;
-    }
-
-    return {
-      page: currentPage,
-      pageSize,
-      filter: Object.keys(filter).length > 0 ? filter : undefined,
-      sort: "name",
-    };
-  }, [searchQuery, selectedCategory, currentPage]);
-
-  const { data, isLoading, error } = useSpells(apiOptions);
-
-  const handleSearch = (value: string) => {
-    setSearchQuery(value);
-    setCurrentPage(1);
-  };
-
-  const handleCategoryFilter = (category: string | null) => {
-    setSelectedCategory(category);
-    setCurrentPage(1);
-  };
+  const { data, isLoading, error } = useSpells(fetchOptions);
 
   const spells = data?.data || [];
   const totalPages = data?.meta?.pagination?.last || 1;
@@ -74,8 +67,8 @@ export default function SpellsPage() {
           <input
             type="text"
             placeholder="Search spells by name or incantation..."
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-surface/5 border border-subtle rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 text-content placeholder-subtle transition-all"
           />
         </div>
@@ -88,9 +81,9 @@ export default function SpellsPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => handleCategoryFilter(null)}
+              onClick={() => setSelectedCategory(null)}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                selectedCategory === null
+                selectedCategory === ""
                   ? "bg-purple-500 text-white"
                   : "glass hover:bg-surface/10"
               }`}
@@ -100,7 +93,7 @@ export default function SpellsPage() {
             {SPELL_CATEGORIES.map((category) => (
               <button
                 key={category}
-                onClick={() => handleCategoryFilter(category)}
+                onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   selectedCategory === category
                     ? "bg-gradient-to-r from-purple-600 to-pink-600 text-white"

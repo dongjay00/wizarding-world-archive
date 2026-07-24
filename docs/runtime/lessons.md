@@ -33,4 +33,16 @@ verify가 헤드리스로 확인 가능한 최대치: 서버 200·시맨틱 유�
 ### L-9. 결정론 게이트도 flake와 진짜 실패를 구분해야 한다
 gate2 full에서 `TurbopackInternalError: timeout`으로 build FAIL. 그러나 tsc·lint green + 코드 무변경 재실행 시 4.2s 성공 → 인프라 flake였다. **1회 재시도로 재현성 판정**해 코드 결함(같은 회차 lint set-state-in-effect)과 분리. 게이트 red를 무조건 코드 되감기로 보지 말고, 비결정 실패는 재현 확인 후 판정. (WSL2 Turbopack 동시 실행 시 관찰.)
 
+### L-10. 방향 확정 브레인스토밍은 파이프라인 **진입 전**에 두고 session 핸드오프로 실어라
+D-1은 사람과의 브레인스토밍으로 "URL 단일 소유 + nuqs + 폴백 클로즈"를 파이프라인 진입 **전에** 확정하고, 그 확정분을 session.md 핸드오프에 슬라이스별(WHY+큐 / AC / ADR·SDD·tasks)로 실었다. 각 step은 자기 권한 문서에 자기 슬라이스만 옮겨(spec=WHY, requirement=AC, architect=ADR/SDD/tasks) 재발명 없이 진행. → product feature에서 architect가 실질을 갖는다는 L-4 경로의 실증 연장. 방향이 큰 결정은 파이프라인 안에서 흔드는 대신 **진입 전 사람과 닫고 파일로 핸드오프**하면 step 간 표류가 준다.
+
+### L-11. 신규 외부 의존성 도입은 ADR + 폴백 클로즈 + gate2/gate3 안전망으로 흡수하라
+첫 신규 런타임 의존성(nuqs) 도입을 ADR-0007에 폴백 클로즈(자작 `useFilterParams`)와 함께 명문화했다 — 트리거(Next 16 어댑터 감지 #1263, React Compiler 상호작용)와 "설계 shape 불변이라 폴백 비용 낮음"을 미리 계약. 실제로는 2.9.0에서 이슈 해소돼 **폴백 미발동**했으나, 외부 라이브러리 리스크를 gate2(build)/gate3(스모크)가 잡는 그물로 흡수하는 구조를 세워둔 것이 값. 러너 부재(T-1)에서 자작 직렬화보다 battle-tested 라이브러리를 1순위로(L-3 정신), 자작은 2차 폴백으로 강등. → 신규 의존성은 "채택 + 폴백 조건 + 어느 게이트가 잡는가"를 ADR에 함께 박아라.
+
+### L-12. blast radius는 확정분과 어긋나므로 architect가 수치로 재고 config로 흡수하라 (L-7 재확인)
+브레인스토밍 확정분의 blast radius가 실측과 3건 어긋났다: (1) 소스가 `src/` 프리픽스 하위(확정분은 `app/`·`lib/`로 누락), (2) movies 차원이 나머지와 상이(`title_cont`·`release_date`·pageSize 12 vs `name_cont`·`name`·24), (3) `useSearchParams` Suspense 경계가 신규로 필요. architect가 이를 수치로 재고 **공용 팩토리를 config로 파라미터화**해 4x 중복 없이 차이를 흡수, tasks에 반영. → brownfield에서 "표면 크기 ≠ 실제 크기"(L-7)는 debt뿐 아니라 product feature의 blast radius 확정분에도 성립. 확정분을 신뢰하되 architect가 실측으로 교정한다.
+
+### L-13. 부산물로 필요해진 경계는 원래 스코프를 확대하지 말고 격리 판정하라
+nuqs `useSearchParams`가 App Router에서 Suspense 경계를 요구해 4페이지 콘텐츠를 `<Suspense>`로 감쌌다. 이는 겉보기엔 RSC 경계 개선(L-2: 페이지 use client 축소)처럼 보이나 **실제로는 nuqs 배선의 부산물**이다. 페이지 최상단 `"use client"`는 유지하고 L-2 스코프 확대가 아님을 Constraints C-S6 note로 격리 기록. → 한 feature가 부산물로 다른 부채 영역을 건드릴 때, 그 부채의 스코프를 슬며시 확대하지 말고 "이건 배선 부산물, 그 부채는 별건"으로 명시 격리하라(스코프 크리프 방지).
+
 <!-- 새 교훈은 아래에 append -->

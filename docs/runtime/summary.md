@@ -5,6 +5,20 @@
 
 ---
 
+## D-1 필터 상태 소유 일원화 — 첫 신규 의존성 도입 product-feature 1회전 (2026-07-09)
+
+- **무엇**: decision-queue D-1을 **option (a) 변형**(URL searchParams 단일 소유)으로 해소. 목록 4페이지의 검색어·필터·페이지 상태를 URL이 유일하게 소유하도록 이전하고, 死코드 `filterStore.ts`를 폐기.
+  - 기제 = **nuqs 2.9.0** 채택(`useQueryStates`). `<NuqsAdapter>`를 `src/app/providers.tsx` 1곳에 배선.
+  - 공용 팩토리 훅 `src/lib/hooks/useListFilters.ts` 신규 — config로 페이지별 차원 파라미터화, 공통 규칙 4종(clearOnDefault·page=1 리셋·history:replace·검색 300ms 디바운스+local view 미러) 중앙화. 4페이지의 local `useState`/`setCurrentPage(1)` 제거 → 훅 치환.
+  - movies 차원 특이(⚠ `title_cont`·`release_date`·pageSize 12 vs 나머지 `name_cont`·`name`·24)를 config로 흡수.
+  - `filterStore.ts` 삭제(grep 소비자 0). nuqs `useSearchParams` Suspense 요구가 build에서 표면화 → 4페이지 콘텐츠를 `<Suspense fallback={FullPageLoader}>`로 감쌈(최상단 `"use client"` 유지, L-2 스코프 확대 아님).
+- **왜**: 필터 상태 소유가 이원화(설계된 filterStore는 死코드, 실제는 local useState)돼 C-S2(상태 이중화)를 위반하고, 필터·검색·페이지가 URL 밖이라 새로고침·공유 시 소실(UX-2)되던 두 결함을 **같은 뿌리(단일 소유처 부재)**에서 동시 해소하기 위해. 하네스로 **첫 신규 런타임 의존성 도입 + 상태 아키텍처 변경** product feature를 완주 검증.
+- **결과**: gate1(휴먼)·gate2(tsc·lint·build 3종 green, 4목록 static prerender)·gate3(휴먼 시각 수용: 4페이지 URL 복원·문자열 관찰) 3게이트 통과. **폴백 클로즈(자작 useFilterParams) 미발동**(nuqs 2.9.0에서 #1263 해소, Next 16.0.10/React Compiler on 환경 정상). ADR-0007 승격(accepted 최종 확정). C-S2 해소·C-S6 배선 확인. UX-2 구현 완료(gate3 수용). **D-1 종결.**
+  - ⚠ **UIUX UX-2 문구 미갱신(계약 경계)**: UIUX는 wrap-up 쓰기 권한이 아니라, UX-2가 아직 "해소 설계됨·**구현 대기**"로 남아 있다. gate3 수용으로 구현 완료됐으므로 "해소(구현 완료)"로의 갱신이 필요 — review 재진입/architect 소관(아래 최종 보고 플래그).
+- **배운 것**: L-10(방향 확정 브레인스토밍을 파이프라인 진입 전에 두고 session 핸드오프로 실음), L-11(신규 의존성=ADR+폴백 클로즈+게이트 안전망으로 흡수), L-12(blast radius 확정분≠실측 3건, config 파라미터화로 흡수, L-7 재확인), L-13(부산물 Suspense 경계를 L-2 스코프 확대 아님으로 격리).
+
+---
+
 ## 거버넌스 부트스트랩 (2026-07-08)
 
 - **무엇**: START.md(frontend team governance) 설계를 이 저장소에 역복원 방식으로 구축.

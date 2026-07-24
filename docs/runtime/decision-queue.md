@@ -5,11 +5,8 @@
 
 ---
 
-### D-1. filterStore 채택 vs 폐기 (상태 소유 이원화)
-- **맥락**: `lib/stores/filterStore.ts`가 설계돼 있으나 페이지는 local `useState` 사용. store가 死코드, 상태 이중화 위험(Constraints C-S2, ADR-0003, SDD/state-management).
-- **선택지**: (a) store(또는 URL searchParams) 단일 소유로 페이지 리팩터 / (b) filterStore 폐기·local 상태 공식화.
-- **영향**: UX-2(필터 공유·새로고침 소실)도 (a) 채택 시 함께 해소 가능.
-- **결정 시**: ADR-0007로 승격.
+<!-- D-1(필터 상태 소유 이원화)은 2026-07-09 파이프라인 1회전으로 해소·종결 → option (a) 변형 채택(URL searchParams 단일 소유 + nuqs 2.9.0 + 폴백 클로즈, 폴백 미발동), filterStore.ts 폐기로 C-S2·UX-2 동시 해소. ADR-0007 승격(gate3 휴먼 수용 완료). summary 참조. 큐에서 삭제됨. -->
+
 
 <!-- D-2(테마 전략 정합)는 2026-07-09 파이프라인 1회전으로 해소·종결 → option (a) 채택, ADR-0008 승격(0006 supersede). summary 참조. 큐에서 삭제됨. -->
 

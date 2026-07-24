@@ -35,6 +35,14 @@
 - 커버리지 %를 게이트로 걸지 않는다(수치 게임 방지). 대신 **위험 기반**: `buildQueryString`·훅 상태 전이·null 렌더링을 "반드시 커버" 목록으로 둔다.
 - 외부 네트워크 의존 테스트는 CI 불안정 원인 → **항상 목킹**. 실 API는 수동 스모크에서만.
 
+## 필터 URL 직렬화·파싱 검증 (D-1, ADR-0007)
+
+nuqs 도입으로 필터 상태가 URL↔상태로 직렬화된다. 러너 부재(T-1) 하의 현실적 검증 전략:
+
+- **정적(gate2)**: `tsc·lint·build`가 nuqs 파서 타입·`<NuqsAdapter>` 배선·Suspense 경계 누락(build 시 `useSearchParams` 경계 경고/에러)을 잡는다. 공용 팩토리 훅 config(페이지별 filter key·sort·pageSize)의 타입 정합도 tsc가 커버.
+- **수동 스모크(gate3 위임)**: (1) 필터·검색·페이지 변경 → URL 쿼리 문자열이 기대대로 바뀌는가, (2) 그 URL 새로고침/공유 진입 시 동일 목록 복원되는가, (3) 기본값에서 파라미터 미부착(깨끗한 URL)인가. 헤드리스 정적 검증 불가한 "시각 복원 동치"는 gate3 휴먼(L-8 계승, D-2 AC-8 선례).
+- **러너 도입 시 1순위 단위 테스트 후보(L-3 계승)**: 공용 팩토리 훅의 URL↔`FetchOptions` 파생 로직(기본값 생략·`page=1` 리셋·filter key 매핑·movies의 `title_cont`/`release_date` 분기). `buildQueryString`(기존 최우선)과 함께 "미묘한 직렬화 규칙" 군으로 묶어 커버. 라이브러리(nuqs) 자체 직렬화는 검증하지 않고(신뢰), **우리 config·파생 경계만** 테스트.
+
 ## 러너 도입 시 승격 규칙
 
 Vitest 도입 → `npm test`가 hard 오라클로 편입 → gate2가 `test`까지 포함. 이 문서와 Constraints를 동시 재진입해 갱신한다(wrap-up 승격).

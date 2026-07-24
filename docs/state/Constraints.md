@@ -48,8 +48,15 @@
 - 현재 위반 다수(list 페이지 전체가 `"use client"`) → `lessons` L-2. 반복되면 hard 승격 후보.
 
 ### C-S2. 상태 소유 단일화
-- 전역 상태는 Zustand store가, 서버 상태는 TanStack Query가 소유. 같은 상태를 local `useState`와 store에 이중 보관하지 않는다.
-- 현재 위반: `filterStore`가 있으나 페이지들은 local `useState` 사용 → `decision-queue` D-1.
+- 서버 상태는 TanStack Query가, 지속 필터 상태는 URL searchParams가(ADR-0007), 테마는 next-themes가(ADR-0008) 단일 소유. 같은 **지속** 상태를 두 소유처에 이중 보관하지 않는다.
+- ~~현재 위반: `filterStore`가 있으나 페이지들은 local `useState` 사용 → D-1.~~ **해소 완료(2026-07-09, ADR-0007, gate3 수용)**: 필터 소유를 URL 단일로 이전, `filterStore.ts` 삭제(grep 소비자 0 실측), 4페이지가 공용 팩토리 `useListFilters` 경유. 검색 입력의 커밋 전 순간값을 컴포넌트 local view 상태로 미러하는 것은 이중화가 아님(URL이 유일 지속 출처, SDD/state-management 경계 명시).
+- **soft→hard 승격 후보(도구 부재로 미승격, L-2/L-7 계열)**: "필터 지속 상태 local `useState` 이중 보유 금지 / `filterStore`류 死코드 재발 금지"를 커스텀 eslint 규칙으로 도구화하면 hard 승격 가능. 현재 이를 pass/fail로 측정하는 실재 도구가 **없으므로 hard 금지**(soft 유지). 반복 위반이 관찰되면 규칙 작성 후 승격.
+
+### C-S6. 지속 필터 상태는 URL이 소유 (ADR-0007, 2026-07-09 seed)
+- 목록의 검색어·필터·페이지 등 **지속되어야 할 필터 상태**는 URL searchParams(nuqs)가 소유한다. 새 목록 페이지·필터 차원은 local `useState` 지속 대신 공용 팩토리 훅(`useListFilters`)을 경유한다. 기본값은 URL 미부착(`clearOnDefault`).
+- **예외(local 허용)**: 검색 입력의 커밋 전 순간 텍스트, 순수 view 토글(패널 열림 등)은 컴포넌트 local `useState`가 정답(지속 대상 아님).
+- 현재 enforcement: soft(리뷰 policy 참고). 반복 위반 시 도구화 후 hard 승격 후보.
+- **note (L-2 관련)**: `useSearchParams`/nuqs는 App Router에서 목록 페이지에 **Suspense 경계**를 요구할 수 있다. 이 경계 추가는 C-S1(서버/클라 경계) 개선이 아니라 nuqs 배선의 부산물이며 **L-2 스코프(페이지 use client 축소)를 확대하지 않는다** — 흔적만 남긴다.
 
 ### C-S3. 디자인 토큰 사용
 - 색·폰트·애니메이션은 `globals.css`의 `@theme` 토큰과 `constants.ts`의 `HOUSE_COLORS`를 쓴다. 컴포넌트에 하드코딩 hex 최소화(현재 `CharacterCard`의 `style={{ color: houseColor.secondary }}` 등 예외 존재).

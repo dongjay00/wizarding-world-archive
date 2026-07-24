@@ -1,52 +1,43 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { Suspense } from "react";
 import { Search, FlaskConical, Filter } from "lucide-react";
 import { motion } from "framer-motion";
 import { usePotions } from "@/lib/hooks/usePotions";
+import { useListFilters, type ListFiltersConfig } from "@/lib/hooks/useListFilters";
 import { FullPageLoader, ErrorMessage } from "@/components/ui/LoadingSpinner";
 import Pagination from "@/components/shared/Pagination";
 import PotionCard from "@/components/features/PotionCard";
 import { POTION_DIFFICULTIES } from "@/lib/utils/constants";
 
+const FILTERS_CONFIG: ListFiltersConfig = {
+  searchFilterKey: "name_cont",
+  discreteFilter: { param: "difficulty", filterKey: "difficulty_eq" },
+  sort: "name",
+  pageSize: 24,
+};
+
 export default function PotionsPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(
-    null
+  // useListFilters(useSearchParams) 는 App Router에서 Suspense 경계를 요구한다.
+  return (
+    <Suspense fallback={<FullPageLoader />}>
+      <PotionsPageContent />
+    </Suspense>
   );
-  const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 24;
+}
 
-  const apiOptions = useMemo(() => {
-    const filter: Record<string, string> = {};
+function PotionsPageContent() {
+  const {
+    search,
+    setSearch,
+    discreteValue: selectedDifficulty,
+    setDiscreteValue: setSelectedDifficulty,
+    page: currentPage,
+    setPage: setCurrentPage,
+    fetchOptions,
+  } = useListFilters(FILTERS_CONFIG);
 
-    if (searchQuery) {
-      filter.name_cont = searchQuery;
-    }
-
-    if (selectedDifficulty) {
-      filter.difficulty_eq = selectedDifficulty;
-    }
-
-    return {
-      page: currentPage,
-      pageSize,
-      filter: Object.keys(filter).length > 0 ? filter : undefined,
-      sort: "name",
-    };
-  }, [searchQuery, selectedDifficulty, currentPage]);
-
-  const { data, isLoading, error } = usePotions(apiOptions);
-
-  const handleSearch = (value: string) => {
-    setSearchQuery(value);
-    setCurrentPage(1);
-  };
-
-  const handleDifficultyFilter = (difficulty: string | null) => {
-    setSelectedDifficulty(difficulty);
-    setCurrentPage(1);
-  };
+  const { data, isLoading, error } = usePotions(fetchOptions);
 
   const potions = data?.data || [];
   const totalPages = data?.meta?.pagination?.last || 1;
@@ -76,8 +67,8 @@ export default function PotionsPage() {
           <input
             type="text"
             placeholder="Search potions by name..."
-            value={searchQuery}
-            onChange={(e) => handleSearch(e.target.value)}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-surface/5 border border-subtle rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 text-content placeholder-subtle transition-all"
           />
         </div>
@@ -90,9 +81,9 @@ export default function PotionsPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             <button
-              onClick={() => handleDifficultyFilter(null)}
+              onClick={() => setSelectedDifficulty(null)}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                selectedDifficulty === null
+                selectedDifficulty === ""
                   ? "bg-green-500 text-white"
                   : "glass hover:bg-surface/10"
               }`}
@@ -102,7 +93,7 @@ export default function PotionsPage() {
             {POTION_DIFFICULTIES.map((difficulty) => (
               <button
                 key={difficulty}
-                onClick={() => handleDifficultyFilter(difficulty)}
+                onClick={() => setSelectedDifficulty(difficulty)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   selectedDifficulty === difficulty
                     ? "bg-gradient-to-r from-green-600 to-emerald-600 text-white"
