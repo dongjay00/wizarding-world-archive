@@ -28,7 +28,7 @@ export default function PotionCard({ potion }: PotionCardProps) {
     <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
       <FavoriteToggleButton
         item={favoriteFromPotion(potion)}
-        className="absolute right-3 top-3 z-20 h-10 w-10"
+        className="absolute left-3 top-3 z-20 h-10 w-10"
       />
       <Link href={`/potions/${potion.id}`} className="block h-full">
         {/* Difficulty Gradient Background */}

@@ -21,7 +21,7 @@ export default function CharacterCard({ character }: CharacterCardProps) {
     <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
       <FavoriteToggleButton
         item={favoriteFromCharacter(character)}
-        className="absolute right-3 top-3 z-20 h-10 w-10"
+        className="absolute left-3 top-3 z-20 h-10 w-10"
       />
       <Link href={`/characters/${character.id}`} className="block h-full">
         {/* House Gradient Background */}

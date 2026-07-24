@@ -39,7 +39,7 @@ export default function FavoriteToggleButton({
       title={label}
       disabled={!hasHydrated}
       onClick={handleClick}
-      className={`inline-flex items-center justify-center gap-2 rounded-full border border-amber-400/30 bg-slate-950/70 text-amber-300 shadow-lg backdrop-blur transition-all hover:bg-amber-500 hover:text-white disabled:cursor-wait disabled:opacity-60 ${className}`}
+      className={`inline-flex cursor-pointer items-center justify-center gap-2 rounded-full border border-amber-400/30 bg-slate-950/70 text-amber-300 shadow-lg backdrop-blur transition-all hover:bg-amber-500 hover:text-white disabled:cursor-wait disabled:opacity-60 ${className}`}
     >
       <Heart
         className={`h-4 w-4 ${isFavorite ? "fill-current" : ""}`}

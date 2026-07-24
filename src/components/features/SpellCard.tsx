@@ -32,7 +32,7 @@ export default function SpellCard({ spell }: SpellCardProps) {
     <div className="group relative overflow-hidden rounded-xl glass hover-lift card-shine h-full">
       <FavoriteToggleButton
         item={favoriteFromSpell(spell)}
-        className="absolute right-3 top-3 z-20 h-10 w-10"
+        className="absolute left-3 top-3 z-20 h-10 w-10"
       />
       <Link href={`/spells/${spell.id}`} className="block h-full">
         {/* Category Gradient Background */}

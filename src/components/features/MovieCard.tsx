@@ -18,7 +18,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
     <div className="group relative overflow-hidden rounded-2xl glass hover-lift card-shine h-full">
       <FavoriteToggleButton
         item={favoriteFromMovie(movie)}
-        className="absolute right-3 top-3 z-20 h-10 w-10"
+        className="absolute left-3 top-3 z-20 h-10 w-10"
       />
       <Link href={`/movies/${movie.id}`} className="block h-full">
         {/* Poster */}

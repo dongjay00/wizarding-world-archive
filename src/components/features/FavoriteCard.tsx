@@ -27,7 +27,7 @@ export default function FavoriteCard({ item }: FavoriteCardProps) {
         type="button"
         aria-label={`Remove ${item.title} from favorites`}
         onClick={() => removeFavorite(item.type, item.id)}
-        className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 items-center justify-center rounded-full border border-red-400/30 bg-slate-950/70 text-red-300 shadow-lg backdrop-blur transition-all hover:bg-red-500 hover:text-white"
+        className="absolute right-3 top-3 z-20 inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-red-400/30 bg-slate-950/70 text-red-300 shadow-lg backdrop-blur transition-all hover:bg-red-500 hover:text-white"
       >
         <Trash2 className="h-4 w-4" />
       </button>
