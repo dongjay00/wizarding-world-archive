@@ -99,6 +99,19 @@ flowchart TD
 - gate2는 Constraints C-1~C-3와 1:1. 테스트 러너 도입 시 `npm test`가 gate2에 편입(TestStrategy 승격 규칙).
 - **ADR 승격은 휴먼 판단**: "되돌리기 어려운 결정"은 사람 승인 후에만 decision-queue→ADR 승격(wrap-up이 집행, 사람이 결정).
 
+### 게이트 유형별 거동 (feature 유형 분기)
+
+게이트 위치·개수·종류는 불변. 유형별로 내용/적용만 다르다.
+
+| 게이트 | product | debt | investigation |
+|---|---|---|---|
+| **gate1** (human) | PRD/AC 검증 | 경량 착수 인가(가치+스코프) | 경량 착수 인가(질문+측정 계획) |
+| **gate2** (deterministic) | 항상 | 항상 | 코드 변경 시에만 — 무변경 종결이면 N/A |
+| **gate3** (human) | AC·UIUX 대조 수용 | 회귀 없음+스코프 수용 | finding 수용 + dissolve/spawn 결정 |
+
+- gate1은 유형 불문 항상 휴먼(§0.3 유지). id `validate_prd` 유지, 비-product는 경량 intake.
+- **재분류 소급 발화**: architect가 유형을 올리면(debt→product 등) 하위에서 건너뛴 상위 게이트를 소급 발화(gate1을 PRD 검증 모드로).
+
 ### 게이트 발화 모델 (전이 트리거 + Stop 안전망)
 
 게이트는 개념상 **phase 경계에서 발화**한다 — 매 Stop마다가 아니라. 결정론 게이트(gate2)의 기본 모델:
@@ -115,12 +128,33 @@ flowchart TD
 
 각 step은 아래 계약을 따른다. 어댑터는 이 표의 `reads/writes/gate/done`을 바꾸지 않는다.
 
+### feature 유형 프로파일 (§ START.v2 "feature 유형" 인스턴스)
+
+각 feature는 spec이 유형을 잠정 분류(→ `tasks.md` 헤더 `[type:]`), architect가 blast-radius로 재확인한다. step별 유형 거동:
+
+| step | product | debt | investigation |
+|---|---|---|---|
+| spec | full WHY | thin — WHY=큐 항목 | thin — 질문 프레이밍 |
+| requirement | AC 확정 | thin — "회귀 없음+제약 충족" | repurpose — 측정 계획·판정 기준 |
+| architect | ADR/SDD/분해 | blast-radius 실측 필수·ADR·SDD 통상 불요 | 측정 접근 설계·ADR 통상 불요 |
+| scaffold | 필요시 | 통상 skip | skip |
+| build-ui / build-logic | 구현 | 상환(해당 계층) | skip(측정 스크립트면 임시) |
+| verify | behavioral | 회귀 스모크 | 증거 수집 = 핵심 산출 |
+| test | 전략 따라 | 스모크 | n/a(재현성 확인) |
+| review | AC/U 대조 | 회귀·스코프 대조 | finding 대조 + dissolve/spawn 권고 |
+| wrap-up | 풀 증류 | 증류(ADR 통상 불요) | 증류 + dissolve/spawn |
+
+- 항상 실행(repurpose): spec·architect·verify·review·wrap-up. skip 가능: scaffold·build-ui·build-logic·test.
+- **architect는 어떤 유형도 skip 안 함**(재분류 관문). investigation 종결: dissolve(무변경) 또는 spawn(후속 feature 적재·새 회전 분리).
+- 아래 각 step 계약의 표기 뒤 `[applies_to]` 요약은 이 표를 가리킨다.
+
 ### Plan
 
 **spec** — WHY 초안
 - reads: PRD(초안), decision-queue, lessons
 - writes: PRD(WHY 부분), decision-queue(적재)
 - done: 문제·목표·비목표가 PRD에 있고, 미결정은 큐에 적재됨.
+- applies_to: product=full / debt·investigation=thin(WHY=큐항목 또는 질문 프레이밍). **유형을 잠정 분류해 tasks 헤더 `[type:]`에 기록.**
 
 **requirement** — 수용기준으로 조이기
 - reads: PRD, Domain
@@ -133,6 +167,7 @@ flowchart TD
 - reads: PRD(frozen), Domain(frozen)
 - writes: Architecture, UIUX, TestStrategy, SDD(draft), Constraints(seed), ADR(신규 결정), decision-queue(적재), tasks(SDD→분해 seed)
 - done: 골격 문서 존재, tasks에 구현 단위 분해됨.
+- applies_to: 어떤 유형도 skip 없음. blast-radius 실측으로 spec 분류를 재확인, 어긋나면 재분류(session 흔적)+게이트 소급 발화. debt/investigation은 ADR·SDD 통상 불요.
 
 **scaffold** — 골격 생성
 - reads: Architecture, SDD, tasks
@@ -155,6 +190,7 @@ flowchart TD
 - reads: TestStrategy, PRD(AC), UIUX(U)
 - writes: session(verdict)
 - done: 핵심 동작이 기대대로. fail → build-logic 되감기.
+- applies_to: product=behavioral / debt=회귀 스모크 / investigation=증거 수집(측정 실행)이 핵심 산출.
 
 **test** — 테스트 실행/작성
 - reads: TestStrategy
@@ -167,17 +203,20 @@ flowchart TD
 - reads: PRD(AC), UIUX(U), Domain, 변경된 코드
 - writes: session(수용 verdict)
 - done: AC/U 대조 결과 기록. → **gate3(휴먼 acceptance)**. fail 유형별 되감기(spec/architect/build-ui).
+- applies_to: investigation은 finding 대조 후 dissolve/spawn 권고.
 
 **wrap-up** — 정리·승격·증류
 - reads: session, tasks, decision-queue, lessons
 - writes: lessons(append), summary, decision-queue(정리), ADR(승격, 사람 승인 후), Constraints(soft→hard 승격), tasks(폐기)
 - done: 세션 산물이 State/장수 Runtime으로 증류됨. session은 다음 세션에서 비운다.
+- applies_to: debt=ADR 통상 불요. investigation=dissolve(무변경 종결 주석) 또는 spawn(후속 feature decision-queue 적재, 새 회전 분리).
 
 ---
 
 ## 5. 문서 계약 규칙
 
 - **완료의 단일 출처는 tasks.md.** session은 진행만, 중복 완료표시 금지.
+- **tasks feature 헤더에 유형 태그.** spec이 `## 현재 feature: <이름> [type: product|debt|investigation]`로 잠정 기록, architect 재분류 시 갱신(전이는 session에).
 - **ADR은 append-only.** 뒤집을 땐 새 ADR이 이전 것을 supersede(문구로 명시), 기존 파일 수정 금지.
 - **State 재진입은 흔적을 남긴다.** freeze된 문서를 고치면 이유를 session에, 결정이면 ADR/decision-queue에.
 - **Constraints hard는 실재 도구만.** `enforced_by` 없는 hard 금지.
