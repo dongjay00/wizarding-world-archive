@@ -50,6 +50,19 @@ At the end of every step, write a compact verdict to
 Do not treat Codex turn completion as a gate. Stop hooks are Claude-specific
 safety nets; Codex uses explicit transition-triggered commands.
 
+### Feature type branching
+
+Every feature is one of `product` / `debt` / `investigation` (see `AGENTS.md §4`).
+`spec` tentatively classifies and records `[type: …]` in the `tasks.md` header;
+`architect` re-confirms via blast-radius and may reclassify (record the transition
+in `session.md`, re-fire skipped upper gates on upgrade).
+
+- gate1: always human. product = validate PRD/AC; debt/investigation = lightweight
+  intake approval (worth doing + scope).
+- gate2: product/debt always; investigation only when code changed (N/A on a
+  no-change close).
+- gate3: always human. investigation = accept the finding and decide dissolve vs spawn.
+
 ## Rewind
 
 Follow the rewind paths in `AGENTS.md §2`:
