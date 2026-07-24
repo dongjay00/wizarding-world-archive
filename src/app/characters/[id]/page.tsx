@@ -10,7 +10,6 @@ import {
   Heart,
   Sparkles,
   Users,
-  Briefcase,
   Eye,
   Calendar,
   Award,

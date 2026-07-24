@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Heart, Github } from "lucide-react";
 
 export default function Footer() {
@@ -34,36 +35,36 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a
+                <Link
                   href="/characters"
                   className="text-gray-400 hover:text-amber-400 transition-colors"
                 >
                   🧙 Characters
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/spells"
                   className="text-gray-400 hover:text-amber-400 transition-colors"
                 >
                   ✨ Spells
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/potions"
                   className="text-gray-400 hover:text-amber-400 transition-colors"
                 >
                   ⚗️ Potions
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/movies"
                   className="text-gray-400 hover:text-amber-400 transition-colors"
                 >
                   🎬 Movies
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

@@ -16,4 +16,4 @@
 - [x] T-2 <완료된 작업>
 -->
 
-_(비어 있음 — architect가 SDD에서 분해해 채운다)_
+_(비어 있음 — 직전 feature 'D-4 부채상환'은 완료·summary로 증류 후 폐기(2026-07-09). architect가 다음 feature를 분해해 채운다.)_

@@ -15,4 +15,13 @@
 ### L-3. 외부 API 클라이언트의 미묘한 인코딩 규칙은 반드시 오라클로 고정하라
 `buildQueryString`의 대괄호 비인코딩은 사람이 읽고 검증하기 어렵다. 테스트 러너 도입 시 이 함수가 1순위 단위 테스트(TestStrategy) — 회귀 시 전 목록 API가 조용히 깨진다.
 
+### L-4. Plan phase는 "부채상환" 유형엔 과하다 (파이프라인 1회전 관찰)
+D-4 부채상환을 정식 파이프라인에 태워보니 spec/requirement/architect가 사실상 비어(신규 제품 WHY·아키텍처 없음), decision-queue 항목이 곧 스펙이었다. → 향후 START/AGENTS에 **feature 유형 분기**(product feature = 풀 파이프라인 / debt·chore = spec~architect 축약 경로) 도입 검토. 지금은 각 step을 skip/축약으로 기록해 흔적만 남김.
+
+### L-5. §6 전이 트리거는 코드로 성립함이 실증됨
+gate2를 Stop hook이 아니라 **`npm run gate2`로 경계에서 명시 호출**해 red→green 전이를 실측. 전이 트리거 모델이 실제로 동작. package.json 2-tier(`gate2` full / `gate2:fast` tsc+lint)가 §6의 값싼/비싼 계층을 그대로 구현. Stop hook은 이제 안전망 역할만.
+
+### L-6. 게이트 통과 후에도 "범위 밖 잔여"는 별도로 판단하라
+gate2는 error만 차단(warning 통과)이라, 4 error 해소로 green이 됐지만 warning 2건이 남았다. 게이트 green ≠ 완결. review/gate3에서 사람이 범위 확장 여부를 판단(이번엔 사용자가 warning 2건도 정리 선택).
+
 <!-- 새 교훈은 아래에 append -->

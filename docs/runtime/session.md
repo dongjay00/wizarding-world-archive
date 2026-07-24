@@ -8,16 +8,21 @@
 
 ## 현재 세션
 
-- **feature**: 거버넌스 부트스트랩 + gate2 베이스라인 실측
-- **active step**: (부트스트랩) — 파이프라인 정식 1회전은 다음 세션
-- **started**: 2026-07-08
+- **feature**: (없음 — 직전 세션 종료, 휘발됨)
+- **active step**: —
+- **started**: —
+
+> 직전 세션(2026-07-09): D-4 부채상환 파이프라인 1회전 완료 → gate3 수용 → wrap-up 증류(summary). session은 규약대로 비움.
 
 ## step 로그
 
-- [gate2/build-verify] verdict=**fail** note=C-1 tsc ✓ · C-3 build ✓ · **C-2 lint ✗ 4 errors**(Footer.tsx `<a>` 내부 네비 → `no-html-link-for-pages`, L37/45/53/61). 경고 7건(Header 테마 미사용 5건 = D-2 코드 증거, Briefcase/Sparkles 미사용 2건). 코드는 미수정(pre-existing).
+<!--
+형식(한 줄씩 append):
+- [step] verdict=pass|fail  note=<최소 원인/결과>  ts=<상대>
+-->
+
+_(비어 있음 — 세션 시작 시 채운다)_
 
 ## 다음 step 핸드오프
 
-- **베이스라인이 gate2를 통과하지 못한다.** 이는 하네스 결함이 아니라 앱의 기존 부채다 — 게이트가 정상 작동해 잡아낸 것.
-- 결정 필요(사람): (a) Footer `<a>`→`<Link>` 4건 수정해 베이스라인 green 확보 / (b) 기존 부채로 인정하고 decision-queue에 적재해 별도 feature로.
-- gate2 무장 실행: `GATE_ENFORCE=1 GATE_FULL=1 bash .claude/hooks/gate2-build-verify.sh` (FULL 생략 시 tsc+lint만).
+_(다음 step이 알아야 할 최소 컨텍스트)_

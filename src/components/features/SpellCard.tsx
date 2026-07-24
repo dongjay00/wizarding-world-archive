@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Sparkles, Wand2, Lightbulb } from "lucide-react";
+import { Wand2, Lightbulb } from "lucide-react";
 import type { PotterSpell } from "@/types/potter";
 
 interface SpellCardProps {
